@@ -3,7 +3,7 @@
  * Implementation of the `yii\akismet\test\BlogTest` class.
  */
 namespace yii\akismet\test;
-use akismet\{Blog};
+use yii\akismet\{Blog};
 
 /**
  * Tests the features of the `yii\akismet\Blog` class.
@@ -17,12 +17,12 @@ class BlogTest extends \PHPUnit_Framework_TestCase {
     $blog = new Blog([
       'charset' => 'UTF-8',
       'language' => 'en',
-      'url' => 'https://github.com/cedx/akismet.php'
+      'url' => 'https://github.com/cedx/yii2-akismet'
     ]);
 
     $this->assertEquals('UTF-8', $blog->getCharset());
     $this->assertEquals('en', $blog->getLanguage());
-    $this->assertEquals('https://github.com/cedx/akismet.php', $blog->getURL());
+    $this->assertEquals('https://github.com/cedx/yii2-akismet', $blog->getURL());
   }
 
   /**
@@ -35,10 +35,10 @@ class BlogTest extends \PHPUnit_Framework_TestCase {
     $data = (new Blog([
       'charset' => 'UTF-8',
       'language' => 'en',
-      'url' => 'https://github.com/cedx/akismet.php'
+      'url' => 'https://github.com/cedx/yii2-akismet'
     ]))->jsonSerialize();
 
-    $this->assertEquals('https://github.com/cedx/akismet.php', $data->blog);
+    $this->assertEquals('https://github.com/cedx/yii2-akismet', $data->blog);
     $this->assertEquals('UTF-8', $data->blog_charset);
     $this->assertEquals('en', $data->blog_lang);
   }

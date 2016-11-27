@@ -3,7 +3,7 @@
  * Implementation of the `yii\akismet\test\AuthorTest` class.
  */
 namespace yii\akismet\test;
-use akismet\{Author};
+use yii\akismet\{Author};
 
 /**
  * Tests the features of the `yii\akismet\Author` class.
