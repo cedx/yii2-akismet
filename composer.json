@@ -19,11 +19,10 @@
     "optimize-autoloader": true
   },
   "keywords": [
-    "client",
-    "free",
-    "logging",
-    "mobile",
-    "sms",
+    "akismet",
+    "comment",
+    "spam",
+    "validation",
     "yii2"
   ],
   "require": {
