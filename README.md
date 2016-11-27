@@ -1,7 +1,13 @@
 # Akismet for Yii
 ![Release](https://img.shields.io/packagist/v/cedx/yii2-akismet.svg) ![License](https://img.shields.io/packagist/l/cedx/yii2-akismet.svg) ![Downloads](https://img.shields.io/packagist/dt/cedx/yii2-akismet.svg) ![Code quality](https://img.shields.io/codacy/grade/a0b840d5ed7944849947331e5ae18157.svg) ![Build](https://img.shields.io/travis/cedx/yii2-akismet.svg)
 
-[Akismet](https://akismet.com) connector for [Yii](http://www.yiiframework.com), high-performance [PHP](https://secure.php.net) framework.
+Prevent comment spam using the [Akismet](https://akismet.com) connector for [Yii](http://www.yiiframework.com), high-performance [PHP](https://secure.php.net) framework.
+
+## Features
+- [Key Verification](https://akismet.com/development/api/#verify-key): checks an Akismet API key and gets a value indicating whether it is valid.
+- [Comment Check](https://akismet.com/development/api/#comment-check): checks a comment and gets a value indicating whether it is spam.
+- [Submit Spam](https://akismet.com/development/api/#submit-spam): submits a comment that was not marked as spam but should have been.
+- [Submit Ham](https://akismet.com/development/api/#submit-ham): submits a comment that was incorrectly marked as spam but should not have been.
 
 ## Requirements
 The latest [PHP](https://secure.php.net) and [Composer](https://getcomposer.org) versions.
@@ -15,7 +21,22 @@ $ composer require cedx/yii2-akismet
 ```
 
 ## Usage
-TODO: config file.
+In your application configuration file, you can use the following component:
+
+```php
+return [
+  'components' => [
+    'akismet' => [
+      'class' => 'yii\akismet\Client',
+      'apiKey' => 'YourAPIKey',
+      'blog' => 'http://your.blog.url'
+    ]
+  ]
+];
+```
+
+Once the `yii\akismet\Client` component initialized with your credentials, you can use its methods.
+
 
 ### Key Verification
 
