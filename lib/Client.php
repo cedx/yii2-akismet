@@ -13,6 +13,16 @@ use yii\base\{Component, Exception};
 class Client extends Component implements \JsonSerializable {
 
   /**
+   * @var string An event that is triggered when a request is made to the remote service.
+   */
+  const EVENT_REQUEST = 'request';
+
+  /**
+   * @var string An event that is triggered when a response is received from the remote service.
+   */
+  const EVENT_RESPONSE = 'reponse';
+
+  /**
    * @var Blog The front page or home URL.
    */
   private $blog;
@@ -29,6 +39,14 @@ class Client extends Component implements \JsonSerializable {
   public function __construct(array $config = []) {
     $this->client = new AkismetClient();
     parent::__construct($config);
+
+    $this->client->onRequest()->subscribeCallback(function($request) {
+      $this->trigger(static::EVENT_REQUEST, \Yii::createObject(['class' => RequestEvent::class, 'request' => $request]));
+    });
+
+    $this->client->onResponse()->subscribeCallback(function($response) {
+      $this->trigger(static::EVENT_RESPONSE, \Yii::createObject(['class' => ResponseEvent::class, 'response' => $response]));
+    });
   }
 
   /**
