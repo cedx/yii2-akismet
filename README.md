@@ -1,5 +1,5 @@
 # Akismet for Yii
-![Release](https://img.shields.io/packagist/v/cedx/yii2-akismet.svg) ![License](https://img.shields.io/packagist/l/cedx/yii2-akismet.svg) ![Downloads](https://img.shields.io/packagist/dt/cedx/yii2-akismet.svg) ![Code quality](https://img.shields.io/codacy/grade/a0b840d5ed7944849947331e5ae18157.svg) ![Build](https://img.shields.io/travis/cedx/yii2-akismet.svg)
+![Release](https://img.shields.io/packagist/v/cedx/yii2-akismet.svg) ![License](https://img.shields.io/packagist/l/cedx/yii2-akismet.svg) ![Downloads](https://img.shields.io/packagist/dt/cedx/yii2-akismet.svg) ![Coverage](https://coveralls.io/repos/github/cedx/yii2-akismet/badge.svg) ![Build](https://travis-ci.org/cedx/yii2-akismet.svg)
 
 Prevent comment spam using the [Akismet](https://akismet.com) connector for [Yii](http://www.yiiframework.com), high-performance [PHP](https://secure.php.net) framework.
 
@@ -11,7 +11,7 @@ Prevent comment spam using the [Akismet](https://akismet.com) connector for [Yii
 
 ## Requirements
 The latest [PHP](https://secure.php.net) and [Composer](https://getcomposer.org) versions.
-If you plan to play with the sources, you will also need the [Phing](https://www.phing.info) latest version.
+If you plan to play with the sources, you will also need the latest [Phing](https://www.phing.info) version.
 
 ## Installing via [Composer](https://getcomposer.org)
 From a command prompt, run:
@@ -38,7 +38,7 @@ return [
 Once the `yii\akismet\Client` component initialized with your credentials, you can use its methods.
 
 
-### Key Verification
+### Key verification
 
 ```php
 $client = \Yii::$app->get('akismet');
@@ -47,7 +47,7 @@ $isValid = $client->verifyKey();
 echo $isValid ? 'Your API key is valid.' : 'Your API key is invalid.';
 ```
 
-### Comment Check
+### Comment check
 
 ```php
 use yii\akismet\{Author, Comment};
@@ -61,7 +61,7 @@ $isSpam = $client->checkComment($comment);
 echo $isSpam ? 'The comment is marked as spam.' : 'The comment is marked as ham.';
 ```
 
-### Submit Spam/Ham
+### Submit spam/ham
 
 ```php
 $client->submitSpam($comment);
@@ -96,7 +96,7 @@ $client->on(Client::EVENT_RESPONSE, function(ResponseEvent $event) {
 });
 ```
 
-## Unit Tests
+## Unit tests
 In order to run the tests, you must set the `AKISMET_API_KEY` environment variable to the value of your Akismet API key:
 
 ```shell
@@ -109,9 +109,9 @@ Then, you can run the `test` script from the command prompt:
 $ phing test
 ```
 
-## See Also
-- [Code Quality](https://www.codacy.com/app/cedx/yii2-akismet)
-- [Continuous Integration](https://travis-ci.org/cedx/yii2-akismet)
+## See also
+- [Code coverage](https://coveralls.io/github/cedx/yii2-akismet)
+- [Continuous integration](https://travis-ci.org/cedx/yii2-akismet)
 
 ## License
 [Akismet for Yii](https://github.com/cedx/yii2-akismet) is distributed under the Apache License, version 2.0.
