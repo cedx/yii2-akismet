@@ -30,7 +30,7 @@ class CommentTest extends \PHPUnit_Framework_TestCase {
    */
   public function testJsonSerialize() {
     $data = (new Comment())->jsonSerialize();
-    $this->assertEquals(0, count((array) $data));
+    $this->assertEmpty(get_object_vars($data));
 
     $data = (new Comment([
       'author' => \Yii::createObject(['class' => Author::class, 'name' => 'Cédric Belin']),
