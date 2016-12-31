@@ -31,7 +31,7 @@ class Blog extends Object implements \JsonSerializable {
    * @return string The string representation of this object.
    */
   public function __toString(): string {
-    $json = json_encode($this, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    $json = json_encode($this, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     return static::class." $json";
   }
 
@@ -44,11 +44,11 @@ class Blog extends Object implements \JsonSerializable {
   }
 
   /**
-   * Gets the language(s) in use on the blog or site, in ISO 639-1 format, comma-separated.
-   * @return string The language(s) in use on the blog or site.
+   * Gets the languages in use on the blog or site, in ISO 639-1 format, comma-separated.
+   * @return array The languages in use on the blog or site.
    */
-  public function getLanguage(): string {
-    return $this->blog->getLanguage();
+  public function getLanguages(): array {
+    return $this->blog->getLanguages();
   }
 
   /**
@@ -78,12 +78,12 @@ class Blog extends Object implements \JsonSerializable {
   }
 
   /**
-   * Sets the language(s) in use on the blog or site, in ISO 639-1 format, comma-separated.
-   * @param string $value The new language(s).
+   * Sets the languages in use on the blog or site, in ISO 639-1 format, comma-separated.
+   * @param array|string $values The new languages.
    * @return Blog This instance.
    */
-  public function setLanguage(string $value): self {
-    $this->blog->setLanguage($value);
+  public function setLanguages($values): self {
+    $this->blog->setLanguages($values);
     return $this;
   }
 

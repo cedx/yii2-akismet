@@ -16,12 +16,12 @@ class BlogTest extends \PHPUnit_Framework_TestCase {
   public function testConstructor() {
     $blog = new Blog([
       'charset' => 'UTF-8',
-      'language' => 'en',
+      'languages' => 'en, fr',
       'url' => 'https://github.com/cedx/yii2-akismet'
     ]);
 
     $this->assertEquals('UTF-8', $blog->getCharset());
-    $this->assertEquals('en', $blog->getLanguage());
+    $this->assertEquals(['en', 'fr'], $blog->getLanguages());
     $this->assertEquals('https://github.com/cedx/yii2-akismet', $blog->getURL());
   }
 
@@ -30,16 +30,16 @@ class BlogTest extends \PHPUnit_Framework_TestCase {
    */
   public function testJsonSerialize() {
     $data = (new Blog())->jsonSerialize();
-    $this->assertEquals(0, count((array) $data));
+    $this->assertEmpty(get_object_vars($data));
 
     $data = (new Blog([
       'charset' => 'UTF-8',
-      'language' => 'en',
+      'languages' => 'en, fr',
       'url' => 'https://github.com/cedx/yii2-akismet'
     ]))->jsonSerialize();
 
     $this->assertEquals('https://github.com/cedx/yii2-akismet', $data->blog);
     $this->assertEquals('UTF-8', $data->blog_charset);
-    $this->assertEquals('en', $data->blog_lang);
+    $this->assertEquals('en,fr', $data->blog_lang);
   }
 }
