@@ -28,7 +28,7 @@
   "require": {
     "php": ">=7.0.0",
     "ext-curl": "*",
-    "cedx/akismet": "^3.0.0",
+    "cedx/akismet": "^4.0.0",
     "psr/http-message": "^1.0.1",
     "yiisoft/yii2": "^2.0.10"
   },
