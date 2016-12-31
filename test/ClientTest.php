@@ -53,13 +53,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase {
     $data = (new Client(['apiKey' => '0123456789-ABCDEF', 'userAgent' => 'FooBar/6.6.6']))->jsonSerialize();
     $this->assertEquals('0123456789-ABCDEF', $data->apiKey);
     $this->assertNull($data->blog);
-    $this->assertFalse($data->test);
+    $this->assertFalse($data->isTest);
     $this->assertEquals('FooBar/6.6.6', $data->userAgent);
 
     $data = $this->client->jsonSerialize();
     $this->assertEquals(getenv('AKISMET_API_KEY'), $data->apiKey);
     $this->assertEquals(Blog::class, $data->blog);
-    $this->assertTrue($data->test);
+    $this->assertTrue($data->isTest);
     $this->assertStringStartsWith('PHP/'.PHP_VERSION, $data->userAgent);
   }
 
