@@ -14,13 +14,6 @@
     </exec>
   </target>
 
-  <target name="dist" depends="clean" description="Creates a distribution file for this program.">
-    <zip destfile="var/${phing.project.name}-${version}.zip">
-      <fileset dir="." includes="*.json,*.md,*.txt"/>
-      <fileset dir="." includes="lib/**/*.php"/>
-    </zip>
-  </target>
-
   <target name="doc" description="Builds the documentation.">
     <delete dir="doc/api" quiet="true"/>
     <exec executable="vendor/bin/phpdoc" passthru="true"/>
