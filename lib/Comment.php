@@ -109,7 +109,7 @@ class Comment extends Object implements \JsonSerializable {
    * @param Author|string $value The new author.
    * @return Comment This instance.
    */
-  public function setAuthor($value = null): self {
+  public function setAuthor($value): self {
     if ($value instanceof Author) $this->author = $value;
     else if (is_string($value)) $this->author = \Yii::createObject(['class' => Author::class, 'name' => $value]);
     else $this->author = null;
@@ -133,7 +133,7 @@ class Comment extends Object implements \JsonSerializable {
    * @param mixed $value The new UTC timestamp of the creation of the comment.
    * @return Comment This instance.
    */
-  public function setDate($value = null): self {
+  public function setDate($value): self {
     $this->comment->setDate($value);
     return $this;
   }
@@ -153,7 +153,7 @@ class Comment extends Object implements \JsonSerializable {
    * @param mixed $value The new UTC timestamp of the publication time.
    * @return Comment This instance.
    */
-  public function setPostModified($value = null): self {
+  public function setPostModified($value): self {
     $this->comment->setPostModified($value);
     return $this;
   }

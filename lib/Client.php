@@ -146,7 +146,7 @@ class Client extends Component implements \JsonSerializable {
    * @return Client This instance.
    */
   public function setIsTest(bool $value): self {
-    $this->client->setTest($value);
+    $this->client->setIsTest($value);
     return $this;
   }
 
