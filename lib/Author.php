@@ -31,7 +31,7 @@ class Author extends Object implements \JsonSerializable {
    * @return string The string representation of this object.
    */
   public function __toString(): string {
-    $json = json_encode($this, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    $json = json_encode($this, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     return static::class." $json";
   }
 
