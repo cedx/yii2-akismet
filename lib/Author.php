@@ -6,6 +6,7 @@ namespace yii\akismet;
 
 use akismet\{Author as AkismetAuthor};
 use yii\base\{Object};
+use yii\helpers\{Json};
 
 /**
  * Represents the author of a comment.
@@ -31,7 +32,7 @@ class Author extends Object implements \JsonSerializable {
    * @return string The string representation of this object.
    */
   public function __toString(): string {
-    $json = json_encode($this, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    $json = Json::encode($this);
     return static::class." $json";
   }
 

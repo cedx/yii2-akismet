@@ -6,6 +6,7 @@ namespace yii\akismet;
 
 use akismet\{Blog as AkismetBlog, Client as AkismetClient, Comment as AkismetComment};
 use yii\base\{Component, Exception};
+use yii\helpers\{Json};
 
 /**
  * Submits comments to the [Akismet](https://akismet.com) service.
@@ -54,7 +55,7 @@ class Client extends Component implements \JsonSerializable {
    * @return string The string representation of this object.
    */
   public function __toString(): string {
-    $json = json_encode($this, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    $json = Json::encode($this);
     return static::class." $json";
   }
 
