@@ -3,30 +3,17 @@
  * Implementation of the `yii\akismet\test\BlogTest` class.
  */
 namespace yii\akismet\test;
+
+use PHPUnit\Framework\{TestCase};
 use yii\akismet\{Blog};
 
 /**
- * Tests the features of the `yii\akismet\Blog` class.
+ * @coversDefaultClass \yii\akismet\Blog
  */
-class BlogTest extends \PHPUnit_Framework_TestCase {
+class BlogTest extends TestCase {
 
   /**
-   * Tests the `Blog` constructor.
-   */
-  public function testConstructor() {
-    $blog = new Blog([
-      'charset' => 'UTF-8',
-      'languages' => 'en, fr',
-      'url' => 'https://github.com/cedx/yii2-akismet'
-    ]);
-
-    $this->assertEquals('UTF-8', $blog->getCharset());
-    $this->assertEquals(['en', 'fr'], $blog->getLanguages());
-    $this->assertEquals('https://github.com/cedx/yii2-akismet', $blog->getURL());
-  }
-
-  /**
-   * Tests the `Blog::jsonSerialize()` method.
+   * @test ::jsonSerialize
    */
   public function testJsonSerialize() {
     $data = (new Blog())->jsonSerialize();

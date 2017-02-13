@@ -3,30 +3,17 @@
  * Implementation of the `yii\akismet\test\AuthorTest` class.
  */
 namespace yii\akismet\test;
+
+use PHPUnit\Framework\{TestCase};
 use yii\akismet\{Author};
 
 /**
- * Tests the features of the `yii\akismet\Author` class.
+ * @coversDefaultClass \yii\akismet\Author
  */
-class AuthorTest extends \PHPUnit_Framework_TestCase {
+class AuthorTest extends TestCase {
 
   /**
-   * Tests the `Author` constructor.
-   */
-  public function testConstructor() {
-    $author = new Author([
-      'email' => 'cedric@belin.io',
-      'ipAddress' => '192.168.0.1',
-      'name' => 'Cédric Belin'
-    ]);
-
-    $this->assertEquals('cedric@belin.io', $author->getEmail());
-    $this->assertEquals('192.168.0.1', $author->getIPAddress());
-    $this->assertEquals('Cédric Belin', $author->getName());
-  }
-
-  /**
-   * Tests the `Author::jsonSerialize()` method.
+   * @test ::jsonSerialize
    */
   public function testJsonSerialize() {
     $data = (new Author())->jsonSerialize();

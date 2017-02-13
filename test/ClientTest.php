@@ -3,12 +3,14 @@
  * Implementation of the `yii\akismet\test\ClientTest` class.
  */
 namespace yii\akismet\test;
+
+use PHPUnit\Framework\{TestCase};
 use yii\akismet\{Author, Blog, Client, Comment};
 
 /**
- * Tests the features of the `yii\akismet\Client` class.
+ * @coversDefaultClass \yii\akismet\Client
  */
-class ClientTest extends \PHPUnit_Framework_TestCase {
+class ClientTest extends TestCase {
 
   /**
    * @var Client The client used to query the service database.
@@ -26,20 +28,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase {
   private $spam;
 
   /**
-   * Tests the `Client` constructor.
-   */
-  public function testConstructor() {
-    $client = new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => 'http://your.blog.url', 'userAgent' => 'FooBar/6.6.6']);
-    $this->assertEquals('0123456789-ABCDEF', $client->getAPIKey());
-    $this->assertEquals('FooBar/6.6.6', $client->getUserAgent());
-
-    $blog = $client->getBlog();
-    $this->assertInstanceOf(Blog::class, $blog);
-    $this->assertEquals('http://your.blog.url', $blog->getURL());
-  }
-
-  /**
-   * Tests the `Client::checkComment()` method.
+   * @test ::checkComment
    */
   public function testCheckComment() {
     $this->assertFalse($this->client->checkComment($this->ham));
@@ -47,7 +36,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * Tests the `Client::jsonSerialize()` method.
+   * @test ::jsonSerialize
    */
   public function testJsonSerialize() {
     $data = (new Client(['apiKey' => '0123456789-ABCDEF', 'userAgent' => 'FooBar/6.6.6']))->jsonSerialize();
@@ -64,7 +53,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * Tests the `Client::submitHam()` method.
+   * @test ::submitHam
    */
   public function testSubmitHam() {
     try {
@@ -78,7 +67,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * Tests the `Client::submitSpam()` method.
+   * @test ::submitSpam
    */
   public function testSubmitSpam() {
     try {
@@ -92,7 +81,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * Tests the `Client::verifyKey()` method.
+   * @test ::verifyKey
    */
   public function testVerifyKey() {
     $this->assertTrue($this->client->verifyKey());

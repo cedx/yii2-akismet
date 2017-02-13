@@ -3,30 +3,17 @@
  * Implementation of the `yii\akismet\test\CommentTest` class.
  */
 namespace yii\akismet\test;
+
+use PHPUnit\Framework\{TestCase};
 use yii\akismet\{Author, Comment};
 
 /**
- * Tests the features of the `yii\akismet\Comment` class.
+ * @coversDefaultClass \yii\akismet\Comment
  */
-class CommentTest extends \PHPUnit_Framework_TestCase {
+class CommentTest extends TestCase {
 
   /**
-   * Tests the `Comment` constructor.
-   */
-  public function testConstructor() {
-    $comment = new Comment([
-      'content' => 'Hello World!',
-      'date' => time(),
-      'referrer' => 'https://github.com/cedx/yii2-akismet'
-    ]);
-
-    $this->assertEquals('Hello World!', $comment->getContent());
-    $this->assertInstanceOf(\DateTime::class, $comment->getDate());
-    $this->assertEquals('https://github.com/cedx/yii2-akismet', $comment->getReferrer());
-  }
-
-  /**
-   * Tests the `Comment::jsonSerialize()` method.
+   * @test ::jsonSerialize
    */
   public function testJsonSerialize() {
     $data = (new Comment())->jsonSerialize();
