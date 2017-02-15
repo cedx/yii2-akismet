@@ -1,6 +1,11 @@
 # Changelog
 This file contains highlights of what changes on each version of the [Akismet for Yii](https://github.com/cedx/yii2-akismet) library.
 
+## Version 3.0.0
+- Breaking change: changed the type of the `Blog::languages` property to `ArrayObject`.
+- Added the `Client::endPoint` property.
+- Updated the package dependencies.
+
 ## Version 2.0.0
 - Breaking change: changed the `Blog::language` string property for the `languages` array property.
 - Removed the `dist` build task.
