@@ -86,6 +86,14 @@ class Client extends Component implements \JsonSerializable {
   }
 
   /**
+   * Gets the URL of the API end point.
+   * @return string The URL of the API end point.
+   */
+  public function getEndPoint(): string {
+    return $this->client->getEndPoint();
+  }
+
+  /**
    * Gets a value indicating whether the client operates in test mode.
    * @return bool `true` if the client operates in test mode, otherwise `false`.
    */
@@ -131,6 +139,16 @@ class Client extends Component implements \JsonSerializable {
     else if (is_string($value)) $this->blog = \Yii::createObject(['class' => Blog::class, 'url' => $value]);
     else $this->blog = null;
 
+    return $this;
+  }
+
+  /**
+   * Sets the URL of the API end point.
+   * @param string $value The new URL of the API end point.
+   * @return Client This instance.
+   */
+  public function setEndPoint(string $value) {
+    $this->client->setEndPoint($value);
     return $this;
   }
 
