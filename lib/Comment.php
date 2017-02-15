@@ -117,6 +117,7 @@ class Comment extends Object implements \JsonSerializable {
    */
   public function setAuthor(Author $value = null): self {
     $this->author = $value;
+    $this->comment->setAuthor(AkismetAuthor::fromJSON($this->author ? $this->author->jsonSerialize() : null));
     return $this;
   }
 

@@ -81,6 +81,19 @@ class ClientTest extends TestCase {
   }
 
   /**
+   * @test ::__toString
+   */
+  public function testToString() {
+    $value = (string) $this->client;
+    $this->assertStringStartsWith('akismet\Client {', $value);
+    $this->assertContains(sprintf('"apiKey":"%s"', getenv('AKISMET_API_KEY')), $value);
+    $this->assertContains(sprintf('"blog":"%s"', str_replace('\\', '\\\\', Blog::class)), $value);
+    $this->assertContains('"endPoint":"https://rest.akismet.com"', $value);
+    $this->assertContains('"isTest":true', $value);
+    $this->assertContains('"userAgent":"PHP/', $value);
+  }
+
+  /**
    * @test ::verifyKey
    */
   public function testVerifyKey() {

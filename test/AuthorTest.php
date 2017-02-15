@@ -31,4 +31,22 @@ class AuthorTest extends TestCase {
     $this->assertEquals('https://belin.io', $data->comment_author_url);
     $this->assertEquals('127.0.0.1', $data->user_ip);
   }
+
+  /**
+   * @test ::__toString
+   */
+  public function testToString() {
+    $author = (string) new Author([
+      'email' => 'cedric@belin.io',
+      'ipAddress' => '127.0.0.1',
+      'name' => 'Cédric Belin',
+      'url' => 'https://belin.io'
+    ]);
+
+    $this->assertStringStartsWith('yii\akismet\Author {', $author);
+    $this->assertContains('"comment_author":"Cédric Belin"', $author);
+    $this->assertContains('"comment_author_email":"cedric@belin.io"', $author);
+    $this->assertContains('"comment_author_url":"https://belin.io"', $author);
+    $this->assertContains('"user_ip":"127.0.0.1"', $author);
+  }
 }

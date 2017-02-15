@@ -31,4 +31,22 @@ class CommentTest extends TestCase {
     $this->assertEquals('pingback', $data->comment_type);
     $this->assertEquals('https://belin.io', $data->referrer);
   }
+
+  /**
+   * @test ::__toString
+   */
+  public function testToString() {
+    $comment = (string) new Comment([
+      'author' => \Yii::createObject(['class' => Author::class, 'name' => 'Cédric Belin']),
+      'content' => 'A user comment.',
+      'referrer' => 'https://belin.io',
+      'type' => 'pingback'
+    ]);
+
+    $this->assertStringStartsWith('yii\akismet\Comment {', $comment);
+    $this->assertContains('"comment_author":"Cédric Belin"', $comment);
+    $this->assertContains('"comment_content":"A user comment."', $comment);
+    $this->assertContains('"comment_type":"pingback"', $comment);
+    $this->assertContains('"referrer":"https://belin.io"', $comment);
+  }
 }

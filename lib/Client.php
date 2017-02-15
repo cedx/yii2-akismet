@@ -139,6 +139,7 @@ class Client extends Component implements \JsonSerializable {
     else if (is_string($value)) $this->blog = \Yii::createObject(['class' => Blog::class, 'url' => $value]);
     else $this->blog = null;
 
+    $this->client->setBlog(AkismetBlog::fromJSON($this->blog ? $this->blog->jsonSerialize() : null));
     return $this;
   }
 
