@@ -46,9 +46,9 @@ class Blog extends Object implements \JsonSerializable {
 
   /**
    * Gets the languages in use on the blog or site, in ISO 639-1 format, comma-separated.
-   * @return array The languages in use on the blog or site.
+   * @return \ArrayObject The languages in use on the blog or site.
    */
-  public function getLanguages(): array {
+  public function getLanguages(): \ArrayObject {
     return $this->blog->getLanguages();
   }
 

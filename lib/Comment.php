@@ -102,20 +102,21 @@ class Comment extends Object implements \JsonSerializable {
    * @return \stdClass The map in JSON format corresponding to this object.
    */
   public function jsonSerialize(): \stdClass {
-    return $this->comment->jsonSerialize();
+    $map = $this->comment->jsonSerialize();
+    if ($author = $this->getAuthor()) {
+      foreach (get_object_vars($author->jsonSerialize()) as $key => $value) $map->$key = $value;
+    }
+
+    return $map;
   }
 
   /**
    * Sets the comment's author.
-   * @param Author|string $value The new author.
+   * @param Author $value The new author.
    * @return Comment This instance.
    */
-  public function setAuthor($value): self {
-    if ($value instanceof Author) $this->author = $value;
-    else if (is_string($value)) $this->author = \Yii::createObject(['class' => Author::class, 'name' => $value]);
-    else $this->author = null;
-
-    $this->comment->setAuthor($this->author ? AkismetAuthor::fromJSON($this->author->jsonSerialize()) : null);
+  public function setAuthor(Author $value = null): self {
+    $this->author = $value;
     return $this;
   }
 

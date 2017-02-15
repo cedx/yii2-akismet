@@ -66,12 +66,7 @@ class Client extends Component implements \JsonSerializable {
    */
   public function checkComment(Comment $comment): bool {
     $model = AkismetComment::fromJSON($comment->jsonSerialize());
-    $this->client->checkComment($model)->subscribeCallback(
-      function(bool $response) use (&$result) { $result = $response; },
-      function(\Throwable $e) { throw new Exception($e->getMessage(), $e->getCode(), $e); }
-    );
-
-    return $result;
+    return $this->client->checkComment($model);
   }
 
   /**
@@ -112,7 +107,7 @@ class Client extends Component implements \JsonSerializable {
    */
   public function jsonSerialize(): \stdClass {
     $map = $this->client->jsonSerialize();
-    if (isset($map->blog)) $map->blog = get_class($this->getBlog());
+    if ($blog = $this->getBlog()) $map->blog = get_class($blog);
     return $map;
   }
 
@@ -136,7 +131,6 @@ class Client extends Component implements \JsonSerializable {
     else if (is_string($value)) $this->blog = \Yii::createObject(['class' => Blog::class, 'url' => $value]);
     else $this->blog = null;
 
-    $this->client->setBlog($this->blog ? AkismetBlog::fromJSON($this->blog->jsonSerialize()) : null);
     return $this;
   }
 
@@ -168,10 +162,7 @@ class Client extends Component implements \JsonSerializable {
    */
   public function submitHam(Comment $comment) {
     $model = AkismetComment::fromJSON($comment->jsonSerialize());
-    $this->client->submitHam($model)->subscribeCallback(
-      null,
-      function(\Throwable $e) { throw new Exception($e->getMessage(), $e->getCode(), $e); }
-    );
+    $this->client->submitHam($model);
   }
 
   /**
@@ -180,10 +171,7 @@ class Client extends Component implements \JsonSerializable {
    */
   public function submitSpam(Comment $comment) {
     $model = AkismetComment::fromJSON($comment->jsonSerialize());
-    $this->client->submitSpam($model)->subscribeCallback(
-      null,
-      function(\Throwable $e) { throw new Exception($e->getMessage(), $e->getCode(), $e); }
-    );
+    $this->client->submitSpam($model);
   }
 
   /**
@@ -191,11 +179,6 @@ class Client extends Component implements \JsonSerializable {
    * @return bool A boolean value indicating whether it is a valid API key.
    */
   public function verifyKey(): bool {
-    $this->client->verifyKey()->subscribeCallback(
-      function(bool $response) use (&$result) { $result = $response; },
-      function(\Throwable $e) { throw new Exception($e->getMessage(), $e->getCode(), $e); }
-    );
-
-    return $result;
+    return $this->client->verifyKey();
   }
 }
