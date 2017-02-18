@@ -21,7 +21,7 @@ class BlogTest extends TestCase {
 
     $data = (new Blog([
       'charset' => 'UTF-8',
-      'languages' => 'en, fr',
+      'languages' => ['en', 'fr'],
       'url' => 'https://github.com/cedx/yii2-akismet'
     ]))->jsonSerialize();
 
@@ -36,7 +36,7 @@ class BlogTest extends TestCase {
   public function testToString() {
     $blog = (string) new Blog([
       'charset' => 'UTF-8',
-      'languages' => 'en, fr',
+      'languages' => ['en', 'fr'],
       'url' => 'https://github.com/cedx/yii2-akismet'
     ]);
 

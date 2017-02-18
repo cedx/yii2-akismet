@@ -80,10 +80,10 @@ class Blog extends Object implements \JsonSerializable {
 
   /**
    * Sets the languages in use on the blog or site, in ISO 639-1 format, comma-separated.
-   * @param array|string $values The new languages.
+   * @param array $values The new languages.
    * @return Blog This instance.
    */
-  public function setLanguages($values): self {
+  public function setLanguages(array $values): self {
     $this->blog->setLanguages($values);
     return $this;
   }
