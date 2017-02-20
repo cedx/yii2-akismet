@@ -16,9 +16,11 @@ class CommentTest extends TestCase {
    * @test ::jsonSerialize
    */
   public function testJsonSerialize() {
+    // Should return an empty map with a newly created instance.
     $data = (new Comment())->jsonSerialize();
     $this->assertEmpty(get_object_vars($data));
 
+    // Should return a non-empty map with a initialized instance.
     $data = (new Comment([
       'author' => \Yii::createObject(['class' => Author::class, 'name' => 'Cédric Belin']),
       'content' => 'A user comment.',
@@ -43,7 +45,10 @@ class CommentTest extends TestCase {
       'type' => 'pingback'
     ]);
 
+    // Should start with the class name.
     $this->assertStringStartsWith('yii\akismet\Comment {', $comment);
+
+    // Should contain the instance properties.
     $this->assertContains('"comment_author":"Cédric Belin"', $comment);
     $this->assertContains('"comment_content":"A user comment."', $comment);
     $this->assertContains('"comment_type":"pingback"', $comment);

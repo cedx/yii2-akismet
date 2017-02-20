@@ -31,7 +31,10 @@ class ClientTest extends TestCase {
    * @test ::checkComment
    */
   public function testCheckComment() {
+    // Should return `false` for valid comment (e.g. ham).
     $this->assertFalse($this->client->checkComment($this->ham));
+
+    // Should return `true` for invalid comment (e.g. spam).
     $this->assertTrue($this->client->checkComment($this->spam));
   }
 
@@ -39,12 +42,14 @@ class ClientTest extends TestCase {
    * @test ::jsonSerialize
    */
   public function testJsonSerialize() {
+    // Should return the right values for an incorrectly configured client.
     $data = (new Client(['apiKey' => '0123456789-ABCDEF', 'userAgent' => 'FooBar/6.6.6']))->jsonSerialize();
     $this->assertEquals('0123456789-ABCDEF', $data->apiKey);
     $this->assertNull($data->blog);
     $this->assertFalse($data->isTest);
     $this->assertEquals('FooBar/6.6.6', $data->userAgent);
 
+    // Should return the right values for a properly configured client.
     $data = $this->client->jsonSerialize();
     $this->assertEquals(getenv('AKISMET_API_KEY'), $data->apiKey);
     $this->assertEquals(Blog::class, $data->blog);
@@ -56,6 +61,7 @@ class ClientTest extends TestCase {
    * @test ::submitHam
    */
   public function testSubmitHam() {
+    // Should complete without error.
     try {
       $this->client->submitHam($this->ham);
       $this->assertTrue(true);
@@ -70,6 +76,7 @@ class ClientTest extends TestCase {
    * @test ::submitSpam
    */
   public function testSubmitSpam() {
+    // Should complete without error.
     try {
       $this->client->submitSpam($this->spam);
       $this->assertTrue(true);
@@ -85,7 +92,11 @@ class ClientTest extends TestCase {
    */
   public function testToString() {
     $value = (string) $this->client;
+
+    // Should start with the class name.
     $this->assertStringStartsWith('yii\akismet\Client {', $value);
+
+    // Should contain the instance properties.
     $this->assertContains(sprintf('"apiKey":"%s"', getenv('AKISMET_API_KEY')), $value);
     $this->assertContains(sprintf('"blog":"%s"', str_replace('\\', '\\\\', Blog::class)), $value);
     $this->assertContains('"endPoint":"https://rest.akismet.com"', $value);
@@ -97,8 +108,10 @@ class ClientTest extends TestCase {
    * @test ::verifyKey
    */
   public function testVerifyKey() {
+    // Should return `true` for a valid API key.
     $this->assertTrue($this->client->verifyKey());
 
+    // Should return `false` for an invalid API key.
     $client = new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => $this->client->getBlog(), 'isTest' => $this->client->getIsTest()]);
     $this->assertFalse($client->verifyKey());
   }

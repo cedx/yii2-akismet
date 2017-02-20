@@ -16,9 +16,11 @@ class AuthorTest extends TestCase {
    * @test ::jsonSerialize
    */
   public function testJsonSerialize() {
+    // Should return an empty map with a newly created instance.
     $data = (new Author())->jsonSerialize();
     $this->assertEmpty(get_object_vars($data));
 
+    // Should return a non-empty map with a initialized instance.
     $data = (new Author([
       'email' => 'cedric@belin.io',
       'ipAddress' => '127.0.0.1',
@@ -43,7 +45,10 @@ class AuthorTest extends TestCase {
       'url' => 'https://belin.io'
     ]);
 
+    // Should start with the class name.
     $this->assertStringStartsWith('yii\akismet\Author {', $author);
+
+    // Should contain the instance properties.
     $this->assertContains('"comment_author":"Cédric Belin"', $author);
     $this->assertContains('"comment_author_email":"cedric@belin.io"', $author);
     $this->assertContains('"comment_author_url":"https://belin.io"', $author);
