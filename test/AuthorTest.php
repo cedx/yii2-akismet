@@ -1,14 +1,9 @@
 <?php
-/**
- * Implementation of the `yii\akismet\test\AuthorTest` class.
- */
-namespace yii\akismet\test;
-
+namespace yii\akismet;
 use PHPUnit\Framework\{TestCase};
-use yii\akismet\{Author};
 
 /**
- * @coversDefaultClass \yii\akismet\Author
+ * Tests the features of the `yii\akismet\Author` class.
  */
 class AuthorTest extends TestCase {
 
@@ -16,22 +11,23 @@ class AuthorTest extends TestCase {
    * @test ::jsonSerialize
    */
   public function testJsonSerialize() {
-    // Should return an empty map with a newly created instance.
-    $data = (new Author())->jsonSerialize();
-    $this->assertEmpty(get_object_vars($data));
+    it('should return an empty map with a newly created instance', function() {
+      expect((new Author())->jsonSerialize())->to->be->empty;
+    });
 
-    // Should return a non-empty map with a initialized instance.
-    $data = (new Author([
-      'email' => 'cedric@belin.io',
-      'ipAddress' => '127.0.0.1',
-      'name' => 'Cédric Belin',
-      'url' => 'https://belin.io'
-    ]))->jsonSerialize();
+    it('should return a non-empty map with a initialized instance', function() {
+      $data = (new Author([
+        'email' => 'cedric@belin.io',
+        'ipAddress' => '127.0.0.1',
+        'name' => 'Cédric Belin',
+        'url' => 'https://belin.io'
+      ]))->jsonSerialize();
 
-    $this->assertEquals('Cédric Belin', $data->comment_author);
-    $this->assertEquals('cedric@belin.io', $data->comment_author_email);
-    $this->assertEquals('https://belin.io', $data->comment_author_url);
-    $this->assertEquals('127.0.0.1', $data->user_ip);
+      expect($data->comment_author)->to->equal('Cédric Belin');
+      expect($data->comment_author_email)->to->equal('cedric@belin.io');
+      expect($data->comment_author_url)->to->equal('https://belin.io');
+      expect($data->user_ip)->to->equal('127.0.0.1');
+    });
   }
 
   /**
@@ -45,13 +41,15 @@ class AuthorTest extends TestCase {
       'url' => 'https://belin.io'
     ]);
 
-    // Should start with the class name.
-    $this->assertStringStartsWith('yii\akismet\Author {', $author);
+    it('should start with the class name', function() use ($author) {
+      expect($author)->to->startWith('yii\akismet\Author {');
+    });
 
-    // Should contain the instance properties.
-    $this->assertContains('"comment_author":"Cédric Belin"', $author);
-    $this->assertContains('"comment_author_email":"cedric@belin.io"', $author);
-    $this->assertContains('"comment_author_url":"https://belin.io"', $author);
-    $this->assertContains('"user_ip":"127.0.0.1"', $author);
+    it('should contain the instance properties', function() use ($author) {
+      expect($author)->to->contain('"comment_author":"Cédric Belin"')
+        ->and->contain('"comment_author_email":"cedric@belin.io"')
+        ->and->contain('"comment_author_url":"https://belin.io"')
+        ->and->contain('"user_ip":"127.0.0.1"');
+    });
   }
 }

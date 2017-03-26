@@ -1,14 +1,9 @@
 <?php
-/**
- * Implementation of the `yii\akismet\test\BlogTest` class.
- */
-namespace yii\akismet\test;
-
+namespace yii\akismet;
 use PHPUnit\Framework\{TestCase};
-use yii\akismet\{Blog};
 
 /**
- * @coversDefaultClass \yii\akismet\Blog
+ * Tests the features of the `yii\akismet\Blog` class.
  */
 class BlogTest extends TestCase {
 
@@ -16,20 +11,21 @@ class BlogTest extends TestCase {
    * @test ::jsonSerialize
    */
   public function testJsonSerialize() {
-    // Should return an empty map with a newly created instance.
-    $data = (new Blog())->jsonSerialize();
-    $this->assertEmpty(get_object_vars($data));
+    it('should return an empty map with a newly created instance', function() {
+      expect((new Blog())->jsonSerialize())->to->be->empty;
+    });
 
-    // Should return a non-empty map with a initialized instance.
-    $data = (new Blog([
-      'charset' => 'UTF-8',
-      'languages' => ['en', 'fr'],
-      'url' => 'https://github.com/cedx/yii2-akismet'
-    ]))->jsonSerialize();
+    it('should return a non-empty map with a initialized instance', function() {
+      $data = (new Blog([
+        'charset' => 'UTF-8',
+        'languages' => ['en', 'fr'],
+        'url' => 'https://github.com/cedx/yii2-akismet'
+      ]))->jsonSerialize();
 
-    $this->assertEquals('https://github.com/cedx/yii2-akismet', $data->blog);
-    $this->assertEquals('UTF-8', $data->blog_charset);
-    $this->assertEquals('en,fr', $data->blog_lang);
+      expect($data->blog)->to->equal('https://github.com/cedx/yii2-akismet');
+      expect($data->blog_charset)->to->equal('UTF-8');
+      expect($data->blog_lang)->to->equal('en,fr');
+    });
   }
 
   /**
@@ -42,12 +38,14 @@ class BlogTest extends TestCase {
       'url' => 'https://github.com/cedx/yii2-akismet'
     ]);
 
-    // Should start with the class name.
-    $this->assertStringStartsWith('yii\akismet\Blog {', $blog);
+    it('should start with the class name', function() use ($blog) {
+      expect($blog)->to->startWith('yii\akismet\Blog {');
+    });
 
-    // Should contain the instance properties.
-    $this->assertContains('"blog":"https://github.com/cedx/yii2-akismet"', $blog);
-    $this->assertContains('"blog_charset":"UTF-8"', $blog);
-    $this->assertContains('"blog_lang":"en,fr"', $blog);
+    it('should contain the instance properties', function() use ($blog) {
+      expect($blog)->to->contain('"blog":"https://github.com/cedx/yii2-akismet"')
+        ->and->contain('"blog_charset":"UTF-8"')
+        ->and->contain('"blog_lang":"en,fr"');
+    });
   }
 }

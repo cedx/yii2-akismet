@@ -1,14 +1,9 @@
 <?php
-/**
- * Implementation of the `yii\akismet\test\ClientTest` class.
- */
-namespace yii\akismet\test;
-
+namespace yii\akismet;
 use PHPUnit\Framework\{TestCase};
-use yii\akismet\{Author, Blog, Client, Comment};
 
 /**
- * @coversDefaultClass \yii\akismet\Client
+ * Tests the features of the `yii\akismet\Client` class.
  */
 class ClientTest extends TestCase {
 
@@ -31,60 +26,66 @@ class ClientTest extends TestCase {
    * @test ::checkComment
    */
   public function testCheckComment() {
-    // Should return `false` for valid comment (e.g. ham).
-    $this->assertFalse($this->client->checkComment($this->ham));
+    it('should return `false` for valid comment (e.g. ham)', function() {
+      expect($this->client->checkComment($this->ham))->to->be->false;
+    });
 
-    // Should return `true` for invalid comment (e.g. spam).
-    $this->assertTrue($this->client->checkComment($this->spam));
+    it('should return `true` for invalid comment (e.g. spam)', function() {
+      expect($this->client->checkComment($this->spam))->to->be->true;
+    });
   }
 
   /**
    * @test ::jsonSerialize
    */
   public function testJsonSerialize() {
-    // Should return the right values for an incorrectly configured client.
-    $data = (new Client(['apiKey' => '0123456789-ABCDEF', 'userAgent' => 'FooBar/6.6.6']))->jsonSerialize();
-    $this->assertEquals('0123456789-ABCDEF', $data->apiKey);
-    $this->assertNull($data->blog);
-    $this->assertFalse($data->isTest);
-    $this->assertEquals('FooBar/6.6.6', $data->userAgent);
+    it('should return the right values for an incorrectly configured client', function() {
+      $data = (new Client(['apiKey' => '0123456789-ABCDEF', 'userAgent' => 'FooBar/6.6.6']))->jsonSerialize();
+      expect($data->apiKey)->to->equal('0123456789-ABCDEF');
+      expect($data->blog)->to->be->null;
+      expect($data->isTest)->to->be->false;
+      expect($data->userAgent)->to->equal('FooBar/6.6.6');
+    });
 
-    // Should return the right values for a properly configured client.
-    $data = $this->client->jsonSerialize();
-    $this->assertEquals(getenv('AKISMET_API_KEY'), $data->apiKey);
-    $this->assertEquals(Blog::class, $data->blog);
-    $this->assertTrue($data->isTest);
-    $this->assertStringStartsWith('PHP/'.PHP_VERSION, $data->userAgent);
+    it('should return the right values for a properly configured client', function() {
+      $data = $this->client->jsonSerialize();
+      expect($data->apiKey)->to->equal(getenv('AKISMET_API_KEY'));
+      expect($data->blog)->to->equal(Blog::class);
+      expect($data->isTest)->to->be->true;
+      expect($data->userAgent)->to->startWith('PHP/'.PHP_VERSION);
+    });
   }
 
   /**
    * @test ::submitHam
    */
   public function testSubmitHam() {
-    // Should complete without error.
-    try {
-      $this->client->submitHam($this->ham);
-      $this->assertTrue(true);
-    }
+    it('should complete without error', function() {
+      try {
+        $this->client->submitHam($this->ham);
+        expect(true)->to->be->true;
+      }
 
-    catch(\Throwable $e) {
-      $this->fail($e->getMessage());
-    }
+      catch(\Throwable $e) {
+        fail($e->getMessage());
+      }
+    });
   }
 
   /**
    * @test ::submitSpam
    */
   public function testSubmitSpam() {
-    // Should complete without error.
-    try {
-      $this->client->submitSpam($this->spam);
-      $this->assertTrue(true);
-    }
+    it('should complete without error', function() {
+      try {
+        $this->client->submitSpam($this->spam);
+        expect(true)->to->be->true;
+      }
 
-    catch(\Throwable $e) {
-      $this->fail($e->getMessage());
-    }
+      catch(\Throwable $e) {
+        fail($e->getMessage());
+      }
+    });
   }
 
   /**
@@ -93,27 +94,31 @@ class ClientTest extends TestCase {
   public function testToString() {
     $value = (string) $this->client;
 
-    // Should start with the class name.
-    $this->assertStringStartsWith('yii\akismet\Client {', $value);
+    it('should start with the class name', function() use ($value) {
+      expect($value)->to->startWith('yii\akismet\Client {');
+    });
 
-    // Should contain the instance properties.
-    $this->assertContains(sprintf('"apiKey":"%s"', getenv('AKISMET_API_KEY')), $value);
-    $this->assertContains(sprintf('"blog":"%s"', str_replace('\\', '\\\\', Blog::class)), $value);
-    $this->assertContains('"endPoint":"https://rest.akismet.com"', $value);
-    $this->assertContains('"isTest":true', $value);
-    $this->assertContains('"userAgent":"PHP/', $value);
+    it('should contain the instance properties', function() use ($value) {
+      expect($value)->to->contain(sprintf('"apiKey":"%s"', getenv('AKISMET_API_KEY')))
+        ->and->contain(sprintf('"blog":"%s"', str_replace('\\', '\\\\', Blog::class)))
+        ->and->contain('"endPoint":"https://rest.akismet.com"')
+        ->and->contain('"isTest":true')
+        ->and->contain('"userAgent":"PHP/');
+    });
   }
 
   /**
    * @test ::verifyKey
    */
   public function testVerifyKey() {
-    // Should return `true` for a valid API key.
-    $this->assertTrue($this->client->verifyKey());
+    it('should return `true` for a valid API key', function() {
+      expect($this->client->verifyKey())->to->be->true;
+    });
 
-    // Should return `false` for an invalid API key.
-    $client = new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => $this->client->getBlog(), 'isTest' => $this->client->getIsTest()]);
-    $this->assertFalse($client->verifyKey());
+    it('should return `false` for an invalid API key', function() {
+      $client = new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => $this->client->getBlog(), 'isTest' => $this->client->getIsTest()]);
+      expect($client->verifyKey())->to->be->false;
+    });
   }
 
   /**
@@ -126,10 +131,8 @@ class ClientTest extends TestCase {
       'isTest' => true
     ]);
 
-    $this->ham = \Yii::createObject([
-      'class' => Comment::class,
-      'author' => \Yii::createObject([
-        'class' => Author::class,
+    $this->ham = new Comment([
+      'author' => new Author([
         'ipAddress' => '192.168.0.1',
         'name' => 'Akismet for PHP',
         'role' => 'administrator',
@@ -141,10 +144,8 @@ class ClientTest extends TestCase {
       'type' => 'comment'
     ]);
 
-    $this->spam = \Yii::createObject([
-      'class' => Comment::class,
-      'author' => \Yii::createObject([
-        'class' => Author::class,
+    $this->spam = new Comment([
+      'author' => new Author([
         'ipAddress' => '127.0.0.1',
         'name' => 'viagra-test-123',
         'userAgent' => 'Spam Bot/6.6.6'

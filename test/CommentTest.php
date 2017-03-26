@@ -1,14 +1,10 @@
 <?php
-/**
- * Implementation of the `yii\akismet\test\CommentTest` class.
- */
-namespace yii\akismet\test;
-
+namespace yii\akismet;
+use akismet\CommentType;
 use PHPUnit\Framework\{TestCase};
-use yii\akismet\{Author, Comment};
 
 /**
- * @coversDefaultClass \yii\akismet\Comment
+ * Tests the features of the `yii\akismet\Comment` class.
  */
 class CommentTest extends TestCase {
 
@@ -16,22 +12,23 @@ class CommentTest extends TestCase {
    * @test ::jsonSerialize
    */
   public function testJsonSerialize() {
-    // Should return an empty map with a newly created instance.
-    $data = (new Comment())->jsonSerialize();
-    $this->assertEmpty(get_object_vars($data));
+    it('should return an empty map with a newly created instance', function() {
+      expect((new Comment())->jsonSerialize())->to->be->empty;
+    });
 
-    // Should return a non-empty map with a initialized instance.
-    $data = (new Comment([
-      'author' => \Yii::createObject(['class' => Author::class, 'name' => 'Cédric Belin']),
-      'content' => 'A user comment.',
-      'referrer' => 'https://belin.io',
-      'type' => 'pingback'
-    ]))->jsonSerialize();
+    it('should return a non-empty map with a initialized instance', function() {
+      $data = (new Comment([
+        'author' => new Author(['name' => 'Cédric Belin']),
+        'content' => 'A user comment.',
+        'referrer' => 'https://belin.io',
+        'type' => CommentType::PINGBACK
+      ]))->jsonSerialize();
 
-    $this->assertEquals('Cédric Belin', $data->comment_author);
-    $this->assertEquals('A user comment.', $data->comment_content);
-    $this->assertEquals('pingback', $data->comment_type);
-    $this->assertEquals('https://belin.io', $data->referrer);
+      expect($data->comment_author)->to->equal('Cédric Belin');
+      expect($data->comment_content)->to->equal('A user comment.');
+      expect($data->comment_type)->to->equal(CommentType::PINGBACK);
+      expect($data->referrer)->to->equal('https://belin.io');
+    });
   }
 
   /**
@@ -39,19 +36,21 @@ class CommentTest extends TestCase {
    */
   public function testToString() {
     $comment = (string) new Comment([
-      'author' => \Yii::createObject(['class' => Author::class, 'name' => 'Cédric Belin']),
+      'author' => new Author(['name' => 'Cédric Belin']),
       'content' => 'A user comment.',
       'referrer' => 'https://belin.io',
-      'type' => 'pingback'
+      'type' => CommentType::PINGBACK
     ]);
 
-    // Should start with the class name.
-    $this->assertStringStartsWith('yii\akismet\Comment {', $comment);
+    it('should start with the class name', function() use ($comment) {
+      expect($comment)->to->startWith('yii\akismet\Comment {');
+    });
 
-    // Should contain the instance properties.
-    $this->assertContains('"comment_author":"Cédric Belin"', $comment);
-    $this->assertContains('"comment_content":"A user comment."', $comment);
-    $this->assertContains('"comment_type":"pingback"', $comment);
-    $this->assertContains('"referrer":"https://belin.io"', $comment);
+    it('should contain the instance properties', function() use ($comment) {
+      expect($comment)->to->contain('"comment_author":"Cédric Belin"')
+        ->and->contain('"comment_content":"A user comment."')
+        ->and->contain('"comment_type":"pingback"')
+        ->and->contain('"referrer":"https://belin.io"');
+    });
   }
 }
