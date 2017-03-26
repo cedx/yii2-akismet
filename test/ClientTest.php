@@ -116,7 +116,7 @@ class ClientTest extends TestCase {
     });
 
     it('should return `false` for an invalid API key', function() {
-      $client = new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => $this->client->getBlog(), 'isTest' => $this->client->getIsTest()]);
+      $client = new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => $this->client->blog, 'isTest' => $this->client->isTest]);
       expect($client->verifyKey())->to->be->false;
     });
   }
