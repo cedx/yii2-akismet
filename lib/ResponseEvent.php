@@ -1,7 +1,4 @@
 <?php
-/**
- * Implementation of the `yii\akismet\ResponseEvent` class.
- */
 namespace yii\akismet;
 
 use Psr\Http\Message\{ResponseInterface};
@@ -9,6 +6,7 @@ use yii\base\{Event};
 
 /**
  * Represents `response` events triggered by the `Client` component.
+ * @property ResponseInterface $response The response received by the client.
  */
 class ResponseEvent extends Event {
 

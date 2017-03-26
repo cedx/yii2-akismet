@@ -1,6 +1,10 @@
 # Changelog
 This file contains highlights of what changes on each version of the [Akismet for Yii](https://github.com/cedx/yii2-akismet) library.
 
+## Version 3.1.0
+- Ported the unit test assertions from [TDD](https://en.wikipedia.org/wiki/Test-driven_development) to [BDD](https://en.wikipedia.org/wiki/Behavior-driven_development).
+- Updated the package dependencies.
+
 ## Version 3.0.0
 - Breaking change: changed the type of the `Blog::languages` property to `ArrayObject`.
 - Added the `Client::endPoint` property.

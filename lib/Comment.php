@@ -1,7 +1,4 @@
 <?php
-/**
- * Implementation of the `yii\akismet\Comment` class.
- */
 namespace yii\akismet;
 
 use akismet\{Author as AkismetAuthor, Comment as AkismetComment};
@@ -10,6 +7,13 @@ use yii\helpers\{Json};
 
 /**
  * Represents a comment submitted by an author.
+ * @property Author $author The comment's author.
+ * @property string $content The comment's content.
+ * @property \DateTime $date The UTC timestamp of the creation of the comment.
+ * @property string $permalink The permanent location of the entry the comment is submitted to.
+ * @property \DateTime $postModified The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
+ * @property string $referrer The URL of the webpage that linked to the entry being requested.
+ * @property string $type The comment's type.
  */
 class Comment extends Object implements \JsonSerializable {
 
@@ -59,7 +63,7 @@ class Comment extends Object implements \JsonSerializable {
 
   /**
    * Gets the UTC timestamp of the creation of the comment.
-   * @return \DateTimeInterface The UTC timestamp of the creation of the comment.
+   * @return \DateTime The UTC timestamp of the creation of the comment.
    */
   public function getDate() {
     return $this->comment->getDate();
@@ -75,7 +79,7 @@ class Comment extends Object implements \JsonSerializable {
 
   /**
    * Gets the UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
-   * @return \DateTimeInterface The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
+   * @return \DateTime The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
    */
   public function getPostModified() {
     return $this->comment->getPostModified();

@@ -1,7 +1,4 @@
 <?php
-/**
- * Implementation of the `yii\akismet\Blog` class.
- */
 namespace yii\akismet;
 
 use akismet\{Blog as AkismetBlog};
@@ -10,6 +7,9 @@ use yii\helpers\{Json};
 
 /**
  * Represents the front page or home URL transmitted when making requests.
+ * @property string $charset The character encoding for the values included in comments.
+ * @property \ArrayObject $languages The languages in use on the blog or site.
+ * @property string $url The blog or site URL.
  */
 class Blog extends Object implements \JsonSerializable {
 

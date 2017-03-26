@@ -1,15 +1,17 @@
 <?php
-/**
- * Implementation of the `yii\akismet\Client` class.
- */
 namespace yii\akismet;
 
 use akismet\{Blog as AkismetBlog, Client as AkismetClient, Comment as AkismetComment};
-use yii\base\{Component, Exception};
+use yii\base\{Component};
 use yii\helpers\{Json};
 
 /**
  * Submits comments to the [Akismet](https://akismet.com) service.
+ * @property string $apiKey The Akismet API key.
+ * @property Blog $blog The front page or home URL.
+ * @property string $endPoint The URL of the API end point.
+ * @property bool $isTest Value indicating whether the client operates in test mode.
+ * @property string $userAgent The user agent string to use when making requests.
  */
 class Client extends Component implements \JsonSerializable {
 
@@ -41,12 +43,12 @@ class Client extends Component implements \JsonSerializable {
     $this->client = new AkismetClient();
     parent::__construct($config);
 
-    $this->client->onRequest()->subscribeCallback(function($request) {
-      $this->trigger(static::EVENT_REQUEST, \Yii::createObject(['class' => RequestEvent::class, 'request' => $request]));
+    $this->client->on('request', function($request) {
+      $this->trigger(static::EVENT_REQUEST, new RequestEvent(['request' => $request]));
     });
 
-    $this->client->onResponse()->subscribeCallback(function($response) {
-      $this->trigger(static::EVENT_RESPONSE, \Yii::createObject(['class' => ResponseEvent::class, 'response' => $response]));
+    $this->client->on('response', function($response) {
+      $this->trigger(static::EVENT_RESPONSE, new ResponseEvent(['response' => $response]));
     });
   }
 
@@ -136,7 +138,7 @@ class Client extends Component implements \JsonSerializable {
    */
   public function setBlog($value): self {
     if ($value instanceof Blog) $this->blog = $value;
-    else if (is_string($value)) $this->blog = \Yii::createObject(['class' => Blog::class, 'url' => $value]);
+    else if (is_string($value)) $this->blog = new Blog(['url' => $value]);
     else $this->blog = null;
 
     $this->client->setBlog(AkismetBlog::fromJSON($this->blog ? $this->blog->jsonSerialize() : null));

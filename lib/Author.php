@@ -1,7 +1,4 @@
 <?php
-/**
- * Implementation of the `yii\akismet\Author` class.
- */
 namespace yii\akismet;
 
 use akismet\{Author as AkismetAuthor};
@@ -10,6 +7,12 @@ use yii\helpers\{Json};
 
 /**
  * Represents the author of a comment.
+ * @property string $email The author's mail address.
+ * @property string $ipAddress The author's IP address.
+ * @property string $name The author's name.
+ * @property string $role The author's role.
+ * @property string $url The URL of the author's website.
+ * @property string $userAgent The author's user agent.
  */
 class Author extends Object implements \JsonSerializable {
 
