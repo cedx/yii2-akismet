@@ -8,7 +8,7 @@ use PHPUnit\Framework\{TestCase};
 class AuthorTest extends TestCase {
 
   /**
-   * @test ::jsonSerialize
+   * @test Author::jsonSerialize
    */
   public function testJsonSerialize() {
     it('should return an empty map with a newly created instance', function() {
@@ -31,7 +31,7 @@ class AuthorTest extends TestCase {
   }
 
   /**
-   * @test ::__toString
+   * @test Author::__toString
    */
   public function testToString() {
     $author = (string) new Author([

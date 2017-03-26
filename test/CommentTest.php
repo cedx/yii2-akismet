@@ -9,7 +9,7 @@ use PHPUnit\Framework\{TestCase};
 class CommentTest extends TestCase {
 
   /**
-   * @test ::jsonSerialize
+   * @test Comment::jsonSerialize
    */
   public function testJsonSerialize() {
     it('should return an empty map with a newly created instance', function() {
@@ -32,7 +32,7 @@ class CommentTest extends TestCase {
   }
 
   /**
-   * @test ::__toString
+   * @test Comment::__toString
    */
   public function testToString() {
     $comment = (string) new Comment([

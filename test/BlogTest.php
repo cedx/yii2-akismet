@@ -8,7 +8,7 @@ use PHPUnit\Framework\{TestCase};
 class BlogTest extends TestCase {
 
   /**
-   * @test ::jsonSerialize
+   * @test Blog::jsonSerialize
    */
   public function testJsonSerialize() {
     it('should return an empty map with a newly created instance', function() {
@@ -29,7 +29,7 @@ class BlogTest extends TestCase {
   }
 
   /**
-   * @test ::__toString
+   * @test Blog::__toString
    */
   public function testToString() {
     $blog = (string) new Blog([
