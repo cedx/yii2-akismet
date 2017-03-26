@@ -42,10 +42,14 @@ Once the `yii\akismet\Client` component initialized with your credentials, you c
 ### Key verification
 
 ```php
-$client = \Yii::$app->get('akismet');
+try {
+  $client = \Yii::$app->get('akismet');
+  echo $client->verifyKey() ? 'Your API key is valid.' : 'Your API key is invalid.';
+}
 
-$isValid = $client->verifyKey();
-echo $isValid ? 'Your API key is valid.' : 'Your API key is invalid.';
+catch (\Throwable $e) {
+  echo 'An error occurred: ', $e->getMessage();
+}
 ```
 
 ### Comment check
@@ -53,23 +57,35 @@ echo $isValid ? 'Your API key is valid.' : 'Your API key is invalid.';
 ```php
 use yii\akismet\{Author, Comment};
 
-$comment = new Comment([
-  'author' => new Author(['ipAddress' => '127.0.0.1', 'userAgent' => 'Mozilla/5.0']),
-  'content' => 'A comment.'
-]);
+try {
+  $comment = new Comment([
+    'author' => new Author(['ipAddress' => '127.0.0.1', 'userAgent' => 'Mozilla/5.0']),
+    'content' => 'A comment.'
+  ]);
+    
+  $isSpam = $client->checkComment($comment);
+  echo $isSpam ? 'The comment is marked as spam.' : 'The comment is marked as ham.';
+}
 
-$isSpam = $client->checkComment($comment);
-echo $isSpam ? 'The comment is marked as spam.' : 'The comment is marked as ham.';
+catch (\Throwable $e) {
+  echo 'An error occurred: ', $e->getMessage();
+}
 ```
 
 ### Submit spam/ham
 
 ```php
-$client->submitSpam($comment);
-echo 'Spam submitted.';
+try {
+  $client->submitSpam($comment);
+  echo 'Spam submitted.';
+    
+  $client->submitHam($comment);
+  echo 'Ham submitted.';
+}
 
-$client->submitHam($comment);
-echo 'Ham submitted.';
+catch (\Throwable $e) {
+  echo 'An error occurred: ', $e->getMessage();
+}
 ```
 
 ## Events
