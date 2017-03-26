@@ -1,8 +1,7 @@
 <?php
 namespace yii\akismet;
 
-use akismet\{Blog as AkismetBlog};
-use yii\base\{Object};
+use yii\base\{Model};
 use yii\helpers\{Json};
 
 /**
@@ -11,7 +10,7 @@ use yii\helpers\{Json};
  * @property \ArrayObject $languages The languages in use on the blog or site.
  * @property string $url The blog or site URL.
  */
-class Blog extends Object implements \JsonSerializable {
+class Blog extends Model implements \JsonSerializable {
 
   /**
    * @var AkismetBlog The underlying blog.

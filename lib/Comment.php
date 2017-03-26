@@ -1,8 +1,7 @@
 <?php
 namespace yii\akismet;
 
-use akismet\{Author as AkismetAuthor, Comment as AkismetComment};
-use yii\base\{Object};
+use yii\base\{Model};
 use yii\helpers\{Json};
 
 /**
@@ -15,7 +14,7 @@ use yii\helpers\{Json};
  * @property string $referrer The URL of the webpage that linked to the entry being requested.
  * @property string $type The comment's type.
  */
-class Comment extends Object implements \JsonSerializable {
+class Comment extends Model implements \JsonSerializable {
 
   /**
    * @var Author The comment's author.

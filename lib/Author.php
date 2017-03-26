@@ -1,8 +1,7 @@
 <?php
 namespace yii\akismet;
 
-use akismet\{Author as AkismetAuthor};
-use yii\base\{Object};
+use yii\base\{Model};
 use yii\helpers\{Json};
 
 /**
@@ -14,7 +13,7 @@ use yii\helpers\{Json};
  * @property string $url The URL of the author's website.
  * @property string $userAgent The author's user agent.
  */
-class Author extends Object implements \JsonSerializable {
+class Author extends Model implements \JsonSerializable {
 
   /**
    * @var AkismetAuthor The underlying Akismet author.
