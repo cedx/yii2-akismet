@@ -1,13 +1,11 @@
 <?php
 namespace yii\akismet;
 
-use akismet\{Blog as AkismetBlog, Client as AkismetClient, Comment as AkismetComment};
 use yii\base\{Component};
 use yii\helpers\{Json};
 
 /**
  * Submits comments to the [Akismet](https://akismet.com) service.
- * @property string $apiKey The Akismet API key.
  * @property Blog $blog The front page or home URL.
  * @property string $endPoint The URL of the API end point.
  * @property bool $isTest Value indicating whether the client operates in test mode.
@@ -24,6 +22,11 @@ class Client extends Component implements \JsonSerializable {
    * @var string An event that is triggered when a response is received from the remote service.
    */
   const EVENT_RESPONSE = 'reponse';
+
+  /**
+   * @var string The Akismet API key.
+   */
+  public $apiKey = '';
 
   /**
    * @var Blog The front page or home URL.
@@ -72,14 +75,6 @@ class Client extends Component implements \JsonSerializable {
   }
 
   /**
-   * Gets the Akismet API key.
-   * @return string The Akismet API key.
-   */
-  public function getAPIKey(): string {
-    return $this->client->getAPIKey();
-  }
-
-  /**
    * Gets the front page or home URL of the instance making requests.
    * @return Blog The front page or home URL.
    */
@@ -119,16 +114,6 @@ class Client extends Component implements \JsonSerializable {
     $map = $this->client->jsonSerialize();
     if ($blog = $this->getBlog()) $map->blog = get_class($blog);
     return $map;
-  }
-
-  /**
-   * Sets the Akismet API key.
-   * @param string $value The new API key.
-   * @return Client This instance.
-   */
-  public function setAPIKey(string $value): self {
-    $this->client->setAPIKey($value);
-    return $this;
   }
 
   /**

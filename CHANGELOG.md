@@ -3,7 +3,9 @@ This file contains highlights of what changes on each version of the [Akismet fo
 
 ## Version 4.0.0
 - Breaking change: removed the `RequestEvent` and `RequestResponse` classes.
+- Breaking change: replaced most of getters and setters by properties.
 - Added the `CommentType` enumeration.
+- Added validation rules to the data classes.
 - Dropped the dependency on the `cedx/akismet` module.
 - The data classes now extend from `yii\base\Model`.
 

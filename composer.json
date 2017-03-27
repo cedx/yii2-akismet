@@ -31,7 +31,8 @@
     "ext-json": "*",
     "cedx/akismet": "^6.0.0",
     "psr/http-message": "^1.0.1",
-    "yiisoft/yii2": "^2.0.11"
+    "yiisoft/yii2": "^2.0.11",
+    "yiisoft/yii2-httpclient": "^2.0.3"
   },
   "require-dev": {
     "cedx/coveralls": "^0.4.0",

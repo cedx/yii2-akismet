@@ -3,37 +3,47 @@ namespace yii\akismet;
 
 use yii\base\{Model};
 use yii\helpers\{Json};
+use yii\validators\{InlineValidator};
 
 /**
  * Represents a comment submitted by an author.
- * @property Author $author The comment's author.
- * @property string $content The comment's content.
- * @property \DateTime $date The UTC timestamp of the creation of the comment.
- * @property string $permalink The permanent location of the entry the comment is submitted to.
- * @property \DateTime $postModified The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
- * @property string $referrer The URL of the webpage that linked to the entry being requested.
- * @property string $type The comment's type.
  */
 class Comment extends Model implements \JsonSerializable {
 
   /**
    * @var Author The comment's author.
    */
-  private $author;
+  public $author;
 
   /**
-   * @var AkismetComment The underlying comment.
+   * @var string The comment's content.
    */
-  private $comment;
+  public $content = '';
 
   /**
-   * Initializes a new instance of the class.
-   * @param array $config Name-value pairs that will be used to initialize the object properties.
+   * @var \DateTime The UTC timestamp of the creation of the comment.
    */
-  public function __construct(array $config = []) {
-    $this->comment = new AkismetComment();
-    parent::__construct($config);
-  }
+  public $date;
+
+  /**
+   * @var string The permanent location of the entry the comment is submitted to.
+   */
+  public $permalink = '';
+
+  /**
+   * @var \DateTime The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
+   */
+  public $postModified;
+
+  /**
+   * @var string The URL of the webpage that linked to the entry being requested.
+   */
+  public $referrer = '';
+
+  /**
+   * @var string The comment's type. This string value specifies a `CommentType` constant or a made up value like `"registration"`.
+   */
+  public $type = '';
 
   /**
    * Returns a string representation of this object.
@@ -45,142 +55,40 @@ class Comment extends Model implements \JsonSerializable {
   }
 
   /**
-   * Gets the comment's author.
-   * @return Author The comment's author.
-   */
-  public function getAuthor() {
-    return $this->author;
-  }
-
-  /**
-   * Gets the comment's content.
-   * @return string The comment's content.
-   */
-  public function getContent(): string {
-    return $this->comment->getContent();
-  }
-
-  /**
-   * Gets the UTC timestamp of the creation of the comment.
-   * @return \DateTime The UTC timestamp of the creation of the comment.
-   */
-  public function getDate() {
-    return $this->comment->getDate();
-  }
-
-  /**
-   * Gets the permanent location of the entry the comment is submitted to.
-   * @return string The permanent location of the entry the comment is submitted to.
-   */
-  public function getPermalink(): string {
-    return $this->comment->getPermalink();
-  }
-
-  /**
-   * Gets the UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
-   * @return \DateTime The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
-   */
-  public function getPostModified() {
-    return $this->comment->getPostModified();
-  }
-
-  /**
-   * Gets the URL of the webpage that linked to the entry being requested.
-   * @return string The URL of the webpage that linked to the entry being requested.
-   */
-  public function getReferrer(): string {
-    return $this->comment->getReferrer();
-  }
-
-  /**
-   * Gets the comment's type. This string value specifies a made up value like `"comment"`, `"pingback"` or `"trackback"`.
-   * @return string The comment's type. This string value specifies a made up value like `"comment"`, `"pingback"` or `"trackback"`.
-   */
-  public function getType(): string {
-    return $this->comment->getType();
-  }
-
-  /**
    * Converts this object to a map in JSON format.
    * @return \stdClass The map in JSON format corresponding to this object.
    */
   public function jsonSerialize(): \stdClass {
-    $map = $this->comment->jsonSerialize();
-    if ($author = $this->getAuthor()) {
-      foreach (get_object_vars($author->jsonSerialize()) as $key => $value) $map->$key = $value;
-    }
-
+    $map = $this->author ? $this->author->jsonSerialize() : new \stdClass();
+    if (mb_strlen($this->content)) $map->comment_content = $this->content;
+    if ($this->date) $map->comment_date_gmt = $this->date->format('c');
+    if ($this->postModified) $map->comment_post_modified_gmt = $this->postModified->format('c');
+    if (mb_strlen($this->type)) $map->comment_type = $this->type;
+    if (mb_strlen($this->permalink)) $map->permalink = $this->permalink;
+    if (mb_strlen($this->referrer)) $map->referrer = $this->referrer;
     return $map;
   }
 
   /**
-   * Sets the comment's author.
-   * @param Author $value The new author.
-   * @return Comment This instance.
+   * Returns the validation rules for attributes.
+   * @return array[] The validation rules.
    */
-  public function setAuthor(Author $value = null): self {
-    $this->author = $value;
-    $this->comment->setAuthor(AkismetAuthor::fromJSON($this->author ? $this->author->jsonSerialize() : null));
-    return $this;
+  public function rules(): array {
+    return [
+      [['content', 'permalink', 'referrer', 'type'], 'trim'],
+      [['author'], 'required'],
+      [['permalink', 'referrer'], 'url', 'defaultScheme' => 'http']
+    ];
   }
 
   /**
-   * Sets the comment's content.
-   * @param string $value The new content.
-   * @return Comment This instance.
+   * Validates the `author` property.
+   * @param string $attribute The attribute currently being validated.
+   * @param mixed $params The value of the parameters given in the rule.
+   * @param InlineValidator $validator The related inline validator.
    */
-  public function setContent(string $value): self {
-    $this->comment->setContent($value);
-    return $this;
-  }
-
-  /**
-   * Sets the UTC timestamp of the creation of the comment.
-   * @param mixed $value The new UTC timestamp of the creation of the comment.
-   * @return Comment This instance.
-   */
-  public function setDate($value): self {
-    $this->comment->setDate($value);
-    return $this;
-  }
-
-  /**
-   * Sets the permanent location of the entry the comment is submitted to.
-   * @param string $value The new permanent location of the entry.
-   * @return Comment This instance.
-   */
-  public function setPermalink(string $value): self {
-    $this->comment->setPermalink($value);
-    return $this;
-  }
-
-  /**
-   * Sets the UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
-   * @param mixed $value The new UTC timestamp of the publication time.
-   * @return Comment This instance.
-   */
-  public function setPostModified($value): self {
-    $this->comment->setPostModified($value);
-    return $this;
-  }
-
-  /**
-   * Sets the URL of the webpage that linked to the entry being requested.
-   * @param string $value The new URL of the webpage that linked to the entry.
-   * @return Comment This instance.
-   */
-  public function setReferrer(string $value): self {
-    $this->comment->setReferrer($value);
-    return $this;
-  }
-
-  /**
-   * Sets the comment's type.
-   * @param string $value The new type.
-   * @return Comment This instance.
-   */
-  public function setType(string $value): self {
-    $this->comment->setType($value);
-    return $this;
+  public function validateInstance(string $attribute, string $params, InlineValidator $validator) {
+    $value = $this->$attribute;
+    if (!$value instanceof $params) $validator->addError($this, $attribute, "'{attribute}' must be an instance of $params");
   }
 }

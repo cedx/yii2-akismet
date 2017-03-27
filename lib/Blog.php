@@ -6,25 +6,23 @@ use yii\helpers\{Json};
 
 /**
  * Represents the front page or home URL transmitted when making requests.
- * @property string $charset The character encoding for the values included in comments.
- * @property \ArrayObject $languages The languages in use on the blog or site.
- * @property string $url The blog or site URL.
  */
 class Blog extends Model implements \JsonSerializable {
 
   /**
-   * @var AkismetBlog The underlying blog.
+   * @var string The character encoding for the values included in comments.
    */
-  private $blog;
+  public $charset = '';
 
   /**
-   * Initializes a new instance of the class.
-   * @param array $config Name-value pairs that will be used to initialize the object properties.
+   * @var string[] The languages in use on the blog or site, in ISO 639-1 format.
    */
-  public function __construct(array $config = []) {
-    $this->blog = new AkismetBlog();
-    parent::__construct($config);
-  }
+  public $languages = [];
+
+  /**
+   * @var string The blog or site URL.
+   */
+  public $url = '';
 
   /**
    * Returns a string representation of this object.
@@ -36,64 +34,27 @@ class Blog extends Model implements \JsonSerializable {
   }
 
   /**
-   * Gets the character encoding for the values included in comments.
-   * @return string The character encoding for the values included in comments.
-   */
-  public function getCharset(): string {
-    return $this->blog->getCharset();
-  }
-
-  /**
-   * Gets the languages in use on the blog or site, in ISO 639-1 format, comma-separated.
-   * @return \ArrayObject The languages in use on the blog or site.
-   */
-  public function getLanguages(): \ArrayObject {
-    return $this->blog->getLanguages();
-  }
-
-  /**
-   * Gets the blog or site URL.
-   * @return string The blog or site URL.
-   */
-  public function getURL(): string {
-    return $this->blog->getURL();
-  }
-
-  /**
    * Converts this object to a map in JSON format.
    * @return \stdClass The map in JSON format corresponding to this object.
    */
   public function jsonSerialize(): \stdClass {
-    return $this->blog->jsonSerialize();
+    $map = new \stdClass();
+    if (mb_strlen($this->url)) $map->blog = $this->url;
+    if (mb_strlen($this->charset)) $map->blog_charset = $this->charset;
+    if (count($this->languages)) $map->blog_lang = implode(',', $this->languages);
+    return $map;
   }
 
   /**
-   * Sets the character encoding for the values included in comments.
-   * @param string $value The new character encoding.
-   * @return Blog This instance.
+   * Returns the validation rules for attributes.
+   * @return array[] The validation rules.
    */
-  public function setCharset(string $value): self {
-    $this->blog->setCharset($value);
-    return $this;
-  }
-
-  /**
-   * Sets the languages in use on the blog or site, in ISO 639-1 format, comma-separated.
-   * @param array $values The new languages.
-   * @return Blog This instance.
-   */
-  public function setLanguages(array $values): self {
-    $this->blog->setLanguages($values);
-    return $this;
-  }
-
-  /**
-   * Sets the blog or site URL.
-   * @param string $value The new URL.
-   * @return Blog This instance.
-   */
-  public function setURL(string $value): self {
-    $this->blog->setURL($value);
-    return $this;
+  public function rules(): array {
+    return [
+      [['charset', 'url'], 'trim'],
+      [['charset'], 'filter', 'filter' => 'mb_strtoupper'],
+      [['url'], 'required'],
+      [['url'], 'url']
+    ];
   }
 }

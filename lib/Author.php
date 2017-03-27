@@ -6,28 +6,38 @@ use yii\helpers\{Json};
 
 /**
  * Represents the author of a comment.
- * @property string $email The author's mail address.
- * @property string $ipAddress The author's IP address.
- * @property string $name The author's name.
- * @property string $role The author's role.
- * @property string $url The URL of the author's website.
- * @property string $userAgent The author's user agent.
  */
 class Author extends Model implements \JsonSerializable {
 
   /**
-   * @var AkismetAuthor The underlying Akismet author.
+   * @var string The author's mail address.
    */
-  private $author;
+  public $email = '';
 
   /**
-   * Initializes a new instance of the class.
-   * @param array $config Name-value pairs that will be used to initialize the object properties.
+   * @var string The author's IP address.
    */
-  public function __construct(array $config = []) {
-    $this->author = new AkismetAuthor();
-    parent::__construct($config);
-  }
+  public $ipAddress = '';
+
+  /**
+   * @var string The author's name.
+   */
+  public $name = '';
+
+  /**
+   * @var string The author's role.
+   */
+  public $role = '';
+
+  /**
+   * @var string The URL of the author's website.
+   */
+  public $url = '';
+
+  /**
+   * @var string The author's user agent, that is the string identifying the Web browser used to submit comments.
+   */
+  public $userAgent = '';
 
   /**
    * Returns a string representation of this object.
@@ -39,118 +49,31 @@ class Author extends Model implements \JsonSerializable {
   }
 
   /**
-   * Gets the author's mail address.
-   * @return string The author's mail address.
-   */
-  public function getEmail(): string {
-    return $this->author->getEmail();
-  }
-
-  /**
-   * Gets the author's IP address.
-   * @return string The author's IP address.
-   */
-  public function getIPAddress(): string {
-    return $this->author->getIPAddress();
-  }
-
-  /**
-   * Gets the author's name.
-   * @return string The author's name.
-   */
-  public function getName(): string {
-    return $this->author->getName();
-  }
-
-  /**
-   * Gets the author's role.
-   * @return string The author's role.
-   */
-  public function getRole(): string {
-    return $this->author->getRole();
-  }
-
-  /**
-   * Gets the URL of the author's website.
-   * @return string The URL of the author's website.
-   */
-  public function getURL(): string {
-    return $this->author->getURL();
-  }
-
-  /**
-   * Gets the author's user agent, that is the string identifying the Web browser used to submit comments.
-   * @return string The author's user agent.
-   */
-  public function getUserAgent(): string {
-    return $this->author->getUserAgent();
-  }
-
-  /**
    * Converts this object to a map in JSON format.
    * @return \stdClass The map in JSON format corresponding to this object.
    */
   public function jsonSerialize(): \stdClass {
-    return $this->author->jsonSerialize();
+    $map = new \stdClass();
+    if (mb_strlen($this->name)) $map->comment_author = $this->name;
+    if (mb_strlen($this->email)) $map->comment_author_email = $this->email;
+    if (mb_strlen($this->url)) $map->comment_author_url = $this->url;
+    if (mb_strlen($this->userAgent)) $map->user_agent = $this->userAgent;
+    if (mb_strlen($this->ipAddress)) $map->user_ip = $this->ipAddress;
+    if (mb_strlen($this->role)) $map->user_role = $this->role;
+    return $map;
   }
 
   /**
-   * Sets the author's mail address.
-   * @param string $value The new mail address.
-   * @return Author This instance.
+   * Returns the validation rules for attributes.
+   * @return array[] The validation rules.
    */
-  public function setEmail(string $value): self {
-    $this->author->setEmail($value);
-    return $this;
-  }
-
-  /**
-   * Sets the the author's IP address.
-   * @param string $value The new IP address.
-   * @return Author This instance.
-   */
-  public function setIPAddress(string $value): self {
-    $this->author->setIPAddress($value);
-    return $this;
-  }
-
-  /**
-   * Sets the author's name.
-   * @param string $value The new name.
-   * @return Author This instance.
-   */
-  public function setName(string $value): self {
-    $this->author->setName($value);
-    return $this;
-  }
-
-  /**
-   * Sets the author's role. If you set it to `"administrator"`, Akismet will always return `false`.
-   * @param string $value The new role.
-   * @return Author This instance.
-   */
-  public function setRole(string $value): self {
-    $this->author->setRole($value);
-    return $this;
-  }
-
-  /**
-   * Sets the URL of the author's website.
-   * @param string $value The new website URL.
-   * @return Author This instance.
-   */
-  public function setURL(string $value): self {
-    $this->author->setURL($value);
-    return $this;
-  }
-
-  /**
-   * Sets the author's user agent, that is the string identifying the Web browser used to submit comments.
-   * @param string $value The new user agent.
-   * @return Author This instance.
-   */
-  public function setUserAgent(string $value): self {
-    $this->author->setUserAgent($value);
-    return $this;
+  public function rules(): array {
+    return [
+      [$this->attributes(), 'trim'],
+      [['email'], 'filter', 'filter' => 'mb_strtolower'],
+      [['ipAddress', 'userAgent'], 'required'],
+      [['email'], 'email', 'checkDNS' => true],
+      [['ipAddress'], 'ip']
+    ];
   }
 }
