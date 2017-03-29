@@ -1,6 +1,5 @@
 <?php
 namespace yii\akismet;
-use akismet\CommentType;
 use PHPUnit\Framework\{TestCase};
 
 /**

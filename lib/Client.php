@@ -7,9 +7,6 @@ use yii\helpers\{Json};
 /**
  * Submits comments to the [Akismet](https://akismet.com) service.
  * @property Blog $blog The front page or home URL.
- * @property string $endPoint The URL of the API end point.
- * @property bool $isTest Value indicating whether the client operates in test mode.
- * @property string $userAgent The user agent string to use when making requests.
  */
 class Client extends Component implements \JsonSerializable {
 
@@ -29,21 +26,30 @@ class Client extends Component implements \JsonSerializable {
   public $apiKey = '';
 
   /**
+   * @var string The URL of the API end point.
+   */
+  public $endPoint = 'TODO';
+
+  /**
+   * @var bool Value indicating whether the client operates in test mode.
+   */
+  public $isTest = false;
+
+  /**
+   * @var string The user agent string to use when making requests.
+   */
+  public $userAgent = 'TODO';
+
+  /**
    * @var Blog The front page or home URL.
    */
   private $blog;
 
   /**
-   * @var AkismetClient The underlying client.
-   */
-  private $client;
-
-  /**
    * Initializes a new instance of the class.
    * @param array $config Name-value pairs that will be used to initialize the object properties.
    */
-  public function __construct(array $config = []) {
-    $this->client = new AkismetClient();
+  public function __construct(array $config = []) { // TODO: replace by init() method.
     parent::__construct($config);
 
     $this->client->on('request', function($request) {
@@ -83,30 +89,6 @@ class Client extends Component implements \JsonSerializable {
   }
 
   /**
-   * Gets the URL of the API end point.
-   * @return string The URL of the API end point.
-   */
-  public function getEndPoint(): string {
-    return $this->client->getEndPoint();
-  }
-
-  /**
-   * Gets a value indicating whether the client operates in test mode.
-   * @return bool `true` if the client operates in test mode, otherwise `false`.
-   */
-  public function getIsTest(): bool {
-    return $this->client->isTest();
-  }
-
-  /**
-   * Gets the user agent string to use when making requests.
-   * @return string The user agent string to use when making requests.
-   */
-  public function getUserAgent(): string {
-    return $this->client->getUserAgent();
-  }
-
-  /**
    * Converts this object to a map in JSON format.
    * @return \stdClass The map in JSON format corresponding to this object.
    */
@@ -127,38 +109,6 @@ class Client extends Component implements \JsonSerializable {
     else $this->blog = null;
 
     $this->client->setBlog(AkismetBlog::fromJSON($this->blog ? $this->blog->jsonSerialize() : null));
-    return $this;
-  }
-
-  /**
-   * Sets the URL of the API end point.
-   * @param string $value The new URL of the API end point.
-   * @return Client This instance.
-   */
-  public function setEndPoint(string $value) {
-    $this->client->setEndPoint($value);
-    return $this;
-  }
-
-  /**
-   * Sets a value indicating whether the client operates in test mode.
-   * You can use it when submitting test queries to Akismet.
-   * @param bool $value `true` to enable the test mode, otherwise `false`.
-   * @return Client This instance.
-   */
-  public function setIsTest(bool $value): self {
-    $this->client->setIsTest($value);
-    return $this;
-  }
-
-  /**
-   * Sets the user agent string to use when making requests.
-   * If possible, the user agent string should always have the following format: `Application Name/Version | Plugin Name/Version`.
-   * @param string $value The new user agent string.
-   * @return Client This instance.
-   */
-  public function setUserAgent(string $value): self {
-    $this->client->setUserAgent($value);
     return $this;
   }
 

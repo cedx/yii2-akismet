@@ -2,8 +2,8 @@
 namespace yii\akismet;
 
 use yii\base\{Model};
+use yii\cedx\validators\{InstanceOfValidator};
 use yii\helpers\{Json};
-use yii\validators\{InlineValidator};
 
 /**
  * Represents a comment submitted by an author.
@@ -77,18 +77,9 @@ class Comment extends Model implements \JsonSerializable {
     return [
       [['content', 'permalink', 'referrer', 'type'], 'trim'],
       [['author'], 'required'],
+      [['author'], InstanceOfValidator::class, 'className' => Author::class],
+      [['date', 'postModified'], InstanceOfValidator::class, 'className' => \DateTime::class],
       [['permalink', 'referrer'], 'url', 'defaultScheme' => 'http']
     ];
-  }
-
-  /**
-   * Validates the `author` property.
-   * @param string $attribute The attribute currently being validated.
-   * @param mixed $params The value of the parameters given in the rule.
-   * @param InlineValidator $validator The related inline validator.
-   */
-  public function validateInstance(string $attribute, string $params, InlineValidator $validator) {
-    $value = $this->$attribute;
-    if (!$value instanceof $params) $validator->addError($this, $attribute, "'{attribute}' must be an instance of $params");
   }
 }
