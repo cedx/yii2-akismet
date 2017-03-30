@@ -3,7 +3,10 @@ This file contains highlights of what changes on each version of the [Akismet fo
 
 ## Version 4.0.0
 - Breaking change: removed the `RequestEvent` and `RequestResponse` classes.
+- Breaking change: renamed the `Client::EVENT_REQUEST` to `EVENT_BEFORE_SEND`.
+- Breaking change: renamed the `Client::EVENT_RESPONSE` to `EVENT_AFTER_SEND`.
 - Breaking change: replaced most of getters and setters by properties.
+- Added the `DEBUG_HEADER`, `DEFAULT_ENDPOINT` and `VERSION` constants to the `Client` class.
 - Added the `CommentType` enumeration.
 - Added validation rules to the data classes.
 - Dropped the dependency on the `cedx/akismet` module.
