@@ -127,7 +127,7 @@ class Client extends Component implements \JsonSerializable {
   public function jsonSerialize(): \stdClass {
     return (object) [
       'apiKey' => $this->apiKey,
-      'blog' => $this->blog ? get_class($this->blog) : null,
+      'blog' => ($blog = $this->getBlog()) ? get_class($blog) : null,
       'endPoint' => $this->endPoint,
       'isTest' => $this->isTest,
       'userAgent' => $this->userAgent
