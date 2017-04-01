@@ -1,9 +1,10 @@
 <?php
 namespace yii\akismet;
 
-use yii\base\{Component};
+use yii\base\{Component, InvalidParamException, InvalidValueException};
 use yii\helpers\{Json};
-use yii\httpclient\{Client as HTTPClient};
+use yii\httpclient\{Client as HTTPClient, CurlTransport};
+use yii\web\{ServerErrorHttpException};
 
 /**
  * Submits comments to the [Akismet](https://akismet.com) service.
@@ -54,7 +55,7 @@ class Client extends Component implements \JsonSerializable {
   /**
    * @var string The user agent string to use when making requests.
    */
-  public $userAgent = 'TODO';
+  public $userAgent;
 
   /**
    * @var Blog The front page or home URL.
@@ -71,7 +72,7 @@ class Client extends Component implements \JsonSerializable {
    * @param array $config Name-value pairs that will be used to initialize the object properties.
    */
   public function __construct(array $config = []) {
-    $this->httpClient = new HTTPClient();
+    $this->httpClient = new HTTPClient(['transport' => CurlTransport::class]);
     $this->userAgent = sprintf('PHP/%s | Yii2-Akismet/%s', preg_replace('/^(\d+(\.\d+){2}).*/', '$1', PHP_VERSION), static::VERSION);
     parent::__construct($config);
   }
@@ -181,22 +182,25 @@ class Client extends Component implements \JsonSerializable {
    * @return string The response body.
    * @emits \yii\httpclient\RequestEvent The "beforeSend" event.
    * @emits \yii\httpclient\RequestEvent The "afterSend" event.
-   * @throws \InvalidArgumentException The API key or the blog URL is empty.
-   * @throws \RuntimeException An error occurred while querying the end point.
+   * @throws InvalidParamException The API key or the blog URL is empty.
+   * @throws ServerErrorHttpException An error occurred while querying the end point.
    */
   private function fetch(string $endPoint, array $fields = []): string {
     $blog = $this->getBlog();
-    if (!mb_strlen($this->apiKey) || !$blog) throw new \InvalidArgumentException('The API key or the blog URL is empty.');
-
-    $bodyFields = array_merge(get_object_vars($blog->jsonSerialize()), $fields);
-    if ($this->isTest) $bodyFields['is_test'] = '1';
+    if (!mb_strlen($this->apiKey) || !$blog) throw new InvalidParamException('The API key or the blog URL is empty.');
 
     try {
-      // TODO
+      $bodyFields = array_merge(get_object_vars($blog->jsonSerialize()), $fields);
+      if ($this->isTest) $bodyFields['is_test'] = '1';
+
+      $response = $this->httpClient->post($endPoint, $bodyFields, ['User-Agent' => $this->userAgent])->send();
+      if (!$response->isOk) throw new InvalidValueException($response->statusCode);
+      if ($response->headers->has(static::DEBUG_HEADER)) throw new InvalidValueException($response->headers->get(static::DEBUG_HEADER));
+      return $response->content;
     }
 
     catch (\Throwable $e) {
-      throw new \RuntimeException('An error occurred while querying the end point.');
+      throw new ServerErrorHttpException('An error occurred while querying the end point.');
     }
   }
 }
