@@ -1,7 +1,7 @@
 <?php
 namespace yii\akismet;
 
-use yii\base\{Component, InvalidConfigException, InvalidParamException, InvalidValueException};
+use yii\base\{Component, InvalidConfigException, InvalidValueException};
 use yii\helpers\{Json};
 use yii\httpclient\{Client as HTTPClient, CurlTransport};
 use yii\web\{ServerErrorHttpException};
