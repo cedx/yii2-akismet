@@ -1,7 +1,7 @@
 <?php
 namespace yii\akismet;
 
-use yii\base\{Component, InvalidParamException, InvalidValueException};
+use yii\base\{Component, InvalidConfigException, InvalidParamException, InvalidValueException};
 use yii\helpers\{Json};
 use yii\httpclient\{Client as HTTPClient, CurlTransport};
 use yii\web\{ServerErrorHttpException};
@@ -107,9 +107,11 @@ class Client extends Component implements \JsonSerializable {
 
   /**
    * Initializes the object.
+   * @throws InvalidConfigException The API key or the blog URL is empty.
    */
   public function init() {
     parent::init();
+    if (!mb_strlen($this->apiKey) || !$this->getBlog()) throw new InvalidConfigException('The API key or the blog URL is empty.');
 
     $this->httpClient->on(HTTPClient::EVENT_BEFORE_SEND, function($event) {
       $this->trigger(static::EVENT_BEFORE_SEND, $event);
@@ -182,15 +184,11 @@ class Client extends Component implements \JsonSerializable {
    * @return string The response body.
    * @emits \yii\httpclient\RequestEvent The "beforeSend" event.
    * @emits \yii\httpclient\RequestEvent The "afterSend" event.
-   * @throws InvalidParamException The API key or the blog URL is empty.
    * @throws ServerErrorHttpException An error occurred while querying the end point.
    */
   private function fetch(string $endPoint, array $fields = []): string {
-    $blog = $this->getBlog();
-    if (!mb_strlen($this->apiKey) || !$blog) throw new InvalidParamException('The API key or the blog URL is empty.');
-
     try {
-      $bodyFields = array_merge(get_object_vars($blog->jsonSerialize()), $fields);
+      $bodyFields = array_merge(get_object_vars($this->getBlog()->jsonSerialize()), $fields);
       if ($this->isTest) $bodyFields['is_test'] = '1';
 
       $response = $this->httpClient->post($endPoint, $bodyFields, ['User-Agent' => $this->userAgent])->send();
