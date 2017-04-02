@@ -74,6 +74,15 @@ class Client extends Component implements \JsonSerializable {
   public function __construct(array $config = []) {
     $this->httpClient = new HTTPClient(['transport' => CurlTransport::class]);
     $this->userAgent = sprintf('PHP/%s | Yii2-Akismet/%s', preg_replace('/^(\d+(\.\d+){2}).*/', '$1', PHP_VERSION), static::VERSION);
+
+    $this->httpClient->on(HTTPClient::EVENT_BEFORE_SEND, function($event) {
+      $this->trigger(static::EVENT_BEFORE_SEND, $event);
+    });
+
+    $this->httpClient->on(HTTPClient::EVENT_AFTER_SEND, function($event) {
+      $this->trigger(static::EVENT_AFTER_SEND, $event);
+    });
+
     parent::__construct($config);
   }
 
@@ -112,14 +121,6 @@ class Client extends Component implements \JsonSerializable {
   public function init() {
     parent::init();
     if (!mb_strlen($this->apiKey) || !$this->getBlog()) throw new InvalidConfigException('The API key or the blog URL is empty.');
-
-    $this->httpClient->on(HTTPClient::EVENT_BEFORE_SEND, function($event) {
-      $this->trigger(static::EVENT_BEFORE_SEND, $event);
-    });
-
-    $this->httpClient->on(HTTPClient::EVENT_AFTER_SEND, function($event) {
-      $this->trigger(static::EVENT_AFTER_SEND, $event);
-    });
   }
 
   /**
