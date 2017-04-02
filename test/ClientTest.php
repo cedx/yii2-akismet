@@ -1,7 +1,8 @@
 <?php
 namespace yii\akismet;
+
 use PHPUnit\Framework\{TestCase};
-use yii\base\InvalidConfigException;
+use yii\base\{InvalidConfigException};
 
 /**
  * Tests the features of the `yii\akismet\Client` class.
