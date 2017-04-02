@@ -1,6 +1,7 @@
 <?php
 namespace yii\akismet;
 use PHPUnit\Framework\{TestCase};
+use yii\base\InvalidConfigException;
 
 /**
  * Tests the features of the `yii\akismet\Client` class.
@@ -36,13 +37,26 @@ class ClientTest extends TestCase {
   }
 
   /**
+   * @test Client::init
+   */
+  public function testInit() {
+    it('should throw an exception if the API key or blog is empty', function() {
+      expect(function() { new Client(); })->to->throw(InvalidConfigException::class);
+    });
+
+    it('should not throw an exception if the API key and blog are not empty', function() {
+      expect(function() { new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => 'FooBar']); })->to->not->throw;
+    });
+  }
+
+  /**
    * @test Client::jsonSerialize
    */
   public function testJsonSerialize() {
     it('should return the right values for an incorrectly configured client', function() {
-      $data = (new Client(['apiKey' => '0123456789-ABCDEF', 'userAgent' => 'FooBar/6.6.6']))->jsonSerialize();
+      $data = (new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => 'FooBar', 'userAgent' => 'FooBar/6.6.6']))->jsonSerialize();
       expect($data->apiKey)->to->equal('0123456789-ABCDEF');
-      expect($data->blog)->to->be->null;
+      expect($data->blog)->to->equal(Blog::class);
       expect($data->isTest)->to->be->false;
       expect($data->userAgent)->to->equal('FooBar/6.6.6');
     });
