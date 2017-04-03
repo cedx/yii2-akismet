@@ -199,7 +199,7 @@ class Client extends Component implements \JsonSerializable {
     }
 
     catch (\Throwable $e) {
-      throw new ServerErrorHttpException('An error occurred while querying the end point.');
+      throw new ServerErrorHttpException($e->getMessage());
     }
   }
 }
