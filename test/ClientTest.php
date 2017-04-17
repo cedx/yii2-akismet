@@ -81,7 +81,7 @@ class ClientTest extends TestCase {
         expect(true)->to->be->true;
       }
 
-      catch(\Throwable $e) {
+      catch (\Throwable $e) {
         fail($e->getMessage());
       }
     });
@@ -97,7 +97,7 @@ class ClientTest extends TestCase {
         expect(true)->to->be->true;
       }
 
-      catch(\Throwable $e) {
+      catch (\Throwable $e) {
         fail($e->getMessage());
       }
     });
