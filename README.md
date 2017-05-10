@@ -25,10 +25,12 @@ $ composer require cedx/yii2-akismet
 In your application configuration file, you can use the following component:
 
 ```php
+use yii\akismet\{Client};
+
 return [
   'components' => [
     'akismet' => [
-      'class' => 'yii\akismet\Client',
+      'class' => Client::class,
       'apiKey' => 'YourAPIKey',
       'blog' => 'http://your.blog.url'
     ]
@@ -43,7 +45,7 @@ Once the `yii\akismet\Client` component initialized with your credentials, you c
 
 ```php
 try {
-  $client = \Yii::$app->get('akismet');
+  $client = \Yii::$app->akismet;
   echo $client->verifyKey() ? 'Your API key is valid.' : 'Your API key is invalid.';
 }
 
