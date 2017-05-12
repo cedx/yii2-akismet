@@ -146,8 +146,10 @@ class ClientTest extends TestCase {
       'isTest' => true
     ]);
 
-    $this->ham = new Comment([
-      'author' => new Author([
+    $this->ham = \Yii::createObject([
+      'class' => Comment::class,
+      'author' => \Yii::createObject([
+        'class' => Author::class,
         'ipAddress' => '192.168.0.1',
         'name' => 'Akismet for PHP',
         'role' => 'administrator',
@@ -159,8 +161,10 @@ class ClientTest extends TestCase {
       'type' => 'comment'
     ]);
 
-    $this->spam = new Comment([
-      'author' => new Author([
+    $this->spam = \Yii::createObject([
+      'class' => Comment::class,
+      'author' => \Yii::createObject([
+        'class' => Author::class,
         'ipAddress' => '127.0.0.1',
         'name' => 'viagra-test-123',
         'userAgent' => 'Spam Bot/6.6.6'

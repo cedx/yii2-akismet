@@ -72,8 +72,10 @@ class Client extends Component implements \JsonSerializable {
    * @param array $config Name-value pairs that will be used to initialize the object properties.
    */
   public function __construct(array $config = []) {
-    $this->httpClient = new HTTPClient(['transport' => CurlTransport::class]);
-    $this->userAgent = sprintf('PHP/%s | Yii2-Akismet/%s', preg_replace('/^(\d+(\.\d+){2}).*/', '$1', PHP_VERSION), static::VERSION);
+    $this->httpClient = \Yii::createObject([
+      'class' => HTTPClient::class,
+      'transport' => CurlTransport::class
+    ]);
 
     $this->httpClient->on(HTTPClient::EVENT_BEFORE_SEND, function($event) {
       $this->trigger(static::EVENT_BEFORE_SEND, $event);
@@ -83,6 +85,7 @@ class Client extends Component implements \JsonSerializable {
       $this->trigger(static::EVENT_AFTER_SEND, $event);
     });
 
+    $this->userAgent = sprintf('PHP/%s | Yii2-Akismet/%s', preg_replace('/^(\d+(\.\d+){2}).*/', '$1', PHP_VERSION), static::VERSION);
     parent::__construct($config);
   }
 
@@ -144,7 +147,7 @@ class Client extends Component implements \JsonSerializable {
    */
   public function setBlog($value): self {
     if ($value instanceof Blog) $this->blog = $value;
-    else if (is_string($value)) $this->blog = new Blog(['url' => $value]);
+    else if (is_string($value)) $this->blog = \Yii::createObject(['class' => Blog::class, 'url' => $value]);
     else $this->blog = null;
 
     return $this;

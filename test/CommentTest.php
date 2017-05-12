@@ -17,7 +17,7 @@ class CommentTest extends TestCase {
 
     it('should return a non-empty map with a initialized instance', function() {
       $data = (new Comment([
-        'author' => new Author(['name' => 'Cédric Belin']),
+        'author' => \Yii::createObject(['class' => Author::class, 'name' => 'Cédric Belin']),
         'content' => 'A user comment.',
         'referrer' => 'https://belin.io',
         'type' => CommentType::PINGBACK
@@ -35,7 +35,7 @@ class CommentTest extends TestCase {
    */
   public function testToString() {
     $comment = (string) new Comment([
-      'author' => new Author(['name' => 'Cédric Belin']),
+      'author' => \Yii::createObject(['class' => Author::class, 'name' => 'Cédric Belin']),
       'content' => 'A user comment.',
       'referrer' => 'https://belin.io',
       'type' => CommentType::PINGBACK
