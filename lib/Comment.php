@@ -59,7 +59,7 @@ class Comment extends Model implements \JsonSerializable {
    * @return \stdClass The map in JSON format corresponding to this object.
    */
   public function jsonSerialize(): \stdClass {
-    $map = $this->author ? $this->author->jsonSerialize() : new \stdClass();
+    $map = $this->author ? $this->author->jsonSerialize() : new \stdClass;
     if (mb_strlen($this->content)) $map->comment_content = $this->content;
     if ($this->date) $map->comment_date_gmt = $this->date->format('c');
     if ($this->postModified) $map->comment_post_modified_gmt = $this->postModified->format('c');

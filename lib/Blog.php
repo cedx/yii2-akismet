@@ -38,7 +38,7 @@ class Blog extends Model implements \JsonSerializable {
    * @return \stdClass The map in JSON format corresponding to this object.
    */
   public function jsonSerialize(): \stdClass {
-    $map = new \stdClass();
+    $map = new \stdClass;
     if (mb_strlen($this->url)) $map->blog = $this->url;
     if (mb_strlen($this->charset)) $map->blog_charset = $this->charset;
     if (count($this->languages)) $map->blog_lang = implode(',', $this->languages);

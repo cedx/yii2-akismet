@@ -53,7 +53,7 @@ class Author extends Model implements \JsonSerializable {
    * @return \stdClass The map in JSON format corresponding to this object.
    */
   public function jsonSerialize(): \stdClass {
-    $map = new \stdClass();
+    $map = new \stdClass;
     if (mb_strlen($this->name)) $map->comment_author = $this->name;
     if (mb_strlen($this->email)) $map->comment_author_email = $this->email;
     if (mb_strlen($this->url)) $map->comment_author_url = $this->url;

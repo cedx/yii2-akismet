@@ -42,7 +42,7 @@ class ClientTest extends TestCase {
    */
   public function testInit() {
     it('should throw an exception if the API key or blog is empty', function() {
-      expect(function() { new Client(); })->to->throw(InvalidConfigException::class);
+      expect(function() { new Client; })->to->throw(InvalidConfigException::class);
     });
 
     it('should not throw an exception if the API key and blog are not empty', function() {
