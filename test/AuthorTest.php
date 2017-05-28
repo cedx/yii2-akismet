@@ -1,5 +1,7 @@
 <?php
 namespace yii\akismet;
+
+use function PHPUnit\Expect\{expect, it};
 use PHPUnit\Framework\{TestCase};
 
 /**
