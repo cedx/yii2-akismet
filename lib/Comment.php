@@ -61,7 +61,7 @@ class Comment extends Model implements \JsonSerializable {
    * @param Validator $validator The validator instance.
    * @throws InvalidConfigException The "className" parameter is empty or invalid.
    */
-  public function isIntanceOf(string $attribute, array $params, Validator $validator) {
+  public function isInstanceOf(string $attribute, array $params, Validator $validator) {
     if (!isset($params['className']) || !class_exists($params['className']) && !interface_exists($params['className']))
       throw new InvalidConfigException('The "className" parameter is empty or invalid.');
 
@@ -92,8 +92,8 @@ class Comment extends Model implements \JsonSerializable {
     return [
       [['content', 'permalink', 'referrer', 'type'], 'trim'],
       [['author'], 'required'],
-      [['author'], 'isIntanceOf', 'className' => Author::class],
-      [['date', 'postModified'], 'isIntanceOf', 'className' => \DateTime::class],
+      [['author'], 'isInstanceOf', 'className' => Author::class],
+      [['date', 'postModified'], 'isInstanceOf', 'className' => \DateTime::class],
       [['permalink', 'referrer'], 'url', 'defaultScheme' => 'http']
     ];
   }
