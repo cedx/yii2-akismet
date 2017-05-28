@@ -1,9 +1,9 @@
 <?php
 namespace yii\akismet;
 
-use yii\base\{Model};
-use yii\cedx\validators\{InstanceOfValidator};
+use yii\base\{InvalidConfigException, Model};
 use yii\helpers\{Json};
+use yii\validators\{Validator};
 
 /**
  * Represents a comment submitted by an author.
@@ -55,6 +55,21 @@ class Comment extends Model implements \JsonSerializable {
   }
 
   /**
+   * Checks that a given model attribute is an instance of the specified class.
+   * @param string $attribute The name of the attribute to be checked.
+   * @param array $params The parameters of the validation rule.
+   * @param Validator $validator The validator instance.
+   * @throws InvalidConfigException The "className" parameter is empty or invalid.
+   */
+  public function isIntanceOf(string $attribute, array $params, Validator $validator) {
+    if (!isset($params['className']) || !class_exists($params['className']) && !interface_exists($params['className']))
+      throw new InvalidConfigException('The "className" parameter is empty or invalid.');
+
+    if (!$this->$attribute instanceof $params['className'])
+      $validator->addError($this, $attribute, "The '{attribute}' attribute has not the required type: {$params['className']}");
+  }
+
+  /**
    * Converts this object to a map in JSON format.
    * @return \stdClass The map in JSON format corresponding to this object.
    */
@@ -77,8 +92,8 @@ class Comment extends Model implements \JsonSerializable {
     return [
       [['content', 'permalink', 'referrer', 'type'], 'trim'],
       [['author'], 'required'],
-      [['author'], InstanceOfValidator::class, 'className' => Author::class],
-      [['date', 'postModified'], InstanceOfValidator::class, 'className' => \DateTime::class],
+      [['author'], 'isIntanceOf', 'className' => Author::class],
+      [['date', 'postModified'], 'isIntanceOf', 'className' => \DateTime::class],
       [['permalink', 'referrer'], 'url', 'defaultScheme' => 'http']
     ];
   }

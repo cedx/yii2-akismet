@@ -1,6 +1,9 @@
 # Changelog
 This file contains highlights of what changes on each version of the [Akismet for Yii](https://github.com/cedx/yii2-akismet) library.
 
+## Version 4.1.0
+- Removed the dependency on the `cedx/yii2-core` module.
+
 ## Version 4.0.0
 - Breaking change: removed the `RequestEvent` and `RequestResponse` classes.
 - Breaking change: renamed the `Client::EVENT_REQUEST` to `EVENT_BEFORE_SEND`.
