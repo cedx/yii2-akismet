@@ -131,6 +131,7 @@ $ composer test
 ```
 
 ## See also
+- [API reference](https://cedx.github.io/yii2-akismet)
 - [Code coverage](https://coveralls.io/github/cedx/yii2-akismet)
 - [Continuous integration](https://travis-ci.org/cedx/yii2-akismet)
 
