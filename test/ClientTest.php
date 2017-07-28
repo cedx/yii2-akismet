@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace yii\akismet;
 
 use function PHPUnit\Expect\{expect, it};
