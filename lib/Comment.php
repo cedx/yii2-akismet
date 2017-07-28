@@ -56,6 +56,32 @@ class Comment extends Model implements \JsonSerializable {
   }
 
   /**
+   * Creates a new comment from the specified JSON map.
+   * @param mixed $map A JSON map representing a comment.
+   * @return Comment The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
+   */
+  public static function fromJSON($map) {
+    if (is_array($map)) $map = (object) $map;
+    else if (!is_object($map)) return null;
+
+    $keys = array_keys(get_object_vars($map));
+    $hasAuthor = count(array_filter($keys, function(string $key): bool {
+      return preg_match('/^comment_author/', $key) || preg_match('/^user/', $key);
+    })) > 0;
+
+    return \Yii::createObject([
+      'class' => static::class,
+      'author' => $hasAuthor ? Author::fromJSON($map) : null,
+      'content' => isset($map->comment_content) && is_string($map->comment_content) ? $map->comment_content : '',
+      'date' => isset($map->comment_date_gmt) && is_string($map->comment_date_gmt) ? $map->comment_date_gmt : null,
+      'permalink' => isset($map->permalink) && is_string($map->permalink) ? $map->permalink : '',
+      'postModified' => isset($map->comment_post_modified_gmt) && is_string($map->comment_post_modified_gmt) ? $map->comment_post_modified_gmt : null,
+      'referrer' => isset($map->referrer) && is_string($map->referrer) ? $map->referrer : '',
+      'type' => isset($map->comment_type) && is_string($map->comment_type) ? $map->comment_type : ''
+    ]);
+  }
+
+  /**
    * Checks that a given model attribute is an instance of the specified class.
    * @param string $attribute The name of the attribute to be checked.
    * @param array $params The parameters of the validation rule.

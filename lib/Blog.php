@@ -35,6 +35,27 @@ class Blog extends Model implements \JsonSerializable {
   }
 
   /**
+   * Creates a new blog from the specified JSON map.
+   * @param mixed $map A JSON map representing a blog.
+   * @return Blog The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
+   */
+  public static function fromJSON($map) {
+    if (is_array($map)) $map = (object) $map;
+    else if (!is_object($map)) return null;
+
+    $transform = function(string $languages): array {
+      return array_values(array_filter(array_map('trim', explode(',', $languages))));
+    };
+
+    return \Yii::createObject([
+      'class' => static::class,
+      'charset' => isset($map->blog_charset) && is_string($map->blog_charset) ? $map->blog_charset : '',
+      'languages' => isset($map->blog_lang) && is_string($map->blog_lang) ? $transform($map->blog_lang) : [],
+      'url' => isset($map->blog) && is_string($map->blog) ? $map->blog : ''
+    ]);
+  }
+
+  /**
    * Converts this object to a map in JSON format.
    * @return \stdClass The map in JSON format corresponding to this object.
    */

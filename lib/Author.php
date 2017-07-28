@@ -50,6 +50,24 @@ class Author extends Model implements \JsonSerializable {
   }
 
   /**
+   * Creates a new author from the specified JSON map.
+   * @param mixed $map A JSON map representing an author.
+   * @return Author The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
+   */
+  public static function fromJSON($map) {
+    if (is_array($map)) $map = (object) $map;
+    return !is_object($map) ? null : \Yii::createObject([
+      'class' => static::class,
+      'email' => isset($map->comment_author_email) && is_string($map->comment_author_email) ? $map->comment_author_email : '',
+      'ipAddress' => isset($map->user_ip) && is_string($map->user_ip) ? $map->user_ip : '',
+      'name' => isset($map->comment_author) && is_string($map->comment_author) ? $map->comment_author : '',
+      'role' => isset($map->user_role) && is_string($map->user_role) ? $map->user_role : '',
+      'url' => isset($map->comment_author_url) && is_string($map->comment_author_url) ? $map->comment_author_url : '',
+      'userAgent' => isset($map->user_agent) && is_string($map->user_agent) ? $map->user_agent : ''
+    ]);
+  }
+
+  /**
    * Converts this object to a map in JSON format.
    * @return \stdClass The map in JSON format corresponding to this object.
    */
