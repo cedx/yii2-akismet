@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace yii\akismet;
 
-use function PHPUnit\Expect\{expect, it};
+use function PHPUnit\Expect\{expect, fail, it};
 use PHPUnit\Framework\{TestCase};
 use yii\base\{InvalidConfigException};
 

@@ -11,6 +11,46 @@ use PHPUnit\Framework\{TestCase};
 class CommentTest extends TestCase {
 
   /**
+   * @test Comment::fromJSON
+   */
+  public function testFromJSON() {
+    it('should return a null reference with a non-object value', function() {
+      expect(Comment::fromJSON('foo'))->to->be->null;
+    });
+
+    it('should return an empty instance with an empty map', function() {
+      $comment = Comment::fromJSON([]);
+      expect($comment->author)->to->be->null;
+      expect($comment->content)->to->be->empty;
+      expect($comment->date)->to->be->null;
+      expect($comment->referrer)->to->be->empty;
+      expect($comment->type)->to->be->empty;
+    });
+
+    it('should return an initialized instance with a non-empty map', function() {
+      $comment = Comment::fromJSON([
+        'comment_author' => 'Cédric Belin',
+        'comment_content' => 'A user comment.',
+        'comment_date_gmt' => '2000-01-01T00:00:00.000Z',
+        'comment_type' => 'trackback',
+        'referrer' => 'https://belin.io'
+      ]);
+
+      $author = $comment->author;
+      expect($author)->to->be->instanceOf(Author::class);
+      expect($author->name)->to->equal('Cédric Belin');
+
+      $date = $comment->date;
+      expect($date)->to->be->instanceOf(\DateTime::class);
+      expect($date->format('Y'))->to->equal(2000);
+
+      expect($comment->content)->to->equal('A user comment.');
+      expect($comment->referrer)->to->equal('https://belin.io');
+      expect($comment->type)->to->equal(CommentType::TRACKBACK);
+    });
+  }
+
+  /**
    * @test Comment::jsonSerialize
    */
   public function testJsonSerialize() {

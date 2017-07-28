@@ -73,9 +73,9 @@ class Comment extends Model implements \JsonSerializable {
       'class' => static::class,
       'author' => $hasAuthor ? Author::fromJSON($map) : null,
       'content' => isset($map->comment_content) && is_string($map->comment_content) ? $map->comment_content : '',
-      'date' => isset($map->comment_date_gmt) && is_string($map->comment_date_gmt) ? $map->comment_date_gmt : null,
+      'date' => isset($map->comment_date_gmt) && is_string($map->comment_date_gmt) ? new \DateTime($map->comment_date_gmt) : null,
       'permalink' => isset($map->permalink) && is_string($map->permalink) ? $map->permalink : '',
-      'postModified' => isset($map->comment_post_modified_gmt) && is_string($map->comment_post_modified_gmt) ? $map->comment_post_modified_gmt : null,
+      'postModified' => isset($map->comment_post_modified_gmt) && is_string($map->comment_post_modified_gmt) ? new \DateTime($map->comment_post_modified_gmt) : null,
       'referrer' => isset($map->referrer) && is_string($map->referrer) ? $map->referrer : '',
       'type' => isset($map->comment_type) && is_string($map->comment_type) ? $map->comment_type : ''
     ]);

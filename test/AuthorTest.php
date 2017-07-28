@@ -11,6 +11,31 @@ use PHPUnit\Framework\{TestCase};
 class AuthorTest extends TestCase {
 
   /**
+   * @test Author::fromJSON
+   */
+  public function testFromJSON() {
+    it('should return a null reference with a non-object value', function() {
+      expect(Author::fromJSON('foo'))->to->be->null;
+    });
+
+    it('should return an empty instance with an empty map', function() {
+      $author = Author::fromJSON([]);
+      expect($author->email)->to->be->empty;
+      expect($author->url)->to->be->empty;
+    });
+
+    it('should return an initialized instance with a non-empty map', function() {
+      $author = Author::fromJSON([
+        'comment_author_email' => 'cedric@belin.io',
+        'comment_author_url' => 'https://belin.io'
+      ]);
+
+      expect($author->email)->to->equal('cedric@belin.io');
+      expect($author->url)->to->equal('https://belin.io');
+    });
+  }
+
+  /**
    * @test Author::jsonSerialize
    */
   public function testJsonSerialize() {
