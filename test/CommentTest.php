@@ -4,6 +4,8 @@ namespace yii\akismet;
 
 use function PHPUnit\Expect\{expect, it};
 use PHPUnit\Framework\{TestCase};
+use yii\base\{InvalidConfigException};
+use yii\validators\{Validator};
 
 /**
  * Tests the features of the `yii\akismet\Comment` class.
@@ -47,6 +49,32 @@ class CommentTest extends TestCase {
       expect($comment->content)->to->equal('A user comment.');
       expect($comment->referrer)->to->equal('https://belin.io');
       expect($comment->type)->to->equal(CommentType::TRACKBACK);
+    });
+  }
+
+  /**
+   * @test Comment::isInstanceOf
+   */
+  public function testIsInstanceOf() {
+    it('should throw an exception if the `className` parameter is missing', function() {
+      expect(function() { (new Comment)->isInstanceOf('author', [], new Validator); })->to->throw(InvalidConfigException::class);
+    });
+
+    it('should throw an exception if the `className` parameter is an unknown class or interface', function() {
+      expect(function() { (new Comment)->isInstanceOf('author', ['className' => ''], new Validator); })->to->throw(InvalidConfigException::class);
+      expect(function() { (new Comment)->isInstanceOf('author', ['className' => 'Foo\Bar'], new Validator); })->to->throw(InvalidConfigException::class);
+    });
+
+    it('should add an error to the validator if the checked attribute is not an instance of the specified class or interface', function() {
+      $comment = new Comment(['author' => \Yii::createObject(Comment::class)]);
+      $comment->isInstanceOf('author', ['className' => Author::class], new Validator);
+      expect($comment->hasErrors())->to->be->true;
+    });
+
+    it('should not add any error to the validator if the checked attribute is an instance of the specified class or interface', function() {
+      $comment = new Comment(['author' => \Yii::createObject(Author::class)]);
+      $comment->isInstanceOf('author', ['className' => Author::class], new Validator);
+      expect($comment->hasErrors())->to->be->false;
     });
   }
 
