@@ -2,7 +2,7 @@
 This file contains highlights of what changes on each version of the [Akismet for Yii](https://github.com/cedx/yii2-akismet) library.
 
 ## Version 4.2.0
-- Added a `fromJson` static method to the data classes.
+- Added a `fromJson()` static method to the data classes.
 - Added new unit tests.
 - Enabled the strict typing.
 - Replaced [phpDocumentor](https://www.phpdoc.org) documentation generator by [ApiGen](https://github.com/ApiGen/ApiGen).
