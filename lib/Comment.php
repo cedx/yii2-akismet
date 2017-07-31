@@ -65,12 +65,11 @@ class Comment extends Model implements \JsonSerializable {
     else if (!is_object($map)) return null;
 
     $keys = array_keys(get_object_vars($map));
-    $hasAuthor = count(array_filter($keys, function(string $key): bool {
+    $hasAuthor = count(array_filter($keys, function($key) {
       return preg_match('/^comment_author/', $key) || preg_match('/^user/', $key);
     })) > 0;
 
-    return \Yii::createObject([
-      'class' => static::class,
+    return new static([
       'author' => $hasAuthor ? Author::fromJson($map) : null,
       'content' => isset($map->comment_content) && is_string($map->comment_content) ? $map->comment_content : '',
       'date' => isset($map->comment_date_gmt) && is_string($map->comment_date_gmt) ? new \DateTime($map->comment_date_gmt) : null,

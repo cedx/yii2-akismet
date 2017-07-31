@@ -43,12 +43,11 @@ class Blog extends Model implements \JsonSerializable {
     if (is_array($map)) $map = (object) $map;
     else if (!is_object($map)) return null;
 
-    $transform = function(string $languages): array {
+    $transform = function($languages) {
       return array_values(array_filter(array_map('trim', explode(',', $languages))));
     };
 
-    return \Yii::createObject([
-      'class' => static::class,
+    return new static([
       'charset' => isset($map->blog_charset) && is_string($map->blog_charset) ? $map->blog_charset : '',
       'languages' => isset($map->blog_lang) && is_string($map->blog_lang) ? $transform($map->blog_lang) : [],
       'url' => isset($map->blog) && is_string($map->blog) ? $map->blog : ''

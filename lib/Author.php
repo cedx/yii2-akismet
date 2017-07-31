@@ -56,8 +56,7 @@ class Author extends Model implements \JsonSerializable {
    */
   public static function fromJson($map) {
     if (is_array($map)) $map = (object) $map;
-    return !is_object($map) ? null : \Yii::createObject([
-      'class' => static::class,
+    return !is_object($map) ? null : new static([
       'email' => isset($map->comment_author_email) && is_string($map->comment_author_email) ? $map->comment_author_email : '',
       'ipAddress' => isset($map->user_ip) && is_string($map->user_ip) ? $map->user_ip : '',
       'name' => isset($map->comment_author) && is_string($map->comment_author) ? $map->comment_author : '',
