@@ -66,7 +66,7 @@ class CommentTest extends TestCase {
     });
 
     it('should add an error to the validator if the checked attribute is not an instance of the specified class or interface', function() {
-      $comment = new Comment(['author' => \Yii::createObject(Author::class)]);
+      $comment = new Comment(['author' => \Yii::createObject(Blog::class)]);
       $comment->isInstanceOf('author', ['className' => Author::class], new Validator);
       expect($comment->hasErrors())->to->be->true;
     });
