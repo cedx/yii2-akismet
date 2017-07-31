@@ -39,7 +39,7 @@ class Blog extends Model implements \JsonSerializable {
    * @param mixed $map A JSON map representing a blog.
    * @return Blog The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
    */
-  public static function fromJSON($map) {
+  public static function fromJson($map) {
     if (is_array($map)) $map = (object) $map;
     else if (!is_object($map)) return null;
 

@@ -60,7 +60,7 @@ class Comment extends Model implements \JsonSerializable {
    * @param mixed $map A JSON map representing a comment.
    * @return Comment The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
    */
-  public static function fromJSON($map) {
+  public static function fromJson($map) {
     if (is_array($map)) $map = (object) $map;
     else if (!is_object($map)) return null;
 
@@ -71,7 +71,7 @@ class Comment extends Model implements \JsonSerializable {
 
     return \Yii::createObject([
       'class' => static::class,
-      'author' => $hasAuthor ? Author::fromJSON($map) : null,
+      'author' => $hasAuthor ? Author::fromJson($map) : null,
       'content' => isset($map->comment_content) && is_string($map->comment_content) ? $map->comment_content : '',
       'date' => isset($map->comment_date_gmt) && is_string($map->comment_date_gmt) ? new \DateTime($map->comment_date_gmt) : null,
       'permalink' => isset($map->permalink) && is_string($map->permalink) ? $map->permalink : '',

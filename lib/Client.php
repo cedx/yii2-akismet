@@ -4,7 +4,7 @@ namespace yii\akismet;
 
 use yii\base\{Component, InvalidConfigException, InvalidValueException};
 use yii\helpers\{Json};
-use yii\httpclient\{Client as HTTPClient, CurlTransport, RequestEvent};
+use yii\httpclient\{Client as HttpClient, CurlTransport};
 use yii\web\{ServerErrorHttpException};
 
 /**
@@ -26,12 +26,12 @@ class Client extends Component implements \JsonSerializable {
   /**
    * @var string An event that is triggered when a response is received from the remote service.
    */
-  const EVENT_AFTER_SEND = HTTPClient::EVENT_AFTER_SEND;
+  const EVENT_AFTER_SEND = HttpClient::EVENT_AFTER_SEND;
 
   /**
    * @var string An event that is triggered when a request is made to the remote service.
    */
-  const EVENT_BEFORE_SEND = HTTPClient::EVENT_BEFORE_SEND;
+  const EVENT_BEFORE_SEND = HttpClient::EVENT_BEFORE_SEND;
 
   /**
    * @var string The version number of this package.
@@ -64,7 +64,7 @@ class Client extends Component implements \JsonSerializable {
   private $blog;
 
   /**
-   * @var HTTPClient The underlying HTTP client.
+   * @var HttpClient The underlying HTTP client.
    */
   private $httpClient;
 
@@ -74,15 +74,15 @@ class Client extends Component implements \JsonSerializable {
    */
   public function __construct(array $config = []) {
     $this->httpClient = \Yii::createObject([
-      'class' => HTTPClient::class,
+      'class' => HttpClient::class,
       'transport' => CurlTransport::class
     ]);
 
-    $this->httpClient->on(HTTPClient::EVENT_BEFORE_SEND, function(RequestEvent $event) {
+    $this->httpClient->on(HttpClient::EVENT_BEFORE_SEND, function($event) {
       $this->trigger(static::EVENT_BEFORE_SEND, $event);
     });
 
-    $this->httpClient->on(HTTPClient::EVENT_AFTER_SEND, function(RequestEvent $event) {
+    $this->httpClient->on(HttpClient::EVENT_AFTER_SEND, function($event) {
       $this->trigger(static::EVENT_AFTER_SEND, $event);
     });
 

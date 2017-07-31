@@ -11,22 +11,22 @@ use PHPUnit\Framework\{TestCase};
 class BlogTest extends TestCase {
 
   /**
-   * @test Blog::fromJSON
+   * @test Blog::fromJson
    */
-  public function testFromJSON() {
+  public function testFromJson() {
     it('should return a null reference with a non-object value', function() {
-      expect(Blog::fromJSON('foo'))->to->be->null;
+      expect(Blog::fromJson('foo'))->to->be->null;
     });
 
     it('should return an empty instance with an empty map', function() {
-      $blog = Blog::fromJSON([]);
+      $blog = Blog::fromJson([]);
       expect($blog->charset)->to->be->empty;
       expect($blog->languages)->to->be->empty;
       expect($blog->url)->to->be->empty;
     });
 
     it('should return an initialized instance with a non-empty map', function() {
-      $blog = Blog::fromJSON([
+      $blog = Blog::fromJson([
         'blog' => 'https://github.com/cedx/akismet.php',
         'blog_charset' => 'UTF-8',
         'blog_lang' => 'en, fr'

@@ -54,7 +54,7 @@ class Author extends Model implements \JsonSerializable {
    * @param mixed $map A JSON map representing an author.
    * @return Author The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
    */
-  public static function fromJSON($map) {
+  public static function fromJson($map) {
     if (is_array($map)) $map = (object) $map;
     return !is_object($map) ? null : \Yii::createObject([
       'class' => static::class,
