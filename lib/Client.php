@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace yii\akismet;
 
 use yii\base\{Component, InvalidConfigException, InvalidValueException};
-use yii\helpers\{Json};
+use yii\helpers\{ArrayHelper, Json};
 use yii\httpclient\{Client as HttpClient, CurlTransport};
 use yii\web\{ServerErrorHttpException};
 
@@ -36,7 +36,7 @@ class Client extends Component implements \JsonSerializable {
   /**
    * @var string The version number of this package.
    */
-  const VERSION = '4.2.0';
+  const VERSION = '5.0.0';
 
   /**
    * @var string The Akismet API key.
@@ -107,7 +107,7 @@ class Client extends Component implements \JsonSerializable {
   public function checkComment(Comment $comment): bool {
     $serviceURL = parse_url($this->endPoint);
     $endPoint = sprintf('%s://%s.%s/1.1/comment-check', $serviceURL['scheme'], $this->apiKey, $serviceURL['host']);
-    return $this->fetch($endPoint, get_object_vars($comment->jsonSerialize())) == 'true';
+    return $this->fetch($endPoint, \Yii::getObjectVars($comment->jsonSerialize())) == 'true';
   }
 
   /**
@@ -161,7 +161,7 @@ class Client extends Component implements \JsonSerializable {
   public function submitHam(Comment $comment) {
     $serviceURL = parse_url($this->endPoint);
     $endPoint = sprintf('%s://%s.%s/1.1/submit-ham', $serviceURL['scheme'], $this->apiKey, $serviceURL['host']);
-    $this->fetch($endPoint, get_object_vars($comment->jsonSerialize()));
+    $this->fetch($endPoint, \Yii::getObjectVars($comment->jsonSerialize()));
   }
 
   /**
@@ -171,7 +171,7 @@ class Client extends Component implements \JsonSerializable {
   public function submitSpam(Comment $comment) {
     $serviceURL = parse_url($this->endPoint);
     $endPoint = sprintf('%s://%s.%s/1.1/submit-spam', $serviceURL['scheme'], $this->apiKey, $serviceURL['host']);
-    $this->fetch($endPoint, get_object_vars($comment->jsonSerialize()));
+    $this->fetch($endPoint, \Yii::getObjectVars($comment->jsonSerialize()));
   }
 
   /**
@@ -193,7 +193,7 @@ class Client extends Component implements \JsonSerializable {
    */
   private function fetch(string $endPoint, array $fields = []): string {
     try {
-      $bodyFields = array_merge(get_object_vars($this->getBlog()->jsonSerialize()), $fields);
+      $bodyFields = ArrayHelper::merge(\Yii::getObjectVars($this->getBlog()->jsonSerialize()), $fields);
       if ($this->isTest) $bodyFields['is_test'] = '1';
 
       $response = $this->httpClient->post($endPoint, $bodyFields, ['User-Agent' => $this->userAgent])->send();
