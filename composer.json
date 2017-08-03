@@ -27,16 +27,17 @@
     "php": ">=7.0.0",
     "ext-curl": "*",
     "ext-json": "*",
-    "psr/http-message": "^1.0.1",
+    "ext-pcre": "*",
+    "guzzlehttp/psr7": "^1.4.2",
     "yiisoft/yii2": "^2.0.12",
     "yiisoft/yii2-httpclient": "^2.0.4"
   },
   "require-dev": {
-    "apigen/apigen": "^5.0.0-RC3",
+    "apigen/apigen": "^5.0.0-RC4",
     "cedx/coveralls": "^3.0.0",
     "cedx/phpunit-expect": "^0.4.0",
     "phing/phing": "^2.16.0",
-    "roave/better-reflection": "@dev"
+    "roave/better-reflection": "dev-master#a83ef24"
   },
   "scripts": {
     "coverage": "coveralls var/coverage.xml",
