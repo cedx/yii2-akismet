@@ -1,6 +1,11 @@
 # Changelog
 This file contains highlights of what changes on each version of the [Akismet for Yii](https://github.com/cedx/yii2-akismet) library.
 
+## Version 5.0.0
+- Breaking change: properties representing URLs as strings now use instances of the [`Psr\Http\Message\UriInterface`](http://www.php-fig.org/psr/psr-7/#35-psrhttpmessageuriinterface) interface.
+- Added new unit tests.
+- The `$date` and `$postModified` properties of the `Comment` class now accept strings and timestamps.
+
 ## Version 4.2.0
 - Added a `fromJson()` static method to the data classes.
 - Added new unit tests.
