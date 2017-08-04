@@ -79,13 +79,15 @@ class ClientTest extends TestCase {
    */
   public function testSetEndPoint() {
     it('should return an instance of `UriInterface` for strings', function() {
-      $client = (new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => 'FooBar', 'endPoint' => 'https://github.com/cedx/yii2-akismet']));
+      $client = (new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => 'FooBar']));
+      $client->endPoint = 'https://github.com/cedx/yii2-akismet';
       expect($client->endPoint)->to->be->instanceOf(UriInterface::class);
       expect((string) $client->endPoint)->to->equal('https://github.com/cedx/yii2-akismet');
     });
 
     it('should return a `null` reference for unsupported values', function() {
-      $client = (new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => 'FooBar', 'endPoint' => 123]));
+      $client = (new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => 'FooBar']));
+      $client->endPoint = 123;
       expect($client->endPoint)->to->be->null;
     });
   }
