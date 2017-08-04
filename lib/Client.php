@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace yii\akismet;
 
+use GuzzleHttp\Psr7\{Uri};
+use Psr\Http\Message\{UriInterface};
 use yii\base\{Component, InvalidConfigException, InvalidValueException};
 use yii\helpers\{ArrayHelper, Json};
 use yii\httpclient\{Client as HttpClient, CurlTransport};
@@ -10,6 +12,7 @@ use yii\web\{ServerErrorHttpException};
 /**
  * Submits comments to the [Akismet](https://akismet.com) service.
  * @property Blog $blog The front page or home URL.
+ * @property UriInterface $endPoint The URL of the API end point.
  */
 class Client extends Component implements \JsonSerializable {
 
@@ -44,11 +47,6 @@ class Client extends Component implements \JsonSerializable {
   public $apiKey = '';
 
   /**
-   * @var string The URL of the API end point.
-   */
-  public $endPoint = self::DEFAULT_ENDPOINT;
-
-  /**
    * @var bool Value indicating whether the client operates in test mode.
    */
   public $isTest = false;
@@ -56,12 +54,17 @@ class Client extends Component implements \JsonSerializable {
   /**
    * @var string The user agent string to use when making requests.
    */
-  public $userAgent;
+  public $userAgent = '';
 
   /**
    * @var Blog The front page or home URL.
    */
   private $blog;
+
+  /**
+   * @var Uri The URL of the API end point.
+   */
+  private $endPoint;
 
   /**
    * @var HttpClient The underlying HTTP client.
@@ -86,7 +89,6 @@ class Client extends Component implements \JsonSerializable {
       $this->trigger(static::EVENT_AFTER_SEND, $event);
     });
 
-    $this->userAgent = sprintf('PHP/%s | Yii2-Akismet/%s', preg_replace('/^(\d+(\.\d+){2}).*/', '$1', PHP_VERSION), static::VERSION);
     parent::__construct($config);
   }
 
@@ -105,8 +107,8 @@ class Client extends Component implements \JsonSerializable {
    * @return bool A boolean value indicating whether it is spam.
    */
   public function checkComment(Comment $comment): bool {
-    $serviceURL = parse_url($this->endPoint);
-    $endPoint = sprintf('%s://%s.%s/1.1/comment-check', $serviceURL['scheme'], $this->apiKey, $serviceURL['host']);
+    $serviceUrl = parse_url((string) $this->getEndPoint());
+    $endPoint = "{$serviceUrl['scheme']}://{$this->apiKey}.{$serviceUrl['host']}/1.1/comment-check";
     return $this->fetch($endPoint, \Yii::getObjectVars($comment->jsonSerialize())) == 'true';
   }
 
@@ -119,12 +121,22 @@ class Client extends Component implements \JsonSerializable {
   }
 
   /**
+   * Gets the URL of the API end point.
+   * @return UriInterface The URL of the API end point.
+   */
+  public function getEndPoint() {
+    return $this->endPoint;
+  }
+
+  /**
    * Initializes the object.
    * @throws InvalidConfigException The API key or the blog URL is empty.
    */
   public function init() {
     parent::init();
     if (!mb_strlen($this->apiKey) || !$this->getBlog()) throw new InvalidConfigException('The API key or the blog URL is empty.');
+    if (!$this->getEndPoint()) $this->setEndPoint(static::DEFAULT_ENDPOINT);
+    if (!mb_strlen($this->userAgent)) $this->userAgent = sprintf('PHP/%s | Yii2-Akismet/%s', preg_replace('/^(\d+(\.\d+){2}).*/', '$1', PHP_VERSION), static::VERSION);
   }
 
   /**
@@ -135,7 +147,7 @@ class Client extends Component implements \JsonSerializable {
     return (object) [
       'apiKey' => $this->apiKey,
       'blog' => ($blog = $this->getBlog()) ? get_class($blog) : null,
-      'endPoint' => $this->endPoint,
+      'endPoint' => ($endPoint = $this->getEndPoint()) ? (string) $endPoint : null,
       'isTest' => $this->isTest,
       'userAgent' => $this->userAgent
     ];
@@ -155,12 +167,25 @@ class Client extends Component implements \JsonSerializable {
   }
 
   /**
+   * Sets the URL of the API end point.
+   * @param string|UriInterface $value The new URL of the API end point.
+   * @return Client This instance.
+   */
+  public function setEndPoint($value): self {
+    if ($value instanceof UriInterface) $this->endPoint = $value;
+    else if (is_string($value)) $this->endPoint = new Uri($value);
+    else $this->endPoint = null;
+
+    return $this;
+  }
+
+  /**
    * Submits the specified comment that was incorrectly marked as spam but should not have been.
    * @param Comment $comment The comment to be submitted.
    */
   public function submitHam(Comment $comment) {
-    $serviceURL = parse_url($this->endPoint);
-    $endPoint = sprintf('%s://%s.%s/1.1/submit-ham', $serviceURL['scheme'], $this->apiKey, $serviceURL['host']);
+    $serviceUrl = parse_url((string) $this->getEndPoint());
+    $endPoint = "{$serviceUrl['scheme']}://{$this->apiKey}.{$serviceUrl['host']}/1.1/submit-ham";
     $this->fetch($endPoint, \Yii::getObjectVars($comment->jsonSerialize()));
   }
 
@@ -169,8 +194,8 @@ class Client extends Component implements \JsonSerializable {
    * @param Comment $comment The comment to be submitted.
    */
   public function submitSpam(Comment $comment) {
-    $serviceURL = parse_url($this->endPoint);
-    $endPoint = sprintf('%s://%s.%s/1.1/submit-spam', $serviceURL['scheme'], $this->apiKey, $serviceURL['host']);
+    $serviceUrl = parse_url((string) $this->getEndPoint());
+    $endPoint = "{$serviceUrl['scheme']}://{$this->apiKey}.{$serviceUrl['host']}/1.1/submit-spam";
     $this->fetch($endPoint, \Yii::getObjectVars($comment->jsonSerialize()));
   }
 
@@ -179,7 +204,8 @@ class Client extends Component implements \JsonSerializable {
    * @return bool A boolean value indicating whether it is a valid API key.
    */
   public function verifyKey(): bool {
-    return $this->fetch("{$this->endPoint}/1.1/verify-key", ['key' => $this->apiKey]) == 'valid';
+    $endPoint = (string) $this->getEndPoint()->withPath('/1.1/verify-key');
+    return $this->fetch($endPoint, ['key' => $this->apiKey]) == 'valid';
   }
 
   /**

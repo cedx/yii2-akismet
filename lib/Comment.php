@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace yii\akismet;
 
+use GuzzleHttp\Psr7\{Uri};
+use Psr\Http\Message\{UriInterface};
 use yii\base\{InvalidConfigException, Model};
 use yii\helpers\{Json};
 use yii\validators\{Validator};
@@ -9,7 +11,9 @@ use yii\validators\{Validator};
 /**
  * Represents a comment submitted by an author.
  * @property \DateTime $date The UTC timestamp of the creation of the comment.
+ * @property UriInterface $permalink The permanent location of the entry the comment is submitted to.
  * @property \DateTime $postModified The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
+ * @property UriInterface $referrer The URL of the webpage that linked to the entry being requested.
  */
 class Comment extends Model implements \JsonSerializable {
 
@@ -74,12 +78,10 @@ class Comment extends Model implements \JsonSerializable {
     return new static([
       'author' => $hasAuthor ? Author::fromJson($map) : null,
       'content' => isset($map->comment_content) && is_string($map->comment_content) ? $map->comment_content : '',
-      'date' => isset($map->comment_date_gmt) && is_string($map->comment_date_gmt) ? new \DateTime($map->comment_date_gmt) : null,
-      'permalink' => isset($map->permalink) && is_string($map->permalink) ? $map->permalink : '',
-      'postModified' => isset($map->comment_post_modified_gmt) && is_string($map->comment_post_modified_gmt) ? new \DateTime($map->comment_post_modified_gmt) : null,
-      'referrer' => isset($map->referrer) && is_string($map->referrer) ? $map->referrer : '',
       'date' => isset($map->comment_date_gmt) && is_string($map->comment_date_gmt) ? $map->comment_date_gmt : null,
+      'permalink' => isset($map->permalink) && is_string($map->permalink) ? $map->permalink : null,
       'postModified' => isset($map->comment_post_modified_gmt) && is_string($map->comment_post_modified_gmt) ? $map->comment_post_modified_gmt : null,
+      'referrer' => isset($map->referrer) && is_string($map->referrer) ? $map->referrer : null,
       'type' => isset($map->comment_type) && is_string($map->comment_type) ? $map->comment_type : ''
     ]);
   }
@@ -92,6 +94,13 @@ class Comment extends Model implements \JsonSerializable {
     return $this->date;
   }
 
+  /**
+   * Gets the permanent location of the entry the comment is submitted to.
+   * @return UriInterface The permanent location of the entry the comment is submitted to.
+   */
+  public function getPermalink() {
+    return $this->permalink;
+  }
 
   /**
    * Gets the UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
@@ -101,6 +110,15 @@ class Comment extends Model implements \JsonSerializable {
     return $this->postModified;
   }
 
+  /**
+   * Gets the URL of the webpage that linked to the entry being requested.
+   * @return UriInterface The URL of the webpage that linked to the entry being requested.
+   */
+  public function getReferrer() {
+    return $this->referrer;
+  }
+
+  /**
    * Checks that a given model attribute is an instance of the specified class.
    * @param string $attribute The name of the attribute to be checked.
    * @param array $params The parameters of the validation rule.
@@ -125,8 +143,8 @@ class Comment extends Model implements \JsonSerializable {
     if ($date = $this->getDate()) $map->comment_date_gmt = $date->format('c');
     if ($postModified = $this->getPostModified()) $map->comment_post_modified_gmt = $postModified->format('c');
     if (mb_strlen($this->type)) $map->comment_type = $this->type;
-    if (mb_strlen($this->permalink)) $map->permalink = $this->permalink;
-    if (mb_strlen($this->referrer)) $map->referrer = $this->referrer;
+    if ($permalink = $this->getPermalink()) $map->permalink = (string) $permalink;
+    if ($referrer = $this->getReferrer()) $map->referrer = (string) $referrer;
     return $map;
   }
 
@@ -159,6 +177,17 @@ class Comment extends Model implements \JsonSerializable {
   }
 
   /**
+   * Sets the permanent location of the entry the comment is submitted to.
+   * @param string|UriInterface $value The new permanent location of the entry.
+   * @return Comment This instance.
+   */
+  public function setPermalink($value): self {
+    if ($value instanceof UriInterface) $this->permalink = $value;
+    else if (is_string($value)) $this->permalink = new Uri($value);
+    else $this->permalink = null;
+
+    return $this;
+  }
 
   /**
    * Sets the UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
@@ -174,4 +203,16 @@ class Comment extends Model implements \JsonSerializable {
     return $this;
   }
 
+  /**
+   * Sets the URL of the webpage that linked to the entry being requested.
+   * @param string|UriInterface $value The new URL of the webpage that linked to the entry.
+   * @return Comment This instance.
+   */
+  public function setReferrer($value): self {
+    if ($value instanceof UriInterface) $this->referrer = $value;
+    else if (is_string($value)) $this->referrer = new Uri($value);
+    else $this->referrer = null;
+
+    return $this;
+  }
 }

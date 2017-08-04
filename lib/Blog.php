@@ -2,11 +2,14 @@
 declare(strict_types=1);
 namespace yii\akismet;
 
+use GuzzleHttp\Psr7\{Uri};
+use Psr\Http\Message\{UriInterface};
 use yii\base\{Model};
 use yii\helpers\{Json};
 
 /**
  * Represents the front page or home URL transmitted when making requests.
+ * @property UriInterface $url The blog or site URL.
  */
 class Blog extends Model implements \JsonSerializable {
 
@@ -21,9 +24,9 @@ class Blog extends Model implements \JsonSerializable {
   public $languages = [];
 
   /**
-   * @var string The blog or site URL.
+   * @var Uri The blog or site URL.
    */
-  public $url = '';
+  private $url;
 
   /**
    * Returns a string representation of this object.
@@ -50,8 +53,16 @@ class Blog extends Model implements \JsonSerializable {
     return new static([
       'charset' => isset($map->blog_charset) && is_string($map->blog_charset) ? $map->blog_charset : '',
       'languages' => isset($map->blog_lang) && is_string($map->blog_lang) ? $transform($map->blog_lang) : [],
-      'url' => isset($map->blog) && is_string($map->blog) ? $map->blog : ''
+      'url' => isset($map->blog) && is_string($map->blog) ? $map->blog : null
     ]);
+  }
+
+  /**
+   * Gets the blog or site URL.
+   * @return UriInterface The blog or site URL.
+   */
+  public function getUrl() {
+    return $this->url;
   }
 
   /**
@@ -60,7 +71,7 @@ class Blog extends Model implements \JsonSerializable {
    */
   public function jsonSerialize(): \stdClass {
     $map = new \stdClass;
-    if (mb_strlen($this->url)) $map->blog = $this->url;
+    if ($url = $this->getUrl()) $map->blog = (string) $url;
     if (mb_strlen($this->charset)) $map->blog_charset = $this->charset;
     if (count($this->languages)) $map->blog_lang = implode(',', $this->languages);
     return $map;
@@ -77,5 +88,18 @@ class Blog extends Model implements \JsonSerializable {
       [['url'], 'required'],
       [['url'], 'url']
     ];
+  }
+
+  /**
+   * Sets the blog or site URL.
+   * @param string|UriInterface $value The new URL.
+   * @return Blog This instance.
+   */
+  public function setUrl($value): self {
+    if ($value instanceof UriInterface) $this->url = $value;
+    else if (is_string($value)) $this->url = new Uri($value);
+    else $this->url = null;
+
+    return $this;
   }
 }
