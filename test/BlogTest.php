@@ -34,7 +34,7 @@ class BlogTest extends TestCase {
       ]);
 
       expect($blog->charset)->to->equal('UTF-8');
-      expect($blog->languages)->to->equal(['en', 'fr']);
+      expect($blog->languages->getArrayCopy())->to->equal(['en', 'fr']);
       expect((string) $blog->url)->to->equal('https://github.com/cedx/yii2-akismet');
     });
   }
