@@ -4,6 +4,7 @@ namespace yii\akismet;
 
 use function PHPUnit\Expect\{expect, it};
 use PHPUnit\Framework\{TestCase};
+use Psr\Http\Message\{UriInterface};
 
 /**
  * Tests the features of the `yii\akismet\Blog` class.
@@ -22,19 +23,19 @@ class BlogTest extends TestCase {
       $blog = Blog::fromJson([]);
       expect($blog->charset)->to->be->empty;
       expect($blog->languages)->to->be->empty;
-      expect($blog->url)->to->be->empty;
+      expect($blog->url)->to->be->null;
     });
 
     it('should return an initialized instance with a non-empty map', function() {
       $blog = Blog::fromJson([
-        'blog' => 'https://github.com/cedx/akismet.php',
+        'blog' => 'https://github.com/cedx/yii2-akismet',
         'blog_charset' => 'UTF-8',
         'blog_lang' => 'en, fr'
       ]);
 
       expect($blog->charset)->to->equal('UTF-8');
       expect($blog->languages)->to->equal(['en', 'fr']);
-      expect($blog->url)->to->equal('https://github.com/cedx/akismet.php');
+      expect((string) $blog->url)->to->equal('https://github.com/cedx/yii2-akismet');
     });
   }
 
@@ -56,6 +57,21 @@ class BlogTest extends TestCase {
       expect($data->blog)->to->equal('https://github.com/cedx/yii2-akismet');
       expect($data->blog_charset)->to->equal('UTF-8');
       expect($data->blog_lang)->to->equal('en,fr');
+    });
+  }
+
+  /**
+   * @test Blog::setUrl
+   */
+  public function testSetUrl() {
+    it('should return an instance of `UriInterface` for strings', function() {
+      $url = (new Blog(['url' => 'https://github.com/cedx/yii2-akismet']))->url;
+      expect($url)->to->be->instanceOf(UriInterface::class);
+      expect((string) $url)->to->equal('https://github.com/cedx/yii2-akismet');
+    });
+
+    it('should return a `null` reference for unsupported values', function() {
+      expect((new Blog(['url' => 123]))->url)->to->be->null;
     });
   }
 

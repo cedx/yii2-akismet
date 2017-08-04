@@ -4,6 +4,7 @@ namespace yii\akismet;
 
 use function PHPUnit\Expect\{expect, fail, it};
 use PHPUnit\Framework\{TestCase};
+use Psr\Http\Message\{UriInterface};
 use yii\base\{InvalidConfigException};
 
 /**
@@ -70,6 +71,21 @@ class ClientTest extends TestCase {
       expect($data->blog)->to->equal(Blog::class);
       expect($data->isTest)->to->be->true;
       expect($data->userAgent)->to->startWith('PHP/'.PHP_VERSION);
+    });
+  }
+
+  /**
+   * @test Client::setEndPoint
+   */
+  public function testSetEndPoint() {
+    it('should return an instance of `UriInterface` for strings', function() {
+      $endPoint = (new Client(['endPoint' => 'https://github.com/cedx/yii2-akismet']))->endPoint;
+      expect($endPoint)->to->be->instanceOf(UriInterface::class);
+      expect((string) $endPoint)->to->equal('https://github.com/cedx/yii2-akismet');
+    });
+
+    it('should return a `null` reference for unsupported values', function() {
+      expect((new Client(['endPoint' => 123]))->endPoint)->to->be->null;
     });
   }
 

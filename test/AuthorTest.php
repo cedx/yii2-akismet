@@ -4,6 +4,7 @@ namespace yii\akismet;
 
 use function PHPUnit\Expect\{expect, it};
 use PHPUnit\Framework\{TestCase};
+use Psr\Http\Message\{UriInterface};
 
 /**
  * Tests the features of the `yii\akismet\Author` class.
@@ -21,7 +22,7 @@ class AuthorTest extends TestCase {
     it('should return an empty instance with an empty map', function() {
       $author = Author::fromJson([]);
       expect($author->email)->to->be->empty;
-      expect($author->url)->to->be->empty;
+      expect($author->url)->to->be->null;
     });
 
     it('should return an initialized instance with a non-empty map', function() {
@@ -31,7 +32,7 @@ class AuthorTest extends TestCase {
       ]);
 
       expect($author->email)->to->equal('cedric@belin.io');
-      expect($author->url)->to->equal('https://belin.io');
+      expect((string) $author->url)->to->equal('https://belin.io');
     });
   }
 
@@ -55,6 +56,21 @@ class AuthorTest extends TestCase {
       expect($data->comment_author_email)->to->equal('cedric@belin.io');
       expect($data->comment_author_url)->to->equal('https://belin.io');
       expect($data->user_ip)->to->equal('127.0.0.1');
+    });
+  }
+
+  /**
+   * @test Author::setUrl
+   */
+  public function testSetUrl() {
+    it('should return an instance of `UriInterface` for strings', function() {
+      $url = (new Author(['url' => 'https://github.com/cedx/yii2-akismet']))->url;
+      expect($url)->to->be->instanceOf(UriInterface::class);
+      expect((string) $url)->to->equal('https://github.com/cedx/yii2-akismet');
+    });
+
+    it('should return a `null` reference for unsupported values', function() {
+      expect((new Author(['url' => 123]))->url)->to->be->null;
     });
   }
 

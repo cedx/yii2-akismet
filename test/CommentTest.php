@@ -4,6 +4,7 @@ namespace yii\akismet;
 
 use function PHPUnit\Expect\{expect, it};
 use PHPUnit\Framework\{TestCase};
+use Psr\Http\Message\{UriInterface};
 use yii\base\{InvalidConfigException};
 use yii\validators\{Validator};
 
@@ -98,6 +99,64 @@ class CommentTest extends TestCase {
       expect($data->comment_content)->to->equal('A user comment.');
       expect($data->comment_type)->to->equal(CommentType::PINGBACK);
       expect($data->referrer)->to->equal('https://belin.io');
+    });
+  }
+
+  /**
+   * @test Comment::setDate
+   */
+  public function testSetDate() {
+    it('should return an instance of `DateTime` for strings and timestamps', function() {
+      expect((new Comment(['date' => time()]))->date)->to->be->instanceOf(\DateTime::class);
+      expect((new Comment(['date' => '2000-01-01T00:00:00+00:00']))->date)->to->be->instanceOf(\DateTime::class);
+    });
+
+    it('should return a `null` reference for unsupported values', function() {
+      expect((new Comment(['date' => []]))->date)->to->be->null;
+    });
+  }
+
+  /**
+   * @test Comment::setPermalink
+   */
+  public function testSetPermalink() {
+    it('should return an instance of `UriInterface` for strings', function() {
+      $url = (new Comment(['permalink' => 'https://github.com/cedx/yii2-akismet']))->permalink;
+      expect($url)->to->be->instanceOf(UriInterface::class);
+      expect((string) $url)->to->equal('https://github.com/cedx/yii2-akismet');
+    });
+
+    it('should return a `null` reference for unsupported values', function() {
+      expect((new Comment(['permalink' => 123]))->permalink)->to->be->null;
+    });
+  }
+
+  /**
+   * @test Comment::setPostModified
+   */
+  public function testSetPostModified() {
+    it('should return an instance of `DateTime` for strings and timestamps', function() {
+      expect((new Comment(['postModified' => time()]))->postModified)->to->be->instanceOf(\DateTime::class);
+      expect((new Comment(['postModified' => '2000-01-01T00:00:00+00:00']))->postModified)->to->be->instanceOf(\DateTime::class);
+    });
+
+    it('should return a `null` reference for unsupported values', function() {
+      expect((new Comment(['postModified' => []]))->postModified)->to->be->null;
+    });
+  }
+
+  /**
+   * @test Comment::setReferrer
+   */
+  public function testSetReferrer() {
+    it('should return an instance of `UriInterface` for strings', function() {
+      $url = (new Comment(['referrer' => 'https://github.com/cedx/yii2-akismet']))->referrer;
+      expect($url)->to->be->instanceOf(UriInterface::class);
+      expect((string) $url)->to->equal('https://github.com/cedx/yii2-akismet');
+    });
+
+    it('should return a `null` reference for unsupported values', function() {
+      expect((new Comment(['referrer' => 123]))->referrer)->to->be->null;
     });
   }
 
