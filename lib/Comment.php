@@ -8,6 +8,8 @@ use yii\validators\{Validator};
 
 /**
  * Represents a comment submitted by an author.
+ * @property \DateTime $date The UTC timestamp of the creation of the comment.
+ * @property \DateTime $postModified The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
  */
 class Comment extends Model implements \JsonSerializable {
 
@@ -22,29 +24,29 @@ class Comment extends Model implements \JsonSerializable {
   public $content = '';
 
   /**
-   * @var \DateTime The UTC timestamp of the creation of the comment.
+   * @var string The comment's type. This string value specifies a `CommentType` constant or a made up value like `"registration"`.
    */
-  public $date;
+  public $type = '';
 
   /**
-   * @var string The permanent location of the entry the comment is submitted to.
+   * @var \DateTime The UTC timestamp of the creation of the comment.
    */
-  public $permalink = '';
+  private $date;
+
+  /**
+   * @var Uri The permanent location of the entry the comment is submitted to.
+   */
+  private $permalink;
 
   /**
    * @var \DateTime The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
    */
-  public $postModified;
+  private $postModified;
 
   /**
-   * @var string The URL of the webpage that linked to the entry being requested.
+   * @var Uri The URL of the webpage that linked to the entry being requested.
    */
-  public $referrer = '';
-
-  /**
-   * @var string The comment's type. This string value specifies a `CommentType` constant or a made up value like `"registration"`.
-   */
-  public $type = '';
+  private $referrer;
 
   /**
    * Returns a string representation of this object.
@@ -76,11 +78,29 @@ class Comment extends Model implements \JsonSerializable {
       'permalink' => isset($map->permalink) && is_string($map->permalink) ? $map->permalink : '',
       'postModified' => isset($map->comment_post_modified_gmt) && is_string($map->comment_post_modified_gmt) ? new \DateTime($map->comment_post_modified_gmt) : null,
       'referrer' => isset($map->referrer) && is_string($map->referrer) ? $map->referrer : '',
+      'date' => isset($map->comment_date_gmt) && is_string($map->comment_date_gmt) ? $map->comment_date_gmt : null,
+      'postModified' => isset($map->comment_post_modified_gmt) && is_string($map->comment_post_modified_gmt) ? $map->comment_post_modified_gmt : null,
       'type' => isset($map->comment_type) && is_string($map->comment_type) ? $map->comment_type : ''
     ]);
   }
 
   /**
+   * Gets the UTC timestamp of the creation of the comment.
+   * @return \DateTime The UTC timestamp of the creation of the comment.
+   */
+  public function getDate() {
+    return $this->date;
+  }
+
+
+  /**
+   * Gets the UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
+   * @return \DateTime The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
+   */
+  public function getPostModified() {
+    return $this->postModified;
+  }
+
    * Checks that a given model attribute is an instance of the specified class.
    * @param string $attribute The name of the attribute to be checked.
    * @param array $params The parameters of the validation rule.
@@ -102,8 +122,8 @@ class Comment extends Model implements \JsonSerializable {
   public function jsonSerialize(): \stdClass {
     $map = $this->author ? $this->author->jsonSerialize() : new \stdClass;
     if (mb_strlen($this->content)) $map->comment_content = $this->content;
-    if ($this->date) $map->comment_date_gmt = $this->date->format('c');
-    if ($this->postModified) $map->comment_post_modified_gmt = $this->postModified->format('c');
+    if ($date = $this->getDate()) $map->comment_date_gmt = $date->format('c');
+    if ($postModified = $this->getPostModified()) $map->comment_post_modified_gmt = $postModified->format('c');
     if (mb_strlen($this->type)) $map->comment_type = $this->type;
     if (mb_strlen($this->permalink)) $map->permalink = $this->permalink;
     if (mb_strlen($this->referrer)) $map->referrer = $this->referrer;
@@ -123,4 +143,35 @@ class Comment extends Model implements \JsonSerializable {
       [['permalink', 'referrer'], 'url', 'defaultScheme' => 'http']
     ];
   }
+
+  /**
+   * Sets the UTC timestamp of the creation of the comment.
+   * @param mixed $value The new UTC timestamp of the creation of the comment.
+   * @return Comment This instance.
+   */
+  public function setDate($value): self {
+    if ($value instanceof \DateTime) $this->date = $value;
+    else if (is_string($value)) $this->date = new \DateTime($value);
+    else if (is_int($value)) $this->date = new \DateTime("@$value");
+    else $this->date = null;
+
+    return $this;
+  }
+
+  /**
+
+  /**
+   * Sets the UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
+   * @param mixed $value The new UTC timestamp of the publication time.
+   * @return Comment This instance.
+   */
+  public function setPostModified($value): self {
+    if ($value instanceof \DateTime) $this->postModified = $value;
+    else if (is_string($value)) $this->postModified = new \DateTime($value);
+    else if (is_int($value)) $this->postModified = new \DateTime("@$value");
+    else $this->postModified = null;
+
+    return $this;
+  }
+
 }
