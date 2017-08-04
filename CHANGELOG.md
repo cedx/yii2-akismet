@@ -3,6 +3,7 @@ This file contains highlights of what changes on each version of the [Akismet fo
 
 ## Version 5.0.0
 - Breaking change: properties representing URLs as strings now use instances of the [`Psr\Http\Message\UriInterface`](http://www.php-fig.org/psr/psr-7/#35-psrhttpmessageuriinterface) interface.
+- Breaking change: the `Blog::$languages` property is now an instance of `ArrayObject` class.
 - Added new unit tests.
 - The `$date` and `$postModified` properties of the `Comment` class now accept strings and timestamps.
 

@@ -9,6 +9,7 @@ use yii\helpers\{Json};
 
 /**
  * Represents the front page or home URL transmitted when making requests.
+ * @property \ArrayObject $languages The languages in use on the blog or site, in ISO 639-1 format.
  * @property UriInterface $url The blog or site URL.
  */
 class Blog extends Model implements \JsonSerializable {
@@ -19,14 +20,23 @@ class Blog extends Model implements \JsonSerializable {
   public $charset = '';
 
   /**
-   * @var string[] The languages in use on the blog or site, in ISO 639-1 format.
+   * @var \ArrayObject The languages in use on the blog or site, in ISO 639-1 format.
    */
-  public $languages = [];
+  private $languages;
 
   /**
    * @var Uri The blog or site URL.
    */
   private $url;
+
+  /**
+   * Initializes a new instance of the class.
+   * @param array $config Name-value pairs that will be used to initialize the object properties.
+   */
+  public function __construct(array $config = []) {
+    $this->languages = new \ArrayObject();
+    parent::__construct($config);
+  }
 
   /**
    * Returns a string representation of this object.
@@ -44,17 +54,19 @@ class Blog extends Model implements \JsonSerializable {
    */
   public static function fromJson($map) {
     if (is_array($map)) $map = (object) $map;
-    else if (!is_object($map)) return null;
-
-    $transform = function($languages) {
-      return array_values(array_filter(array_map('trim', explode(',', $languages))));
-    };
-
-    return new static([
+    return !is_object($map) ? null : new static([
       'charset' => isset($map->blog_charset) && is_string($map->blog_charset) ? $map->blog_charset : '',
-      'languages' => isset($map->blog_lang) && is_string($map->blog_lang) ? $transform($map->blog_lang) : [],
+      'languages' => isset($map->blog_lang) && is_string($map->blog_lang) ? $map->blog_lang : [],
       'url' => isset($map->blog) && is_string($map->blog) ? $map->blog : null
     ]);
+  }
+
+  /**
+   * Gets the languages in use on the blog or site, in ISO 639-1 format.
+   * @return \ArrayObject The languages in use on the blog or site.
+   */
+  public function getLanguages(): \ArrayObject {
+    return $this->languages;
   }
 
   /**
@@ -73,7 +85,7 @@ class Blog extends Model implements \JsonSerializable {
     $map = new \stdClass;
     if ($url = $this->getUrl()) $map->blog = (string) $url;
     if (mb_strlen($this->charset)) $map->blog_charset = $this->charset;
-    if (count($this->languages)) $map->blog_lang = implode(',', $this->languages);
+    if (count($languages = $this->getLanguages())) $map->blog_lang = implode(',', $languages->getArrayCopy());
     return $map;
   }
 
@@ -88,6 +100,23 @@ class Blog extends Model implements \JsonSerializable {
       [['url'], 'required'],
       [['url'], 'url']
     ];
+  }
+
+  /**
+   * Sets the languages in use on the blog or site, in ISO 639-1 format.
+   * @param string[]|string $values The new languages.
+   * @return Blog This instance.
+   */
+  public function setLanguages($values): self {
+    if (!is_array($values)) {
+      if (!is_string($values)) $values = [];
+      else $values = array_values(array_filter(array_map('trim', explode(',', $values)), function($value) {
+        return mb_strlen($value) > 0;
+      }));
+    }
+
+    $this->getLanguages()->exchangeArray($values);
+    return $this;
   }
 
   /**
