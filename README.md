@@ -136,4 +136,4 @@ $ composer test
 - [Continuous integration](https://travis-ci.org/cedx/yii2-akismet)
 
 ## License
-[Akismet for Yii](https://github.com/cedx/yii2-akismet) is distributed under the Apache License, version 2.0.
+[Akismet for Yii](https://github.com/cedx/yii2-akismet) is distributed under the MIT License.
