@@ -5,7 +5,7 @@ namespace yii\akismet;
 use GuzzleHttp\Psr7\{Uri};
 use Psr\Http\Message\{UriInterface};
 use yii\base\{Model};
-use yii\helpers\{Json};
+use yii\helpers\{Json, StringHelper};
 
 /**
  * Represents the front page or home URL transmitted when making requests.
@@ -108,11 +108,8 @@ class Blog extends Model implements \JsonSerializable {
    * @return Blog This instance.
    */
   public function setLanguages($values): self {
-    if (!is_array($values)) $values = is_string($values) ? explode(',', $values) : [];
-    $this->getLanguages()->exchangeArray(array_values(array_filter(array_map('trim', $values), function($value) {
-      return mb_strlen($value) > 0;
-    })));
-
+    if (!is_array($values)) $values = is_string($values) ? StringHelper::explode($values, ',', true, true) : [];
+    $this->getLanguages()->exchangeArray($values);
     return $this;
   }
 
