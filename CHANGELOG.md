@@ -1,6 +1,9 @@
 # Changelog
 This file contains highlights of what changes on each version of the [Akismet for Yii](https://github.com/cedx/yii2-akismet) library.
 
+## Version [6.0.0](https://github.com/cedx/yii2-akismet/compare/v5.0.0...v6.0.0)
+- Added new values to the `CommentType` enumeration.
+
 ## Version [5.0.0](https://github.com/cedx/yii2-akismet/compare/v4.2.0...v5.0.0)
 - Breaking change: properties representing URLs as strings now use instances of the [`Psr\Http\Message\UriInterface`](http://www.php-fig.org/psr/psr-7/#35-psrhttpmessageuriinterface) interface.
 - Breaking change: the `Blog::$languages` property is now an instance of `ArrayObject` class.
