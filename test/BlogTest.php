@@ -35,6 +35,8 @@ class BlogTest extends TestCase {
 
       expect($blog->charset)->to->equal('UTF-8');
       expect($blog->languages->getArrayCopy())->to->equal(['en', 'fr']);
+
+      expect($blog->url)->to->be->instanceOf(UriInterface::class);
       expect((string) $blog->url)->to->equal('https://github.com/cedx/yii2-akismet');
     });
   }
@@ -43,17 +45,19 @@ class BlogTest extends TestCase {
    * @test Blog::jsonSerialize
    */
   public function testJsonSerialize() {
-    it('should return an empty map with a newly created instance', function() {
-      expect((new Blog)->jsonSerialize())->to->be->empty;
+    it('should return only the blog URL with a newly created instance', function() {
+      $data = (new Blog('https://github.com/cedx/yii2-akismet'))->jsonSerialize();
+      expect(\Yii::getObjectVars($data))->to->have->lengthOf(1);
+      expect($data->blog)->to->equal('https://github.com/cedx/yii2-akismet');
     });
 
     it('should return a non-empty map with a initialized instance', function() {
-      $data = (new Blog([
+      $data = (new Blog('https://github.com/cedx/yii2-akismet', [
         'charset' => 'UTF-8',
-        'languages' => ['en', 'fr'],
-        'url' => 'https://github.com/cedx/yii2-akismet'
+        'languages' => ['en', 'fr']
       ]))->jsonSerialize();
 
+      expect(\Yii::getObjectVars($data))->to->have->lengthOf(3);
       expect($data->blog)->to->equal('https://github.com/cedx/yii2-akismet');
       expect($data->blog_charset)->to->equal('UTF-8');
       expect($data->blog_lang)->to->equal('en,fr');
@@ -61,28 +65,12 @@ class BlogTest extends TestCase {
   }
 
   /**
-   * @test Blog::setUrl
-   */
-  public function testSetUrl() {
-    it('should return an instance of `UriInterface` for strings', function() {
-      $url = (new Blog(['url' => 'https://github.com/cedx/yii2-akismet']))->url;
-      expect($url)->to->be->instanceOf(UriInterface::class);
-      expect((string) $url)->to->equal('https://github.com/cedx/yii2-akismet');
-    });
-
-    it('should return a `null` reference for unsupported values', function() {
-      expect((new Blog(['url' => 123]))->url)->to->be->null;
-    });
-  }
-
-  /**
    * @test Blog::__toString
    */
   public function testToString() {
-    $blog = (string) new Blog([
+    $blog = (string) new Blog('https://github.com/cedx/yii2-akismet', [
       'charset' => 'UTF-8',
-      'languages' => ['en', 'fr'],
-      'url' => 'https://github.com/cedx/yii2-akismet'
+      'languages' => ['en', 'fr']
     ]);
 
     it('should start with the class name', function() use ($blog) {

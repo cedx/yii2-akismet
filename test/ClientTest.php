@@ -4,7 +4,6 @@ namespace yii\akismet;
 
 use function PHPUnit\Expect\{expect, fail, it};
 use PHPUnit\Framework\{TestCase};
-use Psr\Http\Message\{UriInterface};
 use yii\base\{InvalidConfigException};
 
 /**
@@ -54,45 +53,6 @@ class ClientTest extends TestCase {
   }
 
   /**
-   * @test Client::jsonSerialize
-   */
-  public function testJsonSerialize() {
-    it('should return the right values for an incorrectly configured client', function() {
-      $data = (new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => 'FooBar', 'userAgent' => 'FooBar/6.6.6']))->jsonSerialize();
-      expect($data->apiKey)->to->equal('0123456789-ABCDEF');
-      expect($data->blog)->to->equal(Blog::class);
-      expect($data->isTest)->to->be->false;
-      expect($data->userAgent)->to->equal('FooBar/6.6.6');
-    });
-
-    it('should return the right values for a properly configured client', function() {
-      $data = $this->client->jsonSerialize();
-      expect($data->apiKey)->to->equal(getenv('AKISMET_API_KEY'));
-      expect($data->blog)->to->equal(Blog::class);
-      expect($data->isTest)->to->be->true;
-      expect($data->userAgent)->to->startWith('PHP/'.PHP_VERSION);
-    });
-  }
-
-  /**
-   * @test Client::setEndPoint
-   */
-  public function testSetEndPoint() {
-    it('should return an instance of `UriInterface` for strings', function() {
-      $client = (new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => 'FooBar']));
-      $client->endPoint = 'https://github.com/cedx/yii2-akismet';
-      expect($client->endPoint)->to->be->instanceOf(UriInterface::class);
-      expect((string) $client->endPoint)->to->equal('https://github.com/cedx/yii2-akismet');
-    });
-
-    it('should return a `null` reference for unsupported values', function() {
-      $client = (new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => 'FooBar']));
-      $client->endPoint = 123;
-      expect($client->endPoint)->to->be->null;
-    });
-  }
-
-  /**
    * @test Client::submitHam
    */
   public function testSubmitHam() {
@@ -125,25 +85,6 @@ class ClientTest extends TestCase {
   }
 
   /**
-   * @test Client::__toString
-   */
-  public function testToString() {
-    $value = (string) $this->client;
-
-    it('should start with the class name', function() use ($value) {
-      expect($value)->to->startWith('yii\akismet\Client {');
-    });
-
-    it('should contain the instance properties', function() use ($value) {
-      expect($value)->to->contain(sprintf('"apiKey":"%s"', getenv('AKISMET_API_KEY')))
-        ->and->contain(sprintf('"blog":"%s"', str_replace('\\', '\\\\', Blog::class)))
-        ->and->contain('"endPoint":"https://rest.akismet.com"')
-        ->and->contain('"isTest":true')
-        ->and->contain('"userAgent":"PHP/');
-    });
-  }
-
-  /**
    * @test Client::verifyKey
    */
   public function testVerifyKey() {
@@ -167,31 +108,22 @@ class ClientTest extends TestCase {
       'isTest' => true
     ]);
 
-    $this->ham = \Yii::createObject([
-      'class' => Comment::class,
-      'author' => \Yii::createObject([
-        'class' => Author::class,
-        'ipAddress' => '192.168.0.1',
-        'name' => 'Akismet for PHP',
-        'role' => 'administrator',
-        'url' => 'https://github.com/cedx/yii2-akismet',
-        'userAgent' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:42.0) Gecko/20100101 Firefox/42.0'
-      ]),
-      'content' => 'I\'m testing out the Service API.',
-      'referrer' => 'https://packagist.org/packages/cedx/akismet',
-      'type' => 'comment'
+    $author = new Author('192.168.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:42.0) Gecko/20100101 Firefox/42.0', [
+      'name' => 'Akismet',
+      'role' => 'administrator',
+      'url' => 'https://github.com/cedx/yii2-akismet'
     ]);
 
-    $this->spam = \Yii::createObject([
-      'class' => Comment::class,
-      'author' => \Yii::createObject([
-        'class' => Author::class,
-        'ipAddress' => '127.0.0.1',
-        'name' => 'viagra-test-123',
-        'userAgent' => 'Spam Bot/6.6.6'
-      ]),
+    $this->ham = new Comment($author, [
+      'content' => 'I\'m testing out the Service API.',
+      'referrer' => 'https://packagist.org/packages/cedx/yii2-akismet',
+      'type' => CommentType::COMMENT
+    ]);
+
+    $author = new Author('127.0.0.1', 'Spam Bot/6.6.6', ['name' => 'viagra-test-123']);
+    $this->spam = new Comment($author, [
       'content' => 'Spam!',
-      'type' => 'trackback'
+      'type' => CommentType::TRACKBACK
     ]);
   }
 }
