@@ -4,9 +4,8 @@ namespace yii\akismet;
 
 use GuzzleHttp\Psr7\{Uri};
 use Psr\Http\Message\{UriInterface};
-use yii\base\{InvalidConfigException, Model};
+use yii\base\{Model};
 use yii\helpers\{Json};
-use yii\validators\{Validator};
 
 /**
  * Represents a comment submitted by an author.
@@ -53,6 +52,16 @@ class Comment extends Model implements \JsonSerializable {
   private $referrer;
 
   /**
+   * Initializes a new instance of the class.
+   * @param Author $author The comment's author.
+   * @param array $config Name-value pairs that will be used to initialize the object properties.
+   */
+  public function __construct(Author $author = null, array $config = []) {
+    $this->author = $author;
+    parent::__construct($config);
+  }
+
+  /**
    * Returns a string representation of this object.
    * @return string The string representation of this object.
    */
@@ -75,8 +84,7 @@ class Comment extends Model implements \JsonSerializable {
       return preg_match('/^comment_author/', $key) || preg_match('/^user/', $key);
     })) > 0;
 
-    return new static([
-      'author' => $hasAuthor ? Author::fromJson($map) : null,
+    return new static($hasAuthor ? Author::fromJson($map) : null, [
       'content' => isset($map->comment_content) && is_string($map->comment_content) ? $map->comment_content : '',
       'date' => isset($map->comment_date_gmt) && is_string($map->comment_date_gmt) ? $map->comment_date_gmt : null,
       'permalink' => isset($map->permalink) && is_string($map->permalink) ? $map->permalink : null,
@@ -119,26 +127,11 @@ class Comment extends Model implements \JsonSerializable {
   }
 
   /**
-   * Checks that a given model attribute is an instance of the specified class.
-   * @param string $attribute The name of the attribute to be checked.
-   * @param array $params The parameters of the validation rule.
-   * @param Validator $validator The validator instance.
-   * @throws InvalidConfigException The "className" parameter is empty or invalid.
-   */
-  public function isInstanceOf(string $attribute, array $params, Validator $validator) {
-    if (!isset($params['className']) || !class_exists($params['className']) && !interface_exists($params['className']))
-      throw new InvalidConfigException('The "className" parameter is empty or invalid.');
-
-    if (!$this->$attribute instanceof $params['className'])
-      $validator->addError($this, $attribute, "The '{attribute}' attribute has not the required type: {$params['className']}");
-  }
-
-  /**
    * Converts this object to a map in JSON format.
    * @return \stdClass The map in JSON format corresponding to this object.
    */
   public function jsonSerialize(): \stdClass {
-    $map = $this->author ? $this->author->jsonSerialize() : new \stdClass;
+    $map = $this->author->jsonSerialize();
     if (mb_strlen($this->content)) $map->comment_content = $this->content;
     if ($date = $this->getDate()) $map->comment_date_gmt = $date->format('c');
     if ($postModified = $this->getPostModified()) $map->comment_post_modified_gmt = $postModified->format('c');
@@ -156,8 +149,6 @@ class Comment extends Model implements \JsonSerializable {
     return [
       [['content', 'permalink', 'referrer', 'type'], 'trim'],
       [['author'], 'required'],
-      [['author'], 'isInstanceOf', 'className' => Author::class],
-      [['date', 'postModified'], 'isInstanceOf', 'className' => \DateTime::class],
       [['permalink', 'referrer'], 'url', 'defaultScheme' => 'http']
     ];
   }
@@ -182,10 +173,7 @@ class Comment extends Model implements \JsonSerializable {
    * @return Comment This instance.
    */
   public function setPermalink($value): self {
-    if ($value instanceof UriInterface) $this->permalink = $value;
-    else if (is_string($value)) $this->permalink = new Uri($value);
-    else $this->permalink = null;
-
+    $this->permalink = is_string($value) ? new Uri($value) : $value;
     return $this;
   }
 
@@ -209,10 +197,7 @@ class Comment extends Model implements \JsonSerializable {
    * @return Comment This instance.
    */
   public function setReferrer($value): self {
-    if ($value instanceof UriInterface) $this->referrer = $value;
-    else if (is_string($value)) $this->referrer = new Uri($value);
-    else $this->referrer = null;
-
+    $this->referrer = is_string($value) ? new Uri($value) : $value;
     return $this;
   }
 }

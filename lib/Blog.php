@@ -31,9 +31,11 @@ class Blog extends Model implements \JsonSerializable {
 
   /**
    * Initializes a new instance of the class.
+   * @param string|UriInterface $url The blog or site URL.
    * @param array $config Name-value pairs that will be used to initialize the object properties.
    */
-  public function __construct(array $config = []) {
+  public function __construct($url, array $config = []) {
+    $this->url = is_string($url) ? new Uri($url) : $url;
     $this->languages = new \ArrayObject();
     parent::__construct($config);
   }
@@ -54,10 +56,9 @@ class Blog extends Model implements \JsonSerializable {
    */
   public static function fromJson($map) {
     if (is_array($map)) $map = (object) $map;
-    return !is_object($map) ? null : new static([
+    return !is_object($map) ? null : new static(isset($map->blog) && is_string($map->blog) ? $map->blog : null, [
       'charset' => isset($map->blog_charset) && is_string($map->blog_charset) ? $map->blog_charset : '',
-      'languages' => isset($map->blog_lang) && is_string($map->blog_lang) ? $map->blog_lang : [],
-      'url' => isset($map->blog) && is_string($map->blog) ? $map->blog : null
+      'languages' => isset($map->blog_lang) && is_string($map->blog_lang) ? StringHelper::explode($map->blog_lang, ',', true, true) : []
     ]);
   }
 
@@ -83,7 +84,8 @@ class Blog extends Model implements \JsonSerializable {
    */
   public function jsonSerialize(): \stdClass {
     $map = new \stdClass;
-    if ($url = $this->getUrl()) $map->blog = (string) $url;
+    $map->blog = (string) $this->getUrl();
+
     if (mb_strlen($this->charset)) $map->blog_charset = $this->charset;
     if (count($languages = $this->getLanguages())) $map->blog_lang = implode(',', $languages->getArrayCopy());
     return $map;
@@ -110,19 +112,6 @@ class Blog extends Model implements \JsonSerializable {
   public function setLanguages($values): self {
     if (!is_array($values)) $values = is_string($values) ? StringHelper::explode($values, ',', true, true) : [];
     $this->getLanguages()->exchangeArray($values);
-    return $this;
-  }
-
-  /**
-   * Sets the blog or site URL.
-   * @param string|UriInterface $value The new URL.
-   * @return Blog This instance.
-   */
-  public function setUrl($value): self {
-    if ($value instanceof UriInterface) $this->url = $value;
-    else if (is_string($value)) $this->url = new Uri($value);
-    else $this->url = null;
-
     return $this;
   }
 }

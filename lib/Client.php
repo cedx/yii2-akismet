@@ -5,7 +5,7 @@ namespace yii\akismet;
 use GuzzleHttp\Psr7\{Uri};
 use Psr\Http\Message\{UriInterface};
 use yii\base\{Component, InvalidConfigException, InvalidValueException};
-use yii\helpers\{ArrayHelper, Json};
+use yii\helpers\{ArrayHelper};
 use yii\httpclient\{Client as HttpClient, CurlTransport};
 use yii\web\{ServerErrorHttpException};
 
@@ -14,7 +14,7 @@ use yii\web\{ServerErrorHttpException};
  * @property Blog $blog The front page or home URL.
  * @property UriInterface $endPoint The URL of the API end point.
  */
-class Client extends Component implements \JsonSerializable {
+class Client extends Component {
 
   /**
    * @var string The HTTP header containing the Akismet error messages.
@@ -39,7 +39,7 @@ class Client extends Component implements \JsonSerializable {
   /**
    * @var string The version number of this package.
    */
-  const VERSION = '5.0.0';
+  const VERSION = '6.0.0';
 
   /**
    * @var string The Akismet API key.
@@ -93,15 +93,6 @@ class Client extends Component implements \JsonSerializable {
   }
 
   /**
-   * Returns a string representation of this object.
-   * @return string The string representation of this object.
-   */
-  public function __toString(): string {
-    $json = Json::encode($this);
-    return static::class." $json";
-  }
-
-  /**
    * Checks the specified comment against the service database, and returns a value indicating whether it is spam.
    * @param Comment $comment The comment to be checked.
    * @return bool A boolean value indicating whether it is spam.
@@ -140,29 +131,12 @@ class Client extends Component implements \JsonSerializable {
   }
 
   /**
-   * Converts this object to a map in JSON format.
-   * @return \stdClass The map in JSON format corresponding to this object.
-   */
-  public function jsonSerialize(): \stdClass {
-    return (object) [
-      'apiKey' => $this->apiKey,
-      'blog' => ($blog = $this->getBlog()) ? get_class($blog) : null,
-      'endPoint' => ($endPoint = $this->getEndPoint()) ? (string) $endPoint : null,
-      'isTest' => $this->isTest,
-      'userAgent' => $this->userAgent
-    ];
-  }
-
-  /**
    * Sets the front page or home URL of the instance making requests.
    * @param Blog|string $value The new front page or home URL.
    * @return Client This instance.
    */
   public function setBlog($value): self {
-    if ($value instanceof Blog) $this->blog = $value;
-    else if (is_string($value)) $this->blog = \Yii::createObject(['class' => Blog::class, 'url' => $value]);
-    else $this->blog = null;
-
+    $this->blog = is_string($value) ? new Blog($value) : $value;
     return $this;
   }
 
@@ -172,10 +146,7 @@ class Client extends Component implements \JsonSerializable {
    * @return Client This instance.
    */
   public function setEndPoint($value): self {
-    if ($value instanceof UriInterface) $this->endPoint = $value;
-    else if (is_string($value)) $this->endPoint = new Uri($value);
-    else $this->endPoint = null;
-
+    $this->endPoint = is_string($value) ? new Uri($value) : $value;
     return $this;
   }
 
