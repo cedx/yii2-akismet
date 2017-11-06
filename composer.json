@@ -29,8 +29,8 @@
     "ext-pcre": "*",
     "ext-spl": "*",
     "guzzlehttp/psr7": "^1.4.2",
-    "yiisoft/yii2": "^2.0.12",
-    "yiisoft/yii2-httpclient": "^2.0.4"
+    "yiisoft/yii2": "^2.0.13",
+    "yiisoft/yii2-httpclient": "^2.0.5"
   },
   "require-dev": {
     "cedx/coveralls": "^6.0.0",
