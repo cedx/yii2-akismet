@@ -1,6 +1,10 @@
 # Changelog
 This file contains highlights of what changes on each version of the [Akismet for Yii](https://github.com/cedx/yii2-akismet) library.
 
+## Version [7.0.0](https://github.com/cedx/yii2-akismet/compare/v6.0.0...v7.0.0)
+- Breaking change: raised the required [PHP](https://secure.php.net) version.
+- Breaking change: using PHP 7.1 features, like nullable types and void functions.
+
 ## Version [6.0.0](https://github.com/cedx/yii2-akismet/compare/v5.0.0...v6.0.0)
 - Breaking change: changed the signature of most class constructors.
 - Breaking change: most class properties are now read-only.
