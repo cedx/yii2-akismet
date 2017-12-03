@@ -123,7 +123,7 @@ class Client extends Component {
    * Initializes the object.
    * @throws InvalidConfigException The API key or the blog URL is empty.
    */
-  public function init() {
+  public function init(): void {
     parent::init();
     if (!mb_strlen($this->apiKey) || !$this->getBlog()) throw new InvalidConfigException('The API key or the blog URL is empty.');
     if (!$this->getEndPoint()) $this->setEndPoint(static::DEFAULT_ENDPOINT);
@@ -154,7 +154,7 @@ class Client extends Component {
    * Submits the specified comment that was incorrectly marked as spam but should not have been.
    * @param Comment $comment The comment to be submitted.
    */
-  public function submitHam(Comment $comment) {
+  public function submitHam(Comment $comment): void {
     $serviceUrl = parse_url((string) $this->getEndPoint());
     $endPoint = "{$serviceUrl['scheme']}://{$this->apiKey}.{$serviceUrl['host']}/1.1/submit-ham";
     $this->fetch($endPoint, \Yii::getObjectVars($comment->jsonSerialize()));
@@ -164,7 +164,7 @@ class Client extends Component {
    * Submits the specified comment that was not marked as spam but should have been.
    * @param Comment $comment The comment to be submitted.
    */
-  public function submitSpam(Comment $comment) {
+  public function submitSpam(Comment $comment): void {
     $serviceUrl = parse_url((string) $this->getEndPoint());
     $endPoint = "{$serviceUrl['scheme']}://{$this->apiKey}.{$serviceUrl['host']}/1.1/submit-spam";
     $this->fetch($endPoint, \Yii::getObjectVars($comment->jsonSerialize()));

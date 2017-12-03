@@ -29,7 +29,7 @@ class ClientTest extends TestCase {
   /**
    * @test Client::checkComment
    */
-  public function testCheckComment() {
+  public function testCheckComment(): void {
     it('should return `false` for valid comment (e.g. ham)', function() {
       expect($this->client->checkComment($this->ham))->to->be->false;
     });
@@ -42,7 +42,7 @@ class ClientTest extends TestCase {
   /**
    * @test Client::init
    */
-  public function testInit() {
+  public function testInit(): void {
     it('should throw an exception if the API key or blog is empty', function() {
       expect(function() { new Client; })->to->throw(InvalidConfigException::class);
     });
@@ -55,7 +55,7 @@ class ClientTest extends TestCase {
   /**
    * @test Client::submitHam
    */
-  public function testSubmitHam() {
+  public function testSubmitHam(): void {
     it('should complete without error', function() {
       try {
         $this->client->submitHam($this->ham);
@@ -71,7 +71,7 @@ class ClientTest extends TestCase {
   /**
    * @test Client::submitSpam
    */
-  public function testSubmitSpam() {
+  public function testSubmitSpam(): void {
     it('should complete without error', function() {
       try {
         $this->client->submitSpam($this->spam);
@@ -87,7 +87,7 @@ class ClientTest extends TestCase {
   /**
    * @test Client::verifyKey
    */
-  public function testVerifyKey() {
+  public function testVerifyKey(): void {
     it('should return `true` for a valid API key', function() {
       expect($this->client->verifyKey())->to->be->true;
     });
@@ -101,7 +101,7 @@ class ClientTest extends TestCase {
   /**
    * Performs a common set of tasks just before each test method is called.
    */
-  protected function setUp() {
+  protected function setUp(): void {
     $this->client = new Client([
       'apiKey' => getenv('AKISMET_API_KEY'),
       'blog' => 'https://github.com/cedx/yii2-akismet',
