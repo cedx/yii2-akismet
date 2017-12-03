@@ -13,7 +13,7 @@ class CommentTest extends TestCase {
   /**
    * @test Comment::fromJson
    */
-  public function testFromJson() {
+  public function testFromJson(): void {
     it('should return a null reference with a non-object value', function() {
       expect(Comment::fromJson('foo'))->to->be->null;
     });
@@ -51,7 +51,7 @@ class CommentTest extends TestCase {
   /**
    * @test Comment::jsonSerialize
    */
-  public function testJsonSerialize() {
+  public function testJsonSerialize(): void {
     it('should return only the author info with a newly created instance', function() {
       $data = (new Comment(new Author('127.0.0.1', 'Doom/6.6.6')))->jsonSerialize();
       expect(\Yii::getObjectVars($data))->to->have->lengthOf(2);
@@ -81,7 +81,7 @@ class CommentTest extends TestCase {
   /**
    * @test Comment::__toString
    */
-  public function testToString() {
+  public function testToString(): void {
     $comment = (string) new Comment(new Author('127.0.0.1', 'Doom/6.6.6', ['name' => 'Cédric Belin']), [
       'content' => 'A user comment.',
       'date' => '2000-01-01T00:00:00.000Z',
