@@ -54,7 +54,7 @@ class Blog extends Model implements \JsonSerializable {
    * @param mixed $map A JSON map representing a blog.
    * @return Blog The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
    */
-  public static function fromJson($map) {
+  public static function fromJson($map): ?self {
     if (is_array($map)) $map = (object) $map;
     return !is_object($map) ? null : new static(isset($map->blog) && is_string($map->blog) ? $map->blog : null, [
       'charset' => isset($map->blog_charset) && is_string($map->blog_charset) ? $map->blog_charset : '',
@@ -74,7 +74,7 @@ class Blog extends Model implements \JsonSerializable {
    * Gets the blog or site URL.
    * @return UriInterface The blog or site URL.
    */
-  public function getUrl() {
+  public function getUrl(): ?UriInterface {
     return $this->url;
   }
 

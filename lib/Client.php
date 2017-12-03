@@ -107,7 +107,7 @@ class Client extends Component {
    * Gets the front page or home URL of the instance making requests.
    * @return Blog The front page or home URL.
    */
-  public function getBlog() {
+  public function getBlog(): ?Blog {
     return $this->blog;
   }
 
@@ -115,7 +115,7 @@ class Client extends Component {
    * Gets the URL of the API end point.
    * @return UriInterface The URL of the API end point.
    */
-  public function getEndPoint() {
+  public function getEndPoint(): ?UriInterface {
     return $this->endPoint;
   }
 
@@ -193,7 +193,7 @@ class Client extends Component {
       $bodyFields = ArrayHelper::merge(\Yii::getObjectVars($this->getBlog()->jsonSerialize()), $fields);
       if ($this->isTest) $bodyFields['is_test'] = '1';
 
-      $response = $this->httpClient->post($endPoint, $bodyFields, ['User-Agent' => $this->userAgent])->send();
+      $response = $this->httpClient->post($endPoint, $bodyFields, ['user-agent' => $this->userAgent])->send();
       if (!$response->isOk) throw new InvalidValueException($response->statusCode);
       if ($response->headers->has(static::DEBUG_HEADER)) throw new InvalidValueException($response->headers->get(static::DEBUG_HEADER));
       return $response->content;

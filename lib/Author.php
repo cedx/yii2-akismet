@@ -71,7 +71,7 @@ class Author extends Model implements \JsonSerializable {
    * @param mixed $map A JSON map representing an author.
    * @return Author The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
    */
-  public static function fromJson($map) {
+  public static function fromJson($map): ?self {
     if (is_array($map)) $map = (object) $map;
     else if (!is_object($map)) return null;
 
@@ -93,7 +93,7 @@ class Author extends Model implements \JsonSerializable {
    * Gets the URL of the author's website.
    * @return UriInterface The URL of the author's website.
    */
-  public function getUrl() {
+  public function getUrl(): ?UriInterface {
     return $this->url;
   }
 
