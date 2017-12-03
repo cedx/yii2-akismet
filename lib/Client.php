@@ -17,29 +17,29 @@ use yii\web\{ServerErrorHttpException};
 class Client extends Component {
 
   /**
-   * @var string The HTTP header containing the Akismet error messages.
-   */
-  const DEBUG_HEADER = 'x-akismet-debug-help';
-
-  /**
-   * @var string The URL of the default API end point.
-   */
-  const DEFAULT_ENDPOINT = 'https://rest.akismet.com';
-
-  /**
    * @var string An event that is triggered when a response is received from the remote service.
    */
-  const EVENT_AFTER_SEND = HttpClient::EVENT_AFTER_SEND;
+  public const EVENT_AFTER_SEND = HttpClient::EVENT_AFTER_SEND;
 
   /**
    * @var string An event that is triggered when a request is made to the remote service.
    */
-  const EVENT_BEFORE_SEND = HttpClient::EVENT_BEFORE_SEND;
+  public const EVENT_BEFORE_SEND = HttpClient::EVENT_BEFORE_SEND;
 
   /**
    * @var string The version number of this package.
    */
-  const VERSION = '6.0.0';
+  public const VERSION = '7.0.0';
+
+  /**
+   * @var string The HTTP header containing the Akismet error messages.
+   */
+  private const DEBUG_HEADER = 'x-akismet-debug-help';
+
+  /**
+   * @var string The URL of the default API end point.
+   */
+  private const DEFAULT_ENDPOINT = 'https://rest.akismet.com';
 
   /**
    * @var string The Akismet API key.
