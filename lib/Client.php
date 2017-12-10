@@ -22,9 +22,9 @@ class Client extends Component {
   public const EVENT_REQUEST = 'request';
 
   /**
-   * @var string An event that is triggered when a request is made to the remote service.
+   * @var string An event that is triggered when a response is received from the remote service.
    */
-  public const EVENT_BEFORE_SEND = HttpClient::EVENT_BEFORE_SEND;
+  public const EVENT_RESPONSE = 'response';
 
   /**
    * @var string The version number of this package.
@@ -86,7 +86,7 @@ class Client extends Component {
     });
 
     $this->httpClient->on(HttpClient::EVENT_AFTER_SEND, function($event) {
-      $this->trigger(static::EVENT_AFTER_SEND, $event);
+      $this->trigger(static::EVENT_RESPONSE, $event);
     });
 
     parent::__construct($config);

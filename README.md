@@ -105,14 +105,14 @@ $client->on(Client::EVENT_REQUEST, function(RequestEvent $event) {
 });
 ```
 
-### The `afterSend` event
+### The `response` event
 Emitted every time a response is received from the remote service:
 
 ```php
 use yii\akismet\{Client};
 use yii\httpclient\{RequestEvent};
 
-$client->on(Client::EVENT_AFTER_SEND, function(RequestEvent $event) {
+$client->on(Client::EVENT_RESPONSE, function(RequestEvent $event) {
   echo 'Server response: ', $event->response->statusCode;
 });
 ```
