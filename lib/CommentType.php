@@ -5,7 +5,7 @@ namespace yii\akismet;
 /**
  * Specifies the type of a comment.
  */
-final class CommentType {
+abstract class CommentType {
 
   /**
    * @var string A blog post.
