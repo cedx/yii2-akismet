@@ -17,9 +17,9 @@ use yii\web\{ServerErrorHttpException};
 class Client extends Component {
 
   /**
-   * @var string An event that is triggered when a response is received from the remote service.
+   * @var string An event that is triggered when a request is made to the remote service.
    */
-  public const EVENT_AFTER_SEND = HttpClient::EVENT_AFTER_SEND;
+  public const EVENT_REQUEST = 'request';
 
   /**
    * @var string An event that is triggered when a request is made to the remote service.
@@ -82,7 +82,7 @@ class Client extends Component {
     ]);
 
     $this->httpClient->on(HttpClient::EVENT_BEFORE_SEND, function($event) {
-      $this->trigger(static::EVENT_BEFORE_SEND, $event);
+      $this->trigger(static::EVENT_REQUEST, $event);
     });
 
     $this->httpClient->on(HttpClient::EVENT_AFTER_SEND, function($event) {
@@ -184,8 +184,6 @@ class Client extends Component {
    * @param string $endPoint The URL of the end point to query.
    * @param array $fields The fields describing the query body.
    * @return string The response body.
-   * @emits \yii\httpclient\RequestEvent The "beforeSend" event.
-   * @emits \yii\httpclient\RequestEvent The "afterSend" event.
    * @throws ServerErrorHttpException An error occurred while querying the end point.
    */
   private function fetch(string $endPoint, array $fields = []): string {

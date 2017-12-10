@@ -93,14 +93,14 @@ catch (\Throwable $e) {
 ## Events
 The `yii\akismet\Client` class triggers some events during its life cycle.
 
-### The `beforeSend` event
+### The `request` event
 Emitted every time a request is made to the remote service:
 
 ```php
 use yii\akismet\{Client};
 use yii\httpclient\{RequestEvent};
 
-$client->on(Client::EVENT_BEFORE_SEND, function(RequestEvent $event) {
+$client->on(Client::EVENT_REQUEST, function(RequestEvent $event) {
   echo 'Client request: ', $event->request->url;
 });
 ```
