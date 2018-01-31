@@ -10,8 +10,9 @@ Prevent comment spam using the [Akismet](https://akismet.com) connector for [Yii
 - [Submit ham](https://akismet.com/development/api/#submit-ham): submits a comment that was incorrectly marked as spam but should not have been.
 
 ## Requirements
-The latest [PHP](https://secure.php.net) and [Composer](https://getcomposer.org) versions.
-If you plan to play with the sources, you will also need the latest [Phing](https://www.phing.info) version.
+The latest [PHP](https://secure.php.net) and [Composer](https://getcomposer.org) versions to use the Akismet library.
+
+If you plan to play with the sources, you will also need the latest [Phing](https://www.phing.info) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material) versions.
 
 ## Installing via [Composer](https://getcomposer.org)
 From a command prompt, run:
@@ -32,8 +33,8 @@ return [
   'components' => [
     'akismet' => [
       'class' => Client::class,
-      'apiKey' => 'YourAPIKey',
-      'blog' => 'http://your.blog.url'
+      'apiKey' => '123YourAPIKey',
+      'blog' => 'http://www.yourblog.com'
     ]
   ]
 ];
@@ -46,12 +47,15 @@ Once the `yii\akismet\Client` component initialized with your credentials, you c
 
 ```php
 <?php
+use yii\akismet\{Client, ClientException};
+
 try {
   $client = \Yii::$app->akismet;
-  echo $client->verifyKey() ? 'Your API key is valid.' : 'Your API key is invalid.';
+  $isValid = $client->verifyKey();
+  echo $isValid ? 'The API key is valid' : 'The API key is invalid';
 }
 
-catch (\Throwable $e) {
+catch (ClientException $e) {
   echo 'An error occurred: ', $e->getMessage();
 }
 ```
@@ -65,14 +69,14 @@ use yii\akismet\{Author, Comment};
 try {
   $comment = new Comment(
     new Author('127.0.0.1', 'Mozilla/5.0'),
-    ['content' => 'A comment.', 'date' => time()]
+    ['content' => 'A user comment', 'date' => time()]
   );
     
   $isSpam = $client->checkComment($comment);
-  echo $isSpam ? 'The comment is marked as spam.' : 'The comment is marked as ham.';
+  echo $isSpam ? 'The comment is spam' : 'The comment is ham';
 }
 
-catch (\Throwable $e) {
+catch (ClientException $e) {
   echo 'An error occurred: ', $e->getMessage();
 }
 ```
@@ -83,13 +87,13 @@ catch (\Throwable $e) {
 <?php
 try {
   $client->submitSpam($comment);
-  echo 'Spam submitted.';
+  echo 'Spam submitted';
     
   $client->submitHam($comment);
-  echo 'Ham submitted.';
+  echo 'Ham submitted';
 }
 
-catch (\Throwable $e) {
+catch (ClientException $e) {
   echo 'An error occurred: ', $e->getMessage();
 }
 ```
@@ -127,7 +131,7 @@ $client->on(Client::EVENT_RESPONSE, function(RequestEvent $event) {
 In order to run the tests, you must set the `AKISMET_API_KEY` environment variable to the value of your Akismet API key:
 
 ```shell
-export AKISMET_API_KEY="<YourAPIKey>"
+export AKISMET_API_KEY="<123YourAPIKey>"
 ```
 
 Then, you can run the `test` script from the command prompt:

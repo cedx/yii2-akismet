@@ -9,20 +9,22 @@ Client::checkComment(Comment $comment): bool
 ```
 
 ## Return value
-A `bool` value indicating whether the given `yii\akismet\Comment` is spam.
+A `bool` value indicating whether the given `Comment` is spam.
 
-The method throws a `yii\web\ServerErrorHttpException` when an error occurs.
+The method throws a `ClientException` when an error occurs.
 The exception `getMessage()` usually includes some debug information, provided by the `X-akismet-debug-help` HTTP header, about what exactly was invalid about the call.
 
 ## Example
 
 ```php
 <?php
-use yii\akismet\{Author, Client, Comment, CommentType};
-use yii\web\{ServerErrorHttpException};
+use yii\akismet\{Author, Client, ClientException, Comment};
 
 try {
-  $client = new Client('123YourAPIKey', 'http://www.yourblog.com');
+  $client = new Client([
+    'apiKey' => '123YourAPIKey',
+    'blog' => 'http://www.yourblog.com'
+  ]);
 
   $comment = new Comment(
     new Author('127.0.0.1', 'Mozilla/5.0'),
@@ -33,7 +35,7 @@ try {
   echo $isSpam ? 'The comment is spam' : 'The comment is ham';
 }
 
-catch (ServerErrorHttpException $e) {
+catch (ClientException $e) {
   echo 'An error occurred: ', $e->getMessage();
 }
 ```
