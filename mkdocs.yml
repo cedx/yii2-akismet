@@ -1,0 +1,46 @@
+site_name: Akismet for Yii
+site_description: Akismet connector for the Yii Framework.
+site_author: Cédric Belin - cedric@belin.io
+site_url: https://cedx.github.io/yii2-akismet
+
+docs_dir: doc
+site_dir: www
+
+repo_name: cedx/yii2-akismet
+repo_url: https://github.com/cedx/yii2-akismet
+edit_uri: ''
+
+copyright: Copyright &copy; 2016 - 2018 Cédric Belin
+google_analytics:
+- !!python/object/apply:os.getenv [GOOGLE_ANALYTICS_ID]
+- auto
+
+extra:
+  social:
+  - {type: globe, link: 'https://belin.io'}
+  - {type: github, link: 'https://github.com/cedx'}
+  - {type: twitter, link: 'https://twitter.com/cedxbelin'}
+  - {type: linkedin, link: 'https://www.linkedin.com/in/cedxbelin'}
+
+markdown_extensions:
+- admonition
+- codehilite
+- meta
+
+pages:
+- Home: index.md
+- Installation: installation.md
+- Features:
+  - Key verification: features/key-verification.md
+  - Comment check: features/comment-check.md
+  - Submit spam: features/submit-spam.md
+  - Submit ham: features/submit-ham.md
+- About:
+  - Changelog: about/changelog.md
+  - License: about/license.md
+  - See also: about/see-also.md
+
+theme:
+  name: material
+  favicon: img/favicon.ico
+  palette: {primary: deep purple, accent: deep purple}

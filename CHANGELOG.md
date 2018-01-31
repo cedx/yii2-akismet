@@ -1,5 +1,7 @@
 # Changelog
-This file contains highlights of what changes on each version of the [Akismet for Yii](https://github.com/cedx/yii2-akismet) library.
+
+## Version [7.1.0](https://github.com/cedx/yii2-akismet/compare/v7.0.0...v7.1.0)
+- Added a user guide based on [MkDocs](http://www.mkdocs.org).
 
 ## Version [7.0.0](https://github.com/cedx/yii2-akismet/compare/v6.0.0...v7.0.0)
 - Breaking change: raised the required [PHP](https://secure.php.net) version.

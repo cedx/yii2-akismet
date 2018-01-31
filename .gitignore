@@ -2,6 +2,7 @@
 /doc/api/
 /var/
 /vendor/
+/www/
 
 /*.iml
 /**/.DS_Store
