@@ -104,14 +104,14 @@ class ClientTest extends TestCase {
   protected function setUp(): void {
     $this->client = new Client([
       'apiKey' => getenv('AKISMET_API_KEY'),
-      'blog' => 'https://github.com/cedx/yii2-akismet',
+      'blog' => 'https://cedx.github.io/yii2-akismet',
       'isTest' => true
     ]);
 
     $author = new Author('192.168.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:42.0) Gecko/20100101 Firefox/42.0', [
       'name' => 'Akismet',
       'role' => 'administrator',
-      'url' => 'https://github.com/cedx/yii2-akismet'
+      'url' => 'https://cedx.github.io/yii2-akismet'
     ]);
 
     $this->ham = new Comment($author, [

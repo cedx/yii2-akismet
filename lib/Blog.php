@@ -30,7 +30,7 @@ class Blog extends Model implements \JsonSerializable {
   private $url;
 
   /**
-   * Initializes a new instance of the class.
+   * Creates a new blog.
    * @param string|UriInterface $url The blog or site URL.
    * @param array $config Name-value pairs that will be used to initialize the object properties.
    */
@@ -46,7 +46,7 @@ class Blog extends Model implements \JsonSerializable {
    */
   public function __toString(): string {
     $json = Json::encode($this);
-    return static::class." $json";
+    return static::class . " $json";
   }
 
   /**

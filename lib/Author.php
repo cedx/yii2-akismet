@@ -46,7 +46,7 @@ class Author extends Model implements \JsonSerializable {
   private $url;
 
   /**
-   * Initializes a new instance of the class.
+   * Creates a new author.
    * @param string $ipAddress The author's IP address.
    * @param string $userAgent The author's user agent.
    * @param array $config Name-value pairs that will be used to initialize the object properties.
@@ -63,7 +63,7 @@ class Author extends Model implements \JsonSerializable {
    */
   public function __toString(): string {
     $json = Json::encode($this);
-    return static::class." $json";
+    return static::class . " $json";
   }
 
   /**

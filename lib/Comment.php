@@ -52,7 +52,7 @@ class Comment extends Model implements \JsonSerializable {
   private $referrer;
 
   /**
-   * Initializes a new instance of the class.
+   * Creates a new comment.
    * @param Author $author The comment's author.
    * @param array $config Name-value pairs that will be used to initialize the object properties.
    */
@@ -67,7 +67,7 @@ class Comment extends Model implements \JsonSerializable {
    */
   public function __toString(): string {
     $json = Json::encode($this);
-    return static::class." $json";
+    return static::class . " $json";
   }
 
   /**

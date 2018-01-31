@@ -4,10 +4,9 @@ namespace yii\akismet;
 
 use GuzzleHttp\Psr7\{Uri};
 use Psr\Http\Message\{UriInterface};
-use yii\base\{Component, InvalidConfigException, InvalidValueException};
+use yii\base\{Component, InvalidConfigException};
 use yii\helpers\{ArrayHelper};
-use yii\httpclient\{Client as HttpClient, CurlTransport};
-use yii\web\{ServerErrorHttpException};
+use yii\httpclient\{Client as HttpClient, CurlTransport, Exception};
 
 /**
  * Submits comments to the [Akismet](https://akismet.com) service.
@@ -29,7 +28,7 @@ class Client extends Component {
   /**
    * @var string The version number of this package.
    */
-  public const VERSION = '7.0.0';
+  public const VERSION = '7.1.0';
 
   /**
    * @var string The HTTP header containing the Akismet error messages.
@@ -72,14 +71,11 @@ class Client extends Component {
   private $httpClient;
 
   /**
-   * Initializes a new instance of the class.
+   * Creates a new client.
    * @param array $config Name-value pairs that will be used to initialize the object properties.
    */
   public function __construct(array $config = []) {
-    $this->httpClient = \Yii::createObject([
-      'class' => HttpClient::class,
-      'transport' => CurlTransport::class
-    ]);
+    $this->httpClient = new HttpClient(['transport' => CurlTransport::class]);
 
     $this->httpClient->on(HttpClient::EVENT_BEFORE_SEND, function($event) {
       $this->trigger(static::EVENT_REQUEST, $event);
@@ -96,6 +92,7 @@ class Client extends Component {
    * Checks the specified comment against the service database, and returns a value indicating whether it is spam.
    * @param Comment $comment The comment to be checked.
    * @return bool A boolean value indicating whether it is spam.
+   * @throws ClientException An error occurred while querying the end point.
    */
   public function checkComment(Comment $comment): bool {
     $serviceUrl = parse_url((string) $this->getEndPoint());
@@ -153,6 +150,7 @@ class Client extends Component {
   /**
    * Submits the specified comment that was incorrectly marked as spam but should not have been.
    * @param Comment $comment The comment to be submitted.
+   * @throws ClientException An error occurred while querying the end point.
    */
   public function submitHam(Comment $comment): void {
     $serviceUrl = parse_url((string) $this->getEndPoint());
@@ -163,6 +161,7 @@ class Client extends Component {
   /**
    * Submits the specified comment that was not marked as spam but should have been.
    * @param Comment $comment The comment to be submitted.
+   * @throws ClientException An error occurred while querying the end point.
    */
   public function submitSpam(Comment $comment): void {
     $serviceUrl = parse_url((string) $this->getEndPoint());
@@ -173,6 +172,7 @@ class Client extends Component {
   /**
    * Checks the API key against the service database, and returns a value indicating whether it is valid.
    * @return bool A boolean value indicating whether it is a valid API key.
+   * @throws ClientException An error occurred while querying the end point.
    */
   public function verifyKey(): bool {
     $endPoint = (string) $this->getEndPoint()->withPath('/1.1/verify-key');
@@ -184,21 +184,17 @@ class Client extends Component {
    * @param string $endPoint The URL of the end point to query.
    * @param array $fields The fields describing the query body.
    * @return string The response body.
-   * @throws ServerErrorHttpException An error occurred while querying the end point.
+   * @throws ClientException An error occurred while querying the end point.
    */
   private function fetch(string $endPoint, array $fields = []): string {
-    try {
       $bodyFields = ArrayHelper::merge(\Yii::getObjectVars($this->getBlog()->jsonSerialize()), $fields);
       if ($this->isTest) $bodyFields['is_test'] = '1';
 
-      $response = $this->httpClient->post($endPoint, $bodyFields, ['user-agent' => $this->userAgent])->send();
-      if (!$response->isOk) throw new InvalidValueException($response->statusCode);
-      if ($response->headers->has(static::DEBUG_HEADER)) throw new InvalidValueException($response->headers->get(static::DEBUG_HEADER));
-      return $response->content;
-    }
+      try { $response = $this->httpClient->post($endPoint, $bodyFields, ['user-agent' => $this->userAgent])->send(); }
+      catch (Exception $e) { throw new ClientException($e->getMessage(), $endPoint, $e); }
 
-    catch (\Throwable $e) {
-      throw new ServerErrorHttpException($e->getMessage());
-    }
+      if (!$response->isOk) throw new ClientException($response->statusCode, $endPoint);
+      if ($response->headers->has(static::DEBUG_HEADER)) throw new ClientException($response->headers->get(static::DEBUG_HEADER), $endPoint);
+      return $response->content;
   }
 }
