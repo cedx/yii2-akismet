@@ -17,14 +17,15 @@ If you plan to play with the sources, you will also need the latest [Phing](http
 From a command prompt, run:
 
 ```shell
-$ composer global require fxp/composer-asset-plugin
-$ composer require cedx/yii2-akismet
+composer global require fxp/composer-asset-plugin
+composer require cedx/yii2-akismet
 ```
 
 ## Usage
 In your application configuration file, you can use the following component:
 
 ```php
+<?php
 use yii\akismet\{Client};
 
 return [
@@ -44,6 +45,7 @@ Once the `yii\akismet\Client` component initialized with your credentials, you c
 ### Key verification
 
 ```php
+<?php
 try {
   $client = \Yii::$app->akismet;
   echo $client->verifyKey() ? 'Your API key is valid.' : 'Your API key is invalid.';
@@ -57,6 +59,7 @@ catch (\Throwable $e) {
 ### Comment check
 
 ```php
+<?php
 use yii\akismet\{Author, Comment};
 
 try {
@@ -77,6 +80,7 @@ catch (\Throwable $e) {
 ### Submit spam/ham
 
 ```php
+<?php
 try {
   $client->submitSpam($comment);
   echo 'Spam submitted.';
@@ -97,6 +101,7 @@ The `yii\akismet\Client` class triggers some events during its life cycle.
 Emitted every time a request is made to the remote service:
 
 ```php
+<?php
 use yii\akismet\{Client};
 use yii\httpclient\{RequestEvent};
 
@@ -109,6 +114,7 @@ $client->on(Client::EVENT_REQUEST, function(RequestEvent $event) {
 Emitted every time a response is received from the remote service:
 
 ```php
+<?php
 use yii\akismet\{Client};
 use yii\httpclient\{RequestEvent};
 
@@ -121,19 +127,20 @@ $client->on(Client::EVENT_RESPONSE, function(RequestEvent $event) {
 In order to run the tests, you must set the `AKISMET_API_KEY` environment variable to the value of your Akismet API key:
 
 ```shell
-$ export AKISMET_API_KEY="<YourAPIKey>"
+export AKISMET_API_KEY="<YourAPIKey>"
 ```
 
 Then, you can run the `test` script from the command prompt:
 
 ```shell
-$ composer test
+composer test
 ```
 
 ## See also
-- [API reference](https://cedx.github.io/yii2-akismet)
+- [API reference](https://cedx.github.io/yii2-akismet/api)
 - [Code coverage](https://coveralls.io/github/cedx/yii2-akismet)
 - [Continuous integration](https://travis-ci.org/cedx/yii2-akismet)
+- [Packagist package](https://packagist.org/packages/cedx/yii2-akismet)
 
 ## License
-[Akismet for Yii](https://github.com/cedx/yii2-akismet) is distributed under the MIT License.
+[Akismet for Yii](https://cedx.github.io/yii2-akismet) is distributed under the MIT License.
