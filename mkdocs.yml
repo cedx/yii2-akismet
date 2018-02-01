@@ -43,4 +43,4 @@ pages:
 theme:
   name: material
   favicon: img/favicon.ico
-  palette: {primary: deep purple, accent: deep purple}
+  palette: {primary: blue grey, accent: light blue}
