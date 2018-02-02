@@ -120,7 +120,11 @@ class ClientTest extends TestCase {
       'type' => CommentType::COMMENT
     ]);
 
-    $author = new Author('127.0.0.1', 'Spam Bot/6.6.6', ['name' => 'viagra-test-123']);
+    $author = new Author('127.0.0.1', 'Spam Bot/6.6.6', [
+      'email' => 'akismet-guaranteed-spam@example.com',
+      'name' => 'viagra-test-123'
+    ]);
+
     $this->spam = new Comment($author, [
       'content' => 'Spam!',
       'type' => CommentType::TRACKBACK
