@@ -124,7 +124,8 @@ class Client extends Component {
     parent::init();
     if (!mb_strlen($this->apiKey) || !$this->getBlog()) throw new InvalidConfigException('The API key or the blog URL is empty.');
     if (!$this->getEndPoint()) $this->setEndPoint(static::DEFAULT_ENDPOINT);
-    if (!mb_strlen($this->userAgent)) $this->userAgent = sprintf('PHP/%s | Yii2-Akismet/%s', preg_replace('/^(\d+(\.\d+){2}).*/', '$1', PHP_VERSION), static::VERSION);
+    if (!mb_strlen($this->userAgent))
+      $this->userAgent = sprintf('Yii Framework/%s | Akismet/%s', preg_replace('/^(\d+(\.\d+){2}).*$/', '$1', \Yii::getVersion()), static::VERSION);
   }
 
   /**

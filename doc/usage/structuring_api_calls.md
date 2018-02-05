@@ -18,5 +18,4 @@ Application Name/Version | Plugin Name/Version
 ```
 
 !!! info
-    The default user agent string looks like:
-    `Dart/1.24.3 | Akismet/4.0.0`
+    The default user agent string looks like: `Yii Framework/2.0.13 | Akismet/7.1.0`

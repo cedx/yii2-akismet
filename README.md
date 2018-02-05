@@ -148,9 +148,9 @@ composer test
 - [Code coverage](https://coveralls.io/github/cedx/yii2-akismet)
 
 ### Other implementations
-* Dart: [Akismet for Dart](https://cedx.github.io/akismet.dart)
-* Node.js: [Akismet for JS](https://cedx.github.io/akismet.js)
-* PHP: [Akismet for PHP](https://cedx.github.io/akismet.php)
+- Dart: [Akismet for Dart](https://cedx.github.io/akismet.dart)
+- Node.js: [Akismet for JS](https://cedx.github.io/akismet.js)
+- PHP: [Akismet for PHP](https://cedx.github.io/akismet.php)
 
 ## License
 [Akismet for Yii](https://cedx.github.io/yii2-akismet) is distributed under the MIT License.
