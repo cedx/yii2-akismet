@@ -3,6 +3,8 @@
 ## Development
 - [API reference](https://cedx.github.io/yii2-akismet/api)
 - [Packagist package](https://packagist.org/packages/cedx/yii2-akismet)
+- [Akismet for developers](https://akismet.com/development/api)
+- [Yii Framework](http://www.yiiframework.com/doc-2.0/guide-README.html)
 
 ## Testing
 - [Continuous integration](https://travis-ci.org/cedx/yii2-akismet)

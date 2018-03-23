@@ -29,7 +29,7 @@
     "ext-pcre": "*",
     "ext-spl": "*",
     "guzzlehttp/psr7": "^1.4.2",
-    "yiisoft/yii2": "^2.0.13",
+    "yiisoft/yii2": "^2.0.15",
     "yiisoft/yii2-httpclient": "^2.0.5"
   },
   "require-dev": {
