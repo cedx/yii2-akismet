@@ -1,6 +1,5 @@
 <?php
 declare(strict_types=1);
-use yii\console\{Application};
 
 // Set the environment.
 define('YII_DEBUG', true);
@@ -10,11 +9,4 @@ define('YII_ENV', 'test');
 $rootPath = dirname(__DIR__);
 require_once "$rootPath/vendor/autoload.php";
 require_once "$rootPath/vendor/yiisoft/yii2/Yii.php";
-
-// Initialize the application.
 Yii::setAlias('@root', $rootPath);
-new Application([
-  'id' => 'yii2-akismet',
-  'basePath' => '@root/lib',
-  'vendorPath' => '@root/vendor'
-]);

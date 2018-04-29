@@ -29,14 +29,17 @@ In your application configuration file, you can use the following component:
 
 ```php
 <?php
-use yii\akismet\{Client};
+use yii\akismet\{Blog, Client};
 
 return [
   'components' => [
     'akismet' => [
       'class' => Client::class,
       'apiKey' => '123YourAPIKey',
-      'blog' => 'http://www.yourblog.com'
+      'blog' => [
+        'class' => Blog::class,
+        'url' => 'http://www.yourblog.com'
+      ]
     ]
   ]
 ];

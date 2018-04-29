@@ -17,7 +17,7 @@ class Blog extends Model implements \JsonSerializable {
   /**
    * @var string The character encoding for the values included in comments.
    */
-  public $charset = '';
+  public $charset = \Yii::$app->charset;
 
   /**
    * @var \ArrayObject The languages in use on the blog or site, in ISO 639-1 format.
