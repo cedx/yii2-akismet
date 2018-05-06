@@ -3,7 +3,7 @@
 
 Prevent comment spam using the [Akismet](https://akismet.com) connector for [Yii](http://www.yiiframework.com), high-performance [PHP](https://secure.php.net) framework.
 
-> For detailed instructions, see the [user guide](https://cedx.github.io/yii2-akismet).
+> For detailed instructions, see the [user guide](https://dev.belin.io/yii2-akismet).
 
 ## Features
 - [Key verification](https://akismet.com/development/api/#verify-key): checks an Akismet API key and gets a value indicating whether it is valid.
@@ -75,7 +75,7 @@ try {
     new Author('127.0.0.1', 'Mozilla/5.0'),
     ['content' => 'A user comment', 'date' => time()]
   );
-      
+
   $isSpam = $client->checkComment($comment);
   echo $isSpam ? 'The comment is spam' : 'The comment is ham';
 }
@@ -92,7 +92,7 @@ catch (ClientException $e) {
 try {
   $client->submitSpam($comment);
   echo 'Spam submitted';
-    
+
   $client->submitHam($comment);
   echo 'Ham submitted';
 }
@@ -144,16 +144,11 @@ Then, you can run the `test` script from the command prompt:
 composer test
 ```
 
-## See also
-- [API reference](https://cedx.github.io/yii2-akismet/api)
+## Resources
+- [Documentation](https://dev.belin.io/yii2-akismet)
+- [API reference](https://dev.belin.io/yii2-akismet/api)
 - [Packagist package](https://packagist.org/packages/cedx/yii2-akismet)
-- [Continuous integration](https://travis-ci.org/cedx/yii2-akismet)
-- [Code coverage](https://coveralls.io/github/cedx/yii2-akismet)
-
-### Other implementations
-- Dart: [Akismet for Dart](https://cedx.github.io/akismet.dart)
-- Node.js: [Akismet for JS](https://cedx.github.io/akismet.js)
-- PHP: [Akismet for PHP](https://cedx.github.io/akismet.php)
+- [GitHub repository](https://github.com/cedx/yii2-akismet)
 
 ## License
-[Akismet for Yii](https://cedx.github.io/yii2-akismet) is distributed under the MIT License.
+[Akismet for Yii](https://dev.belin.io/yii2-akismet) is distributed under the MIT License.

@@ -1,6 +1,6 @@
 {
   "description": "Akismet connector for the Yii Framework.",
-  "homepage": "https://cedx.github.io/yii2-akismet",
+  "homepage": "https://dev.belin.io/yii2-akismet",
   "license": "MIT",
   "name": "cedx/yii2-akismet",
   "type": "yii2-extension",
@@ -42,7 +42,7 @@
     "test": "phpunit --colors=auto --verbose"
   },
   "support": {
-    "docs": "https://cedx.github.io/yii2-akismet/api",
+    "docs": "https://dev.belin.io/yii2-akismet/api",
     "issues": "https://github.com/cedx/yii2-akismet/issues"
   }
 }

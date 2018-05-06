@@ -28,7 +28,7 @@ class BlogTest extends TestCase {
 
     it('should return an initialized instance with a non-empty map', function() {
       $blog = Blog::fromJson([
-        'blog' => 'https://cedx.github.io/yii2-akismet',
+        'blog' => 'https://dev.belin.io/yii2-akismet',
         'blog_charset' => 'UTF-8',
         'blog_lang' => 'en, fr'
       ]);
@@ -37,7 +37,7 @@ class BlogTest extends TestCase {
       expect($blog->languages->getArrayCopy())->to->equal(['en', 'fr']);
 
       expect($blog->url)->to->be->instanceOf(UriInterface::class);
-      expect((string) $blog->url)->to->equal('https://cedx.github.io/yii2-akismet');
+      expect((string) $blog->url)->to->equal('https://dev.belin.io/yii2-akismet');
     });
   }
 
@@ -46,19 +46,19 @@ class BlogTest extends TestCase {
    */
   public function testJsonSerialize(): void {
     it('should return only the blog URL with a newly created instance', function() {
-      $data = (new Blog('https://cedx.github.io/yii2-akismet'))->jsonSerialize();
+      $data = (new Blog('https://dev.belin.io/yii2-akismet'))->jsonSerialize();
       expect(\Yii::getObjectVars($data))->to->have->lengthOf(1);
-      expect($data->blog)->to->equal('https://cedx.github.io/yii2-akismet');
+      expect($data->blog)->to->equal('https://dev.belin.io/yii2-akismet');
     });
 
     it('should return a non-empty map with a initialized instance', function() {
-      $data = (new Blog('https://cedx.github.io/yii2-akismet', [
+      $data = (new Blog('https://dev.belin.io/yii2-akismet', [
         'charset' => 'UTF-8',
         'languages' => ['en', 'fr']
       ]))->jsonSerialize();
 
       expect(\Yii::getObjectVars($data))->to->have->lengthOf(3);
-      expect($data->blog)->to->equal('https://cedx.github.io/yii2-akismet');
+      expect($data->blog)->to->equal('https://dev.belin.io/yii2-akismet');
       expect($data->blog_charset)->to->equal('UTF-8');
       expect($data->blog_lang)->to->equal('en,fr');
     });
@@ -68,7 +68,7 @@ class BlogTest extends TestCase {
    * @test Blog::__toString
    */
   public function testToString(): void {
-    $blog = (string) new Blog('https://cedx.github.io/yii2-akismet', [
+    $blog = (string) new Blog('https://dev.belin.io/yii2-akismet', [
       'charset' => 'UTF-8',
       'languages' => ['en', 'fr']
     ]);
@@ -78,7 +78,7 @@ class BlogTest extends TestCase {
     });
 
     it('should contain the instance properties', function() use ($blog) {
-      expect($blog)->to->contain('"blog":"https://cedx.github.io/yii2-akismet"')
+      expect($blog)->to->contain('"blog":"https://dev.belin.io/yii2-akismet"')
         ->and->contain('"blog_charset":"UTF-8"')
         ->and->contain('"blog_lang":"en,fr"');
     });
