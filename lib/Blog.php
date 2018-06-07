@@ -17,7 +17,7 @@ class Blog extends Model implements \JsonSerializable {
   /**
    * @var string The character encoding for the values included in comments.
    */
-  public $charset = \Yii::$app->charset;
+  public $charset = '';
 
   /**
    * @var \ArrayObject The languages in use on the blog or site, in ISO 639-1 format.
@@ -35,8 +35,8 @@ class Blog extends Model implements \JsonSerializable {
    * @param array $config Name-value pairs that will be used to initialize the object properties.
    */
   public function __construct($url, array $config = []) {
-    $this->url = is_string($url) ? new Uri($url) : $url;
     $this->languages = new \ArrayObject();
+    $this->url = is_string($url) ? new Uri($url) : $url;
     parent::__construct($config);
   }
 
@@ -76,6 +76,14 @@ class Blog extends Model implements \JsonSerializable {
    */
   public function getUrl(): ?UriInterface {
     return $this->url;
+  }
+
+  /**
+   * Initializes the object.
+   */
+  public function init(): void {
+    parent::init();
+    if (!mb_strlen($this->charset)) $this->charset = \Yii::$app->charset;
   }
 
   /**
