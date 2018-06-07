@@ -1,5 +1,11 @@
 <?xml version="1.0"?>
 <project default="test" name="yii2-akismet">
+  <if>
+    <os family="windows"/>
+    <then><property name="composer" value="C:\Program Files\PHP\share\composer.phar"/></then>
+    <else><property name="composer" value="/usr/local/bin/composer"/></else>
+  </if>
+
   <target name="clean" description="Delete the generated files">
     <delete dir="build" quiet="true"/>
     <delete dir="doc/api" quiet="true"/>
@@ -10,16 +16,12 @@
   </target>
 
   <target name="coverage" description="Upload the code coverage">
-    <exec executable="vendor/bin/coveralls" passthru="true">
-      <arg file="var/coverage.xml"/>
-    </exec>
+    <exec command="php vendor/bin/coveralls var/coverage.xml" passthru="true"/>
   </target>
 
   <target name="doc" description="Build the documentation">
-    <exec executable="vendor/bin/phpdoc" passthru="true"/>
-    <exec executable="mkdocs" passthru="true">
-      <arg value="build"/>
-    </exec>
+    <exec command="php vendor/bin/phpdoc" passthru="true"/>
+    <exec command="mkdocs build" passthru="true"/>
   </target>
 
   <target name="lint" description="Perform the static analysis">
@@ -30,9 +32,13 @@
   </target>
 
   <target name="test" description="Run the tests">
-    <exec executable="vendor/bin/phpunit" passthru="true">
-      <arg value="--colors=auto"/>
-      <arg value="--verbose"/>
-    </exec>
+    <exec command="php vendor/bin/phpunit --colors=auto --verbose" passthru="true"/>
+  </target>
+
+  <target name="upgrade" description="Upgrade the project">
+    <exec command="git reset --hard" passthru="true"/>
+    <exec command="git fetch --all --prune" passthru="true"/>
+    <exec command="git pull --rebase" passthru="true"/>
+    <composer command="update" composer="${composer}"/>
   </target>
 </project>
