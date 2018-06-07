@@ -6,7 +6,7 @@ use GuzzleHttp\Psr7\{Uri};
 use Psr\Http\Message\{UriInterface};
 use yii\base\{Component, InvalidConfigException};
 use yii\helpers\{ArrayHelper};
-use yii\httpclient\{Client as HttpClient, CurlTransport, Exception};
+use yii\httpclient\{Client as HttpClient, CurlTransport, Exception as HttpException};
 
 /**
  * Submits comments to the [Akismet](https://akismet.com) service.
@@ -192,7 +192,7 @@ class Client extends Component {
       if ($this->isTest) $bodyFields['is_test'] = '1';
 
       try { $response = $this->httpClient->post($endPoint, $bodyFields, ['user-agent' => $this->userAgent])->send(); }
-      catch (Exception $e) { throw new ClientException($e->getMessage(), $endPoint, $e); }
+      catch (HttpException $e) { throw new ClientException($e->getMessage(), $endPoint, $e); }
 
       if (!$response->isOk) throw new ClientException($response->statusCode, $endPoint);
       if ($response->headers->has(static::DEBUG_HEADER)) throw new ClientException($response->headers->get(static::DEBUG_HEADER), $endPoint);
