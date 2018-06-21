@@ -131,7 +131,7 @@ class Client extends Component {
   /**
    * Sets the front page or home URL of the instance making requests.
    * @param Blog|string $value The new front page or home URL.
-   * @return Client This instance.
+   * @return self This instance.
    */
   public function setBlog($value): self {
     $this->blog = is_string($value) ? new Blog($value) : $value;
@@ -141,7 +141,7 @@ class Client extends Component {
   /**
    * Sets the URL of the API end point.
    * @param string|UriInterface $value The new URL of the API end point.
-   * @return Client This instance.
+   * @return self This instance.
    */
   public function setEndPoint($value): self {
     $this->endPoint = is_string($value) ? new Uri($value) : $value;

@@ -52,7 +52,7 @@ class Blog extends Model implements \JsonSerializable {
   /**
    * Creates a new blog from the specified JSON map.
    * @param mixed $map A JSON map representing a blog.
-   * @return Blog The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
+   * @return self The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
    */
   public static function fromJson($map): ?self {
     if (is_array($map)) $map = (object) $map;
@@ -115,7 +115,7 @@ class Blog extends Model implements \JsonSerializable {
   /**
    * Sets the languages in use on the blog or site, in ISO 639-1 format.
    * @param string[]|string $values The new languages.
-   * @return Blog This instance.
+   * @return self This instance.
    */
   public function setLanguages($values): self {
     if (!is_array($values)) $values = is_string($values) ? StringHelper::explode($values, ',', true, true) : [];
