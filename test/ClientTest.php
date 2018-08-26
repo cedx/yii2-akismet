@@ -2,7 +2,6 @@
 declare(strict_types=1);
 namespace yii\akismet;
 
-use function PHPUnit\Expect\{expect, fail, it};
 use PHPUnit\Framework\{TestCase};
 use yii\base\{InvalidConfigException};
 
@@ -27,74 +26,74 @@ class ClientTest extends TestCase {
   private $spam;
 
   /**
-   * @test Client::checkComment
+   * Tests the `Client::checkComment
    */
-  public function testCheckComment(): void {
-    it('should return `false` for valid comment (e.g. ham)', function() {
-      expect($this->client->checkComment($this->ham))->to->be->false;
+  function testCheckComment(): void {
+    // It should return `false` for valid comment (e.g. ham).
+      assertThat($this->client->checkComment($this->ham), isFalse());
     });
 
-    it('should return `true` for invalid comment (e.g. spam)', function() {
-      expect($this->client->checkComment($this->spam))->to->be->true;
+    // It should return `true` for invalid comment (e.g. spam).
+      assertThat($this->client->checkComment($this->spam), isTrue());
     });
   }
 
   /**
-   * @test Client::init
+   * Tests the `Client::init
    */
-  public function testInit(): void {
-    it('should throw an exception if the API key or blog is empty', function() {
-      expect(function() { new Client; })->to->throw(InvalidConfigException::class);
+  function testInit(): void {
+    // It should throw an exception if the API key or blog is empty.
+      assertThat(function() { new Client; })->to->throw(InvalidConfigException::class));
     });
 
-    it('should not throw an exception if the API key and blog are not empty', function() {
-      expect(function() { new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => 'FooBar']); })->to->not->throw;
+    // It should not throw an exception if the API key and blog are not empty.
+      assertThat(function() { new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => 'FooBar']); })->to->not->throw;
     });
   }
 
   /**
-   * @test Client::submitHam
+   * Tests the `Client::submitHam
    */
-  public function testSubmitHam(): void {
-    it('should complete without error', function() {
+  function testSubmitHam(): void {
+    // It should complete without error.
       try {
         $this->client->submitHam($this->ham);
-        expect(true)->to->be->true;
+        assertThat(true, isTrue());
       }
 
       catch (\Throwable $e) {
-        fail($e->getMessage());
+        $this->fail($e->getMessage());
       }
     });
   }
 
   /**
-   * @test Client::submitSpam
+   * Tests the `Client::submitSpam
    */
-  public function testSubmitSpam(): void {
-    it('should complete without error', function() {
+  function testSubmitSpam(): void {
+    // It should complete without error.
       try {
         $this->client->submitSpam($this->spam);
-        expect(true)->to->be->true;
+        assertThat(true, isTrue());
       }
 
       catch (\Throwable $e) {
-        fail($e->getMessage());
+        $this->fail($e->getMessage());
       }
     });
   }
 
   /**
-   * @test Client::verifyKey
+   * Tests the `Client::verifyKey
    */
-  public function testVerifyKey(): void {
-    it('should return `true` for a valid API key', function() {
-      expect($this->client->verifyKey())->to->be->true;
+  function testVerifyKey(): void {
+    // It should return `true` for a valid API key.
+      assertThat($this->client->verifyKey(), isTrue());
     });
 
-    it('should return `false` for an invalid API key', function() {
+    // It should return `false` for an invalid API key.
       $client = new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => $this->client->blog, 'isTest' => $this->client->isTest]);
-      expect($client->verifyKey())->to->be->false;
+      assertThat($client->verifyKey(), isFalse());
     });
   }
 

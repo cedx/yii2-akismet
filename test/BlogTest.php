@@ -2,7 +2,6 @@
 declare(strict_types=1);
 namespace yii\akismet;
 
-use function PHPUnit\Expect\{expect, it};
 use PHPUnit\Framework\{TestCase};
 use Psr\Http\Message\{UriInterface};
 use yii\console\{Application};
@@ -13,74 +12,74 @@ use yii\console\{Application};
 class BlogTest extends TestCase {
 
   /**
-   * @test Blog::fromJson
+   * Tests the `Blog::fromJson
    */
-  public function testFromJson(): void {
-    it('should return a null reference with a non-object value', function() {
-      expect(Blog::fromJson('foo'))->to->be->null;
+  function testFromJson(): void {
+    // It should return a null reference with a non-object value.
+      assertThat(Blog::fromJson('foo'), isNull());
     });
 
-    it('should return an empty instance with an empty map', function() {
+    // It should return an empty instance with an empty map.
       $blog = Blog::fromJson([]);
-      expect($blog->charset)->to->equal('UTF-8');
-      expect($blog->languages)->to->be->empty;
-      expect($blog->url)->to->be->null;
+      assertThat($blog->charset, equalTo('UTF-8');
+      assertThat($blog->languages, isEmpty());
+      assertThat($blog->url, isNull());
     });
 
-    it('should return an initialized instance with a non-empty map', function() {
+    // It should return an initialized instance with a non-empty map.
       $blog = Blog::fromJson([
         'blog' => 'https://dev.belin.io/yii2-akismet',
         'blog_charset' => 'ISO-8859-1',
         'blog_lang' => 'en, fr'
       ]);
 
-      expect($blog->charset)->to->equal('ISO-8859-1');
-      expect($blog->languages->getArrayCopy())->to->equal(['en', 'fr']);
+      assertThat($blog->charset, equalTo('ISO-8859-1');
+      assertThat($blog->languages->getArrayCopy(), equalTo(['en', 'fr']);
 
-      expect($blog->url)->to->be->instanceOf(UriInterface::class);
-      expect((string) $blog->url)->to->equal('https://dev.belin.io/yii2-akismet');
+      assertThat($blog->url, isInstanceOf(UriInterface::class));
+      assertThat((string) $blog->url, equalTo('https://dev.belin.io/yii2-akismet');
     });
   }
 
   /**
-   * @test Blog::jsonSerialize
+   * Tests the `Blog::jsonSerialize
    */
-  public function testJsonSerialize(): void {
-    it('should return only the blog URL with a newly created instance', function() {
+  function testJsonSerialize(): void {
+    // It should return only the blog URL with a newly created instance.
       $data = (new Blog('https://dev.belin.io/yii2-akismet'))->jsonSerialize();
-      expect(\Yii::getObjectVars($data))->to->have->lengthOf(2);
-      expect($data->blog)->to->equal('https://dev.belin.io/yii2-akismet');
-      expect($data->blog_charset)->to->equal('UTF-8');
+      assertThat(\Yii::getObjectVars($data), countOf(2));
+      assertThat($data->blog, equalTo('https://dev.belin.io/yii2-akismet');
+      assertThat($data->blog_charset, equalTo('UTF-8');
     });
 
-    it('should return a non-empty map with a initialized instance', function() {
+    // It should return a non-empty map with a initialized instance.
       $data = (new Blog('https://dev.belin.io/yii2-akismet', [
         'charset' => 'ISO-8859-1',
         'languages' => ['en', 'fr']
       ]))->jsonSerialize();
 
-      expect(\Yii::getObjectVars($data))->to->have->lengthOf(3);
-      expect($data->blog)->to->equal('https://dev.belin.io/yii2-akismet');
-      expect($data->blog_charset)->to->equal('ISO-8859-1');
-      expect($data->blog_lang)->to->equal('en,fr');
+      assertThat(\Yii::getObjectVars($data), countOf(3));
+      assertThat($data->blog, equalTo('https://dev.belin.io/yii2-akismet');
+      assertThat($data->blog_charset, equalTo('ISO-8859-1');
+      assertThat($data->blog_lang, equalTo('en,fr');
     });
   }
 
   /**
-   * @test Blog::__toString
+   * Tests the `Blog::__toString
    */
-  public function testToString(): void {
+  function testToString(): void {
     $blog = (string) new Blog('https://dev.belin.io/yii2-akismet', [
       'charset' => 'UTF-8',
       'languages' => ['en', 'fr']
     ]);
 
-    it('should start with the class name', function() use ($blog) {
-      expect($blog)->to->startWith('yii\akismet\Blog {');
+    // It should start with the class name.
+      assertThat($blog, stringStartsWith('yii\akismet\Blog {');
     });
 
-    it('should contain the instance properties', function() use ($blog) {
-      expect($blog)->to->contain('"blog":"https://dev.belin.io/yii2-akismet"')
+    // It should contain the instance properties.
+      assertThat($blog)->to->contain('"blog":"https://dev.belin.io/yii2-akismet"')
         ->and->contain('"blog_charset":"UTF-8"')
         ->and->contain('"blog_lang":"en,fr"');
     });

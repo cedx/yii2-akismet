@@ -2,7 +2,6 @@
 declare(strict_types=1);
 namespace yii\akismet;
 
-use function PHPUnit\Expect\{expect, it};
 use PHPUnit\Framework\{TestCase};
 
 /**
@@ -11,23 +10,23 @@ use PHPUnit\Framework\{TestCase};
 class CommentTest extends TestCase {
 
   /**
-   * @test Comment::fromJson
+   * Tests the `Comment::fromJson
    */
-  public function testFromJson(): void {
-    it('should return a null reference with a non-object value', function() {
-      expect(Comment::fromJson('foo'))->to->be->null;
+  function testFromJson(): void {
+    // It should return a null reference with a non-object value.
+      assertThat(Comment::fromJson('foo'), isNull());
     });
 
-    it('should return an empty instance with an empty map', function() {
+    // It should return an empty instance with an empty map.
       $comment = Comment::fromJson([]);
-      expect($comment->author)->to->be->null;
-      expect($comment->content)->to->be->empty;
-      expect($comment->date)->to->be->null;
-      expect($comment->referrer)->to->be->empty;
-      expect($comment->type)->to->be->empty;
+      assertThat($comment->author, isNull());
+      assertThat($comment->content, isEmpty());
+      assertThat($comment->date, isNull());
+      assertThat($comment->referrer, isEmpty());
+      assertThat($comment->type, isEmpty());
     });
 
-    it('should return an initialized instance with a non-empty map', function() {
+    // It should return an initialized instance with a non-empty map.
       $comment = Comment::fromJson([
         'comment_author' => 'Cédric Belin',
         'comment_content' => 'A user comment.',
@@ -36,30 +35,30 @@ class CommentTest extends TestCase {
         'referrer' => 'https://belin.io'
       ]);
 
-      expect($comment->author)->to->be->instanceOf(Author::class);
-      expect($comment->author->name)->to->equal('Cédric Belin');
+      assertThat($comment->author, isInstanceOf(Author::class));
+      assertThat($comment->author->name, equalTo('Cédric Belin');
 
-      expect($comment->date)->to->be->instanceOf(\DateTime::class);
-      expect($comment->date->format('Y'))->to->equal(2000);
+      assertThat($comment->date, isInstanceOf(\DateTime::class));
+      assertThat($comment->date->format('Y'), equalTo(2000);
 
-      expect($comment->content)->to->equal('A user comment.');
-      expect($comment->referrer)->to->equal('https://belin.io');
-      expect($comment->type)->to->equal(CommentType::TRACKBACK);
+      assertThat($comment->content, equalTo('A user comment.');
+      assertThat($comment->referrer, equalTo('https://belin.io');
+      assertThat($comment->type, equalTo(CommentType::TRACKBACK);
     });
   }
 
   /**
-   * @test Comment::jsonSerialize
+   * Tests the `Comment::jsonSerialize
    */
-  public function testJsonSerialize(): void {
-    it('should return only the author info with a newly created instance', function() {
+  function testJsonSerialize(): void {
+    // It should return only the author info with a newly created instance.
       $data = (new Comment(new Author('127.0.0.1', 'Doom/6.6.6')))->jsonSerialize();
-      expect(\Yii::getObjectVars($data))->to->have->lengthOf(2);
-      expect($data->user_agent)->to->equal('Doom/6.6.6');
-      expect($data->user_ip)->to->equal('127.0.0.1');
+      assertThat(\Yii::getObjectVars($data), countOf(2));
+      assertThat($data->user_agent, equalTo('Doom/6.6.6');
+      assertThat($data->user_ip, equalTo('127.0.0.1');
     });
 
-    it('should return a non-empty map with a initialized instance', function() {
+    // It should return a non-empty map with a initialized instance.
       $data = (new Comment(new Author('127.0.0.1', 'Doom/6.6.6', ['name' => 'Cédric Belin']), [
         'content' => 'A user comment.',
         'date' => '2000-01-01T00:00:00.000Z',
@@ -67,21 +66,21 @@ class CommentTest extends TestCase {
         'type' => CommentType::PINGBACK
       ]))->jsonSerialize();
 
-      expect(\Yii::getObjectVars($data))->to->have->lengthOf(7);
-      expect($data->comment_author)->to->equal('Cédric Belin');
-      expect($data->comment_content)->to->equal('A user comment.');
-      expect($data->comment_date_gmt)->to->equal('2000-01-01T00:00:00+00:00');
-      expect($data->comment_type)->to->equal('pingback');
-      expect($data->referrer)->to->equal('https://belin.io');
-      expect($data->user_agent)->to->equal('Doom/6.6.6');
-      expect($data->user_ip)->to->equal('127.0.0.1');
+      assertThat(\Yii::getObjectVars($data), countOf(7));
+      assertThat($data->comment_author, equalTo('Cédric Belin');
+      assertThat($data->comment_content, equalTo('A user comment.');
+      assertThat($data->comment_date_gmt, equalTo('2000-01-01T00:00:00+00:00');
+      assertThat($data->comment_type, equalTo('pingback');
+      assertThat($data->referrer, equalTo('https://belin.io');
+      assertThat($data->user_agent, equalTo('Doom/6.6.6');
+      assertThat($data->user_ip, equalTo('127.0.0.1');
     });
   }
 
   /**
-   * @test Comment::__toString
+   * Tests the `Comment::__toString
    */
-  public function testToString(): void {
+  function testToString(): void {
     $comment = (string) new Comment(new Author('127.0.0.1', 'Doom/6.6.6', ['name' => 'Cédric Belin']), [
       'content' => 'A user comment.',
       'date' => '2000-01-01T00:00:00.000Z',
@@ -89,12 +88,12 @@ class CommentTest extends TestCase {
       'type' => CommentType::PINGBACK
     ]);
 
-    it('should start with the class name', function() use ($comment) {
-      expect($comment)->to->startWith('yii\akismet\Comment {');
+    // It should start with the class name.
+      assertThat($comment, stringStartsWith('yii\akismet\Comment {');
     });
 
-    it('should contain the instance properties', function() use ($comment) {
-      expect($comment)->to->contain('"comment_author":"Cédric Belin"')
+    // It should contain the instance properties.
+      assertThat($comment)->to->contain('"comment_author":"Cédric Belin"')
         ->and->contain('"comment_content":"A user comment."')
         ->and->contain('"comment_type":"pingback"')
         ->and->contain('"comment_date_gmt":"2000-01-01T00:00:00+00:00"')
