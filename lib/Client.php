@@ -18,17 +18,17 @@ class Client extends Component {
   /**
    * @var string An event that is triggered when a request is made to the remote service.
    */
-  public const EVENT_REQUEST = 'request';
+  const EVENT_REQUEST = 'request';
 
   /**
    * @var string An event that is triggered when a response is received from the remote service.
    */
-  public const EVENT_RESPONSE = 'response';
+  const EVENT_RESPONSE = 'response';
 
   /**
    * @var string The version number of this package.
    */
-  public const VERSION = '7.1.0';
+  const VERSION = '7.1.0';
 
   /**
    * @var string The HTTP header containing the Akismet error messages.
@@ -74,7 +74,7 @@ class Client extends Component {
    * Creates a new client.
    * @param array $config Name-value pairs that will be used to initialize the object properties.
    */
-  public function __construct(array $config = []) {
+  function __construct(array $config = []) {
     $this->httpClient = new HttpClient(['transport' => CurlTransport::class]);
 
     $this->httpClient->on(HttpClient::EVENT_BEFORE_SEND, function($event) {
@@ -94,7 +94,7 @@ class Client extends Component {
    * @return bool A boolean value indicating whether it is spam.
    * @throws ClientException An error occurred while querying the end point.
    */
-  public function checkComment(Comment $comment): bool {
+  function checkComment(Comment $comment): bool {
     $serviceUrl = parse_url((string) $this->getEndPoint());
     $endPoint = "{$serviceUrl['scheme']}://{$this->apiKey}.{$serviceUrl['host']}/1.1/comment-check";
     return $this->fetch($endPoint, \Yii::getObjectVars($comment->jsonSerialize())) == 'true';
@@ -104,7 +104,7 @@ class Client extends Component {
    * Gets the front page or home URL of the instance making requests.
    * @return Blog The front page or home URL.
    */
-  public function getBlog(): ?Blog {
+  function getBlog(): ?Blog {
     return $this->blog;
   }
 
@@ -112,7 +112,7 @@ class Client extends Component {
    * Gets the URL of the API end point.
    * @return UriInterface The URL of the API end point.
    */
-  public function getEndPoint(): ?UriInterface {
+  function getEndPoint(): ?UriInterface {
     return $this->endPoint;
   }
 
@@ -120,7 +120,7 @@ class Client extends Component {
    * Initializes the object.
    * @throws InvalidConfigException The API key or the blog URL is empty.
    */
-  public function init(): void {
+  function init(): void {
     parent::init();
     if (!mb_strlen($this->apiKey) || !$this->getBlog()) throw new InvalidConfigException('The API key or the blog URL is empty.');
     if (!$this->getEndPoint()) $this->setEndPoint(static::DEFAULT_ENDPOINT);
@@ -133,7 +133,7 @@ class Client extends Component {
    * @param Blog|string $value The new front page or home URL.
    * @return self This instance.
    */
-  public function setBlog($value): self {
+  function setBlog($value): self {
     $this->blog = is_string($value) ? new Blog($value) : $value;
     return $this;
   }
@@ -143,7 +143,7 @@ class Client extends Component {
    * @param string|UriInterface $value The new URL of the API end point.
    * @return self This instance.
    */
-  public function setEndPoint($value): self {
+  function setEndPoint($value): self {
     $this->endPoint = is_string($value) ? new Uri($value) : $value;
     return $this;
   }
@@ -153,7 +153,7 @@ class Client extends Component {
    * @param Comment $comment The comment to be submitted.
    * @throws ClientException An error occurred while querying the end point.
    */
-  public function submitHam(Comment $comment): void {
+  function submitHam(Comment $comment): void {
     $serviceUrl = parse_url((string) $this->getEndPoint());
     $endPoint = "{$serviceUrl['scheme']}://{$this->apiKey}.{$serviceUrl['host']}/1.1/submit-ham";
     $this->fetch($endPoint, \Yii::getObjectVars($comment->jsonSerialize()));
@@ -164,7 +164,7 @@ class Client extends Component {
    * @param Comment $comment The comment to be submitted.
    * @throws ClientException An error occurred while querying the end point.
    */
-  public function submitSpam(Comment $comment): void {
+  function submitSpam(Comment $comment): void {
     $serviceUrl = parse_url((string) $this->getEndPoint());
     $endPoint = "{$serviceUrl['scheme']}://{$this->apiKey}.{$serviceUrl['host']}/1.1/submit-spam";
     $this->fetch($endPoint, \Yii::getObjectVars($comment->jsonSerialize()));
@@ -175,7 +175,7 @@ class Client extends Component {
    * @return bool A boolean value indicating whether it is a valid API key.
    * @throws ClientException An error occurred while querying the end point.
    */
-  public function verifyKey(): bool {
+  function verifyKey(): bool {
     $endPoint = (string) $this->getEndPoint()->withPath('/1.1/verify-key');
     return $this->fetch($endPoint, ['key' => $this->apiKey]) == 'valid';
   }

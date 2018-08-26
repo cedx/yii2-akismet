@@ -34,7 +34,7 @@ class Blog extends Model implements \JsonSerializable {
    * @param string|UriInterface $url The blog or site URL.
    * @param array $config Name-value pairs that will be used to initialize the object properties.
    */
-  public function __construct($url, array $config = []) {
+  function __construct($url, array $config = []) {
     $this->languages = new \ArrayObject();
     $this->url = is_string($url) ? new Uri($url) : $url;
     parent::__construct($config);
@@ -44,19 +44,19 @@ class Blog extends Model implements \JsonSerializable {
    * Returns a string representation of this object.
    * @return string The string representation of this object.
    */
-  public function __toString(): string {
+  function __toString(): string {
     $json = Json::encode($this);
     return static::class . " $json";
   }
 
   /**
    * Creates a new blog from the specified JSON map.
-   * @param mixed $map A JSON map representing a blog.
+   * @param object $map A JSON map representing a blog.
    * @return self The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
    */
-  public static function fromJson($map): ?self {
+  static function fromJson(object $map): self {
     if (is_array($map)) $map = (object) $map;
-    return !is_object($map) ? null : new static(isset($map->blog) && is_string($map->blog) ? $map->blog : null, [
+    return new static(isset($map->blog) && is_string($map->blog) ? $map->blog : null, [
       'charset' => isset($map->blog_charset) && is_string($map->blog_charset) ? $map->blog_charset : '',
       'languages' => isset($map->blog_lang) && is_string($map->blog_lang) ? StringHelper::explode($map->blog_lang, ',', true, true) : []
     ]);
@@ -66,7 +66,7 @@ class Blog extends Model implements \JsonSerializable {
    * Gets the languages in use on the blog or site, in ISO 639-1 format.
    * @return \ArrayObject The languages in use on the blog or site.
    */
-  public function getLanguages(): \ArrayObject {
+  function getLanguages(): \ArrayObject {
     return $this->languages;
   }
 
@@ -74,14 +74,14 @@ class Blog extends Model implements \JsonSerializable {
    * Gets the blog or site URL.
    * @return UriInterface The blog or site URL.
    */
-  public function getUrl(): ?UriInterface {
+  function getUrl(): ?UriInterface {
     return $this->url;
   }
 
   /**
    * Initializes the object.
    */
-  public function init(): void {
+  function init(): void {
     parent::init();
     if (!mb_strlen($this->charset)) $this->charset = \Yii::$app->charset;
   }
@@ -90,7 +90,7 @@ class Blog extends Model implements \JsonSerializable {
    * Converts this object to a map in JSON format.
    * @return \stdClass The map in JSON format corresponding to this object.
    */
-  public function jsonSerialize(): \stdClass {
+  function jsonSerialize(): \stdClass {
     $map = new \stdClass;
     $map->blog = (string) $this->getUrl();
 
@@ -103,7 +103,7 @@ class Blog extends Model implements \JsonSerializable {
    * Returns the validation rules for attributes.
    * @return array[] The validation rules.
    */
-  public function rules(): array {
+  function rules(): array {
     return [
       [['charset', 'url'], 'trim'],
       [['charset'], 'filter', 'filter' => 'mb_strtoupper'],
@@ -117,7 +117,7 @@ class Blog extends Model implements \JsonSerializable {
    * @param string[]|string $values The new languages.
    * @return self This instance.
    */
-  public function setLanguages($values): self {
+  function setLanguages($values): self {
     if (!is_array($values)) $values = is_string($values) ? StringHelper::explode($values, ',', true, true) : [];
     $this->getLanguages()->exchangeArray($values);
     return $this;

@@ -51,7 +51,7 @@ class Author extends Model implements \JsonSerializable {
    * @param string $userAgent The author's user agent.
    * @param array $config Name-value pairs that will be used to initialize the object properties.
    */
-  public function __construct(string $ipAddress, string $userAgent, array $config = []) {
+  function __construct(string $ipAddress, string $userAgent, array $config = []) {
     $this->ipAddress = $ipAddress;
     $this->userAgent = $userAgent;
     parent::__construct($config);
@@ -61,17 +61,17 @@ class Author extends Model implements \JsonSerializable {
    * Returns a string representation of this object.
    * @return string The string representation of this object.
    */
-  public function __toString(): string {
+  function __toString(): string {
     $json = Json::encode($this);
     return static::class . " $json";
   }
 
   /**
    * Creates a new author from the specified JSON map.
-   * @param mixed $map A JSON map representing an author.
+   * @param object $map A JSON map representing an author.
    * @return self The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
    */
-  public static function fromJson($map): ?self {
+  static function fromJson(object $map): self {
     if (is_array($map)) $map = (object) $map;
     else if (!is_object($map)) return null;
 
@@ -93,7 +93,7 @@ class Author extends Model implements \JsonSerializable {
    * Gets the URL of the author's website.
    * @return UriInterface The URL of the author's website.
    */
-  public function getUrl(): ?UriInterface {
+  function getUrl(): ?UriInterface {
     return $this->url;
   }
 
@@ -101,7 +101,7 @@ class Author extends Model implements \JsonSerializable {
    * Converts this object to a map in JSON format.
    * @return \stdClass The map in JSON format corresponding to this object.
    */
-  public function jsonSerialize(): \stdClass {
+  function jsonSerialize(): \stdClass {
     $map = new \stdClass;
     $map->user_agent = $this->userAgent;
     $map->user_ip = $this->ipAddress;
@@ -117,7 +117,7 @@ class Author extends Model implements \JsonSerializable {
    * Returns the validation rules for attributes.
    * @return array[] The validation rules.
    */
-  public function rules(): array {
+  function rules(): array {
     return [
       [$this->attributes(), 'trim'],
       [['email'], 'filter', 'filter' => 'mb_strtolower'],
@@ -132,7 +132,7 @@ class Author extends Model implements \JsonSerializable {
    * @param string|UriInterface $value The new website URL.
    * @return self This instance.
    */
-  public function setUrl($value): self {
+  function setUrl($value): self {
     $this->url = is_string($value) ? new Uri($value) : $value;
     return $this;
   }
