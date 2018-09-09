@@ -99,6 +99,7 @@ class ClientTest extends TestCase {
 
   /**
    * Performs a common set of tasks just before each test method is called.
+   * @before
    */
   protected function setUp(): void {
     $this->client = new Client([
