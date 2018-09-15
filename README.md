@@ -14,7 +14,7 @@ Prevent comment spam using the [Akismet](https://akismet.com) connector for [Yii
 ## Requirements
 The latest [PHP](https://secure.php.net) and [Composer](https://getcomposer.org) versions to use the Akismet library.
 
-If you plan to play with the sources, you will also need the latest [Phing](https://www.phing.info) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material) versions.
+If you plan to play with the sources, you will also need the latest [Robo](https://robo.li) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material) versions.
 
 ## Installing via [Composer](https://getcomposer.org)
 From a command prompt, run:
