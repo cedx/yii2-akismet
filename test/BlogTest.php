@@ -80,12 +80,4 @@ class BlogTest extends TestCase {
       ->and->contain('"blog_charset":"UTF-8"')
       ->and->contain('"blog_lang":"en,fr"');
   }
-
-  /**
-   * Performs a common set of tasks just before each test method is called.
-   * @before
-   */
-  protected function setUp(): void {
-    new Application(['id' => 'yii2-akismet', 'basePath' => '@root/lib']);
-  }
 }
