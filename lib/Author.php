@@ -69,7 +69,7 @@ class Author extends Model implements \JsonSerializable {
   /**
    * Creates a new author from the specified JSON map.
    * @param object $map A JSON map representing an author.
-   * @return self The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
+   * @return static The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
    */
   static function fromJson(object $map): self {
     if (is_array($map)) $map = (object) $map;
@@ -130,7 +130,7 @@ class Author extends Model implements \JsonSerializable {
   /**
    * Sets the URL of the author's website.
    * @param string|UriInterface $value The new website URL.
-   * @return self This instance.
+   * @return $this This instance.
    */
   function setUrl($value): self {
     $this->url = is_string($value) ? new Uri($value) : $value;

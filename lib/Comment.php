@@ -73,7 +73,7 @@ class Comment extends Model implements \JsonSerializable {
   /**
    * Creates a new comment from the specified JSON map.
    * @param object $map A JSON map representing a comment.
-   * @return self The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
+   * @return static The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
    */
   static function fromJson(object $map): self {
     if (is_array($map)) $map = (object) $map;
@@ -156,7 +156,7 @@ class Comment extends Model implements \JsonSerializable {
   /**
    * Sets the UTC timestamp of the creation of the comment.
    * @param mixed $value The new UTC timestamp of the creation of the comment.
-   * @return self This instance.
+   * @return $this This instance.
    */
   function setDate($value): self {
     if ($value instanceof \DateTime) $this->date = $value;
@@ -170,7 +170,7 @@ class Comment extends Model implements \JsonSerializable {
   /**
    * Sets the permanent location of the entry the comment is submitted to.
    * @param string|UriInterface $value The new permanent location of the entry.
-   * @return self This instance.
+   * @return $this This instance.
    */
   function setPermalink($value): self {
     $this->permalink = is_string($value) ? new Uri($value) : $value;
@@ -180,7 +180,7 @@ class Comment extends Model implements \JsonSerializable {
   /**
    * Sets the UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
    * @param mixed $value The new UTC timestamp of the publication time.
-   * @return self This instance.
+   * @return $this This instance.
    */
   function setPostModified($value): self {
     if ($value instanceof \DateTime) $this->postModified = $value;
@@ -194,7 +194,7 @@ class Comment extends Model implements \JsonSerializable {
   /**
    * Sets the URL of the webpage that linked to the entry being requested.
    * @param string|UriInterface $value The new URL of the webpage that linked to the entry.
-   * @return self This instance.
+   * @return $this This instance.
    */
   function setReferrer($value): self {
     $this->referrer = is_string($value) ? new Uri($value) : $value;
