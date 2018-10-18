@@ -13,7 +13,7 @@ use yii\base\{Exception};
 class ClientException extends Exception {
 
   /**
-   * @var Uri The URL of the HTTP request or response that failed.
+   * @var UriInterface The URL of the HTTP request or response that failed.
    */
   private $uri;
 

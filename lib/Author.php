@@ -41,7 +41,7 @@ class Author extends Model implements \JsonSerializable {
   public $userAgent;
 
   /**
-   * @var Uri The URL of the author's website.
+   * @var UriInterface The URL of the author's website.
    */
   private $url;
 
@@ -72,9 +72,6 @@ class Author extends Model implements \JsonSerializable {
    * @return static The instance corresponding to the specified JSON map.
    */
   static function fromJson(object $map): self {
-    if (is_array($map)) $map = (object) $map;
-    else if (!is_object($map)) return null;
-
     $options = [
       'email' => isset($map->comment_author_email) && is_string($map->comment_author_email) ? $map->comment_author_email : '',
       'name' => isset($map->comment_author) && is_string($map->comment_author) ? $map->comment_author : '',

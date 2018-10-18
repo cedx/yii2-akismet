@@ -37,7 +37,7 @@ class Comment extends Model implements \JsonSerializable {
   private $date;
 
   /**
-   * @var Uri The permanent location of the entry the comment is submitted to.
+   * @var UriInterface The permanent location of the entry the comment is submitted to.
    */
   private $permalink;
 
@@ -47,7 +47,7 @@ class Comment extends Model implements \JsonSerializable {
   private $postModified;
 
   /**
-   * @var Uri The URL of the webpage that linked to the entry being requested.
+   * @var UriInterface The URL of the webpage that linked to the entry being requested.
    */
   private $referrer;
 
@@ -76,9 +76,6 @@ class Comment extends Model implements \JsonSerializable {
    * @return static The instance corresponding to the specified JSON map.
    */
   static function fromJson(object $map): self {
-    if (is_array($map)) $map = (object) $map;
-    else if (!is_object($map)) return null;
-
     $keys = array_keys(\Yii::getObjectVars($map));
     $hasAuthor = count(array_filter($keys, function($key) {
       return preg_match('/^comment_author/', $key) || preg_match('/^user/', $key);

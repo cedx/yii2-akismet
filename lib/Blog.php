@@ -25,7 +25,7 @@ class Blog extends Model implements \JsonSerializable {
   private $languages;
 
   /**
-   * @var Uri The blog or site URL.
+   * @var UriInterface The blog or site URL.
    */
   private $url;
 
@@ -55,7 +55,6 @@ class Blog extends Model implements \JsonSerializable {
    * @return static The instance corresponding to the specified JSON map.
    */
   static function fromJson(object $map): self {
-    if (is_array($map)) $map = (object) $map;
     return new static(isset($map->blog) && is_string($map->blog) ? $map->blog : null, [
       'charset' => isset($map->blog_charset) && is_string($map->blog_charset) ? $map->blog_charset : '',
       'languages' => isset($map->blog_lang) && is_string($map->blog_lang) ? StringHelper::explode($map->blog_lang, ',', true, true) : []
