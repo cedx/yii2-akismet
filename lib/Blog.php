@@ -35,7 +35,7 @@ class Blog extends Model implements \JsonSerializable {
    * @param array $config Name-value pairs that will be used to initialize the object properties.
    */
   function __construct($url, array $config = []) {
-    $this->languages = new \ArrayObject();
+    $this->languages = new \ArrayObject;
     $this->url = is_string($url) ? new Uri($url) : $url;
     parent::__construct($config);
   }
