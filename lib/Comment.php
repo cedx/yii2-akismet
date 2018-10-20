@@ -93,7 +93,7 @@ class Comment extends Model implements \JsonSerializable {
 
   /**
    * Gets the UTC timestamp of the creation of the comment.
-   * @return \DateTime The UTC timestamp of the creation of the comment.
+   * @return \DateTime|null The UTC timestamp of the creation of the comment.
    */
   function getDate(): ?\DateTime {
     return $this->date;
@@ -109,7 +109,7 @@ class Comment extends Model implements \JsonSerializable {
 
   /**
    * Gets the UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
-   * @return \DateTime The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
+   * @return \DateTime|null The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
    */
   function getPostModified(): ?\DateTime {
     return $this->postModified;
