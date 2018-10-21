@@ -26,7 +26,7 @@ class ClientTest extends TestCase {
   private $spam;
 
   /**
-   * Tests the `Client::checkComment
+   * Tests the `Client::checkComment()` method.
    */
   function testCheckComment(): void {
     // It should return `false` for valid comment (e.g. ham).
@@ -39,7 +39,7 @@ class ClientTest extends TestCase {
   }
 
   /**
-   * Tests the `Client::init
+   * Tests the `Client::init()` method.
    */
   function testInit(): void {
     // It should throw an exception if the API key or blog is empty.
@@ -52,7 +52,7 @@ class ClientTest extends TestCase {
   }
 
   /**
-   * Tests the `Client::submitHam
+   * Tests the `Client::submitHam()` method.
    */
   function testSubmitHam(): void {
     // It should complete without error.
@@ -68,7 +68,7 @@ class ClientTest extends TestCase {
   }
 
   /**
-   * Tests the `Client::submitSpam
+   * Tests the `Client::submitSpam()` method.
    */
   function testSubmitSpam(): void {
     // It should complete without error.
@@ -84,7 +84,7 @@ class ClientTest extends TestCase {
   }
 
   /**
-   * Tests the `Client::verifyKey
+   * Tests the `Client::verifyKey()` method.
    */
   function testVerifyKey(): void {
     // It should return `true` for a valid API key.

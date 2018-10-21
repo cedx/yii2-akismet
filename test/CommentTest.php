@@ -10,7 +10,7 @@ use PHPUnit\Framework\{TestCase};
 class CommentTest extends TestCase {
 
   /**
-   * Tests the `Comment::fromJson
+   * Tests the `Comment::fromJson()` method.
    * @test
    */
   function testFromJson(): void {
@@ -46,7 +46,7 @@ class CommentTest extends TestCase {
   }
 
   /**
-   * Tests the `Comment::jsonSerialize
+   * Tests the `Comment::jsonSerialize()` method.
    * @test
    */
   function testJsonSerialize(): void {
@@ -75,7 +75,7 @@ class CommentTest extends TestCase {
   }
 
   /**
-   * Tests the `Comment::__toString
+   * Tests the `Comment::__toString()` method.
    * @test
    */
   function testToString(): void {

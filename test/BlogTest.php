@@ -12,7 +12,7 @@ use yii\console\{Application};
 class BlogTest extends TestCase {
 
   /**
-   * Tests the `Blog::fromJson
+   * Tests the `Blog::fromJson()` method.
    * @test
    */
   function testFromJson(): void {
@@ -40,7 +40,7 @@ class BlogTest extends TestCase {
   }
 
   /**
-   * Tests the `Blog::jsonSerialize
+   * Tests the `Blog::jsonSerialize()` method.
    * @test
    */
   function testJsonSerialize(): void {
@@ -63,7 +63,7 @@ class BlogTest extends TestCase {
   }
 
   /**
-   * Tests the `Blog::__toString
+   * Tests the `Blog::__toString()` method.
    * @test
    */
   function testToString(): void {

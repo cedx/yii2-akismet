@@ -10,7 +10,7 @@ use PHPUnit\Framework\{TestCase};
 class AuthorTest extends TestCase {
 
   /**
-   * Tests the `Author::fromJson
+   * Tests the `Author::fromJson()` method.
    * @test
    */
   function testFromJson(): void {
@@ -33,7 +33,7 @@ class AuthorTest extends TestCase {
   }
 
   /**
-   * Tests the `Author::jsonSerialize
+   * Tests the `Author::jsonSerialize()` method.
    * @test
    */
   function testJsonSerialize(): void {
@@ -59,7 +59,7 @@ class AuthorTest extends TestCase {
   }
 
   /**
-   * Tests the `Author::__toString
+   * Tests the `Author::__toString()` method.
    * @test
    */
   function testToString(): void {
