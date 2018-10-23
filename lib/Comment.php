@@ -32,22 +32,22 @@ class Comment extends Model implements \JsonSerializable {
   public $type = '';
 
   /**
-   * @var \DateTime The UTC timestamp of the creation of the comment.
+   * @var \DateTime|null The UTC timestamp of the creation of the comment.
    */
   private $date;
 
   /**
-   * @var UriInterface The permanent location of the entry the comment is submitted to.
+   * @var UriInterface|null The permanent location of the entry the comment is submitted to.
    */
   private $permalink;
 
   /**
-   * @var \DateTime The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
+   * @var \DateTime|null The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
    */
   private $postModified;
 
   /**
-   * @var UriInterface The URL of the webpage that linked to the entry being requested.
+   * @var UriInterface|null The URL of the webpage that linked to the entry being requested.
    */
   private $referrer;
 
@@ -152,21 +152,17 @@ class Comment extends Model implements \JsonSerializable {
 
   /**
    * Sets the UTC timestamp of the creation of the comment.
-   * @param mixed $value The new UTC timestamp of the creation of the comment.
+   * @param \DateTime|string|null $value The new UTC timestamp of the creation of the comment.
    * @return $this This instance.
    */
   function setDate($value): self {
-    if ($value instanceof \DateTime) $this->date = $value;
-    else if (is_string($value)) $this->date = new \DateTime($value);
-    else if (is_int($value)) $this->date = new \DateTime("@$value");
-    else $this->date = null;
-
+    $this->date = is_string($value) ? new \DateTime($value) : $value;
     return $this;
   }
 
   /**
    * Sets the permanent location of the entry the comment is submitted to.
-   * @param string|UriInterface $value The new permanent location of the entry.
+   * @param UriInterface|string|null $value The new permanent location of the entry.
    * @return $this This instance.
    */
   function setPermalink($value): self {
@@ -176,21 +172,17 @@ class Comment extends Model implements \JsonSerializable {
 
   /**
    * Sets the UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
-   * @param mixed $value The new UTC timestamp of the publication time.
+   * @param \DateTime|string|null $value The new UTC timestamp of the publication time.
    * @return $this This instance.
    */
   function setPostModified($value): self {
-    if ($value instanceof \DateTime) $this->postModified = $value;
-    else if (is_string($value)) $this->postModified = new \DateTime($value);
-    else if (is_int($value)) $this->postModified = new \DateTime("@$value");
-    else $this->postModified = null;
-
+    $this->postModified = is_string($value) ? new \DateTime($value) : $value;
     return $this;
   }
 
   /**
    * Sets the URL of the webpage that linked to the entry being requested.
-   * @param string|UriInterface $value The new URL of the webpage that linked to the entry.
+   * @param UriInterface|string|null $value The new URL of the webpage that linked to the entry.
    * @return $this This instance.
    */
   function setReferrer($value): self {

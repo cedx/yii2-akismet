@@ -140,7 +140,7 @@ class Client extends Component {
 
   /**
    * Sets the URL of the API end point.
-   * @param string|UriInterface $value The new URL of the API end point.
+   * @param UriInterface|string $value The new URL of the API end point.
    * @return $this This instance.
    */
   function setEndPoint($value): self {

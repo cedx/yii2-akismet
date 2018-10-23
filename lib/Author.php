@@ -41,7 +41,7 @@ class Author extends Model implements \JsonSerializable {
   public $userAgent;
 
   /**
-   * @var UriInterface The URL of the author's website.
+   * @var UriInterface|null The URL of the author's website.
    */
   private $url;
 
@@ -126,7 +126,7 @@ class Author extends Model implements \JsonSerializable {
 
   /**
    * Sets the URL of the author's website.
-   * @param string|UriInterface $value The new website URL.
+   * @param UriInterface|string|null $value The new website URL.
    * @return $this This instance.
    */
   function setUrl($value): self {
