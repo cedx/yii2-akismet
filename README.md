@@ -3,7 +3,14 @@
 
 Prevent comment spam using the [Akismet](https://akismet.com) connector for [Yii](https://www.yiiframework.com), high-performance [PHP](https://secure.php.net) framework.
 
-> For detailed instructions, see the [user guide](https://dev.belin.io/yii2-akismet).
+## Documentation
+- [User guide](https://dev.belin.io/yii2-akismet)
+- [API reference](https://dev.belin.io/yii2-akismet/api)
+
+## Development
+- [Git repository](https://git.belin.io/cedx/yii2-akismet)
+- [Packagist package](https://packagist.org/packages/cedx/yii2-akismet)
+- [Submit an issue](https://git.belin.io/cedx/yii2-akismet/issues)
 
 ## Features
 - [Key verification](https://akismet.com/development/api/#verify-key): checks an Akismet API key and gets a value indicating whether it is valid.
@@ -148,7 +155,7 @@ composer test
 - [Documentation](https://dev.belin.io/yii2-akismet)
 - [API reference](https://dev.belin.io/yii2-akismet/api)
 - [Packagist package](https://packagist.org/packages/cedx/yii2-akismet)
-- [GitHub repository](https://github.com/cedx/yii2-akismet)
+- [Git repository](https://git.belin.io/cedx/yii2-akismet)
 
 ## License
 [Akismet for Yii](https://dev.belin.io/yii2-akismet) is distributed under the MIT License.

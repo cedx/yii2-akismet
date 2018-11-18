@@ -1,10 +1,10 @@
 # See also
 
 ## Development
+- [Akismet for developers](https://akismet.com/development/api)
 - [API reference](https://dev.belin.io/yii2-akismet/api)
 - [Packagist package](https://packagist.org/packages/cedx/yii2-akismet)
-- [Akismet for developers](https://akismet.com/development/api)
-- [Yii Framework](https://www.yiiframework.com)
+- [Submit an issue](https://git.belin.io/cedx/yii2-akismet/issues)
 
 ## Testing
 - [Continuous integration](https://travis-ci.com/cedx/yii2-akismet)
