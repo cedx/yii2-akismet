@@ -49,6 +49,6 @@
   },
   "support": {
     "docs": "https://dev.belin.io/yii2-akismet/api",
-    "issues": "https://git.belin.io/cedx/yii2-akismet/issues"
+    "issues": "https://github.com/cedx/yii2-akismet/issues"
   }
 }
