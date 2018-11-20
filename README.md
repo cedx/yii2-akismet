@@ -10,7 +10,7 @@ Prevent comment spam using the [Akismet](https://akismet.com) connector for [Yii
 ## Development
 - [Git repository](https://git.belin.io/cedx/yii2-akismet)
 - [Packagist package](https://packagist.org/packages/cedx/yii2-akismet)
-- [Submit an issue](https://git.belin.io/cedx/yii2-akismet/issues)
+- [Submit an issue](https://github.com/cedx/yii2-akismet/issues)
 
 ## Features
 - [Key verification](https://akismet.com/development/api/#verify-key): checks an Akismet API key and gets a value indicating whether it is valid.
