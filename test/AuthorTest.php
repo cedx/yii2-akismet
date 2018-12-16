@@ -40,8 +40,8 @@ class AuthorTest extends TestCase {
     // It should return only the IP address and user agent with a newly created instance.
     $data = (new Author('127.0.0.1', 'Doom/6.6.6'))->jsonSerialize();
     assertThat(\Yii::getObjectVars($data), countOf(2));
-    assertThat($data->user_agent, equalTo('Doom/6.6.6');
-    assertThat($data->user_ip, equalTo('127.0.0.1');
+    assertThat($data->user_agent, equalTo('Doom/6.6.6'));
+    assertThat($data->user_ip, equalTo('127.0.0.1'));
 
     // It should return a non-empty map with a initialized instance.
     $data = (new Author('192.168.0.1', 'Mozilla/5.0', [
@@ -51,11 +51,11 @@ class AuthorTest extends TestCase {
     ]))->jsonSerialize();
 
     assertThat(\Yii::getObjectVars($data), countOf(5));
-    assertThat($data->comment_author, equalTo('Cédric Belin');
-    assertThat($data->comment_author_email, equalTo('cedric@belin.io');
-    assertThat($data->comment_author_url, equalTo('https://belin.io');
-    assertThat($data->user_agent, equalTo('Mozilla/5.0');
-    assertThat($data->user_ip, equalTo('192.168.0.1');
+    assertThat($data->comment_author, equalTo('Cédric Belin'));
+    assertThat($data->comment_author_email, equalTo('cedric@belin.io'));
+    assertThat($data->comment_author_url, equalTo('https://belin.io'));
+    assertThat($data->user_agent, equalTo('Mozilla/5.0'));
+    assertThat($data->user_ip, equalTo('192.168.0.1'));
   }
 
   /**

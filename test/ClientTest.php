@@ -108,7 +108,7 @@ class ClientTest extends TestCase {
       'isTest' => true
     ]);
 
-    $author = new Author('192.168.0.1', 'Mozilla/5.0 (X11; Linux x86_64) Chrome/65.0.3325.181', [
+    $author = new Author('192.168.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36', [
       'name' => 'Akismet',
       'role' => 'administrator',
       'url' => 'https://dev.belin.io/yii2-akismet'
