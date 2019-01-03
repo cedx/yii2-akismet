@@ -27,7 +27,6 @@ If you plan to play with the sources, you will also need the latest [Robo](https
 From a command prompt, run:
 
 ```shell
-composer global require fxp/composer-asset-plugin
 composer require cedx/yii2-akismet
 ```
 
