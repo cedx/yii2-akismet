@@ -16,6 +16,7 @@
     "psr-4": {"yii\\akismet\\": "test/"}
   },
   "config": {
+    "fxp-asset": {"enabled": false},
     "optimize-autoloader": true
   },
   "keywords": [
@@ -24,6 +25,9 @@
     "spam",
     "validation",
     "yii2"
+  ],
+  "repositories": [
+    {"type": "composer", "url": "https://asset-packagist.org"}
   ],
   "require": {
     "php": ">=7.2.0",
@@ -38,7 +42,7 @@
   },
   "require-dev": {
     "cedx/coveralls": "^9.1.2",
-    "consolidation/robo": "^1.4.0",
+    "consolidation/robo": "^1.4.3",
     "henrikbjorn/lurker": "^1.2.0",
     "phpstan/phpstan": "^0.10.7",
     "phpunit/phpunit": "^7.5.1"
