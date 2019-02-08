@@ -39,7 +39,7 @@
     "ext-pcre": "*",
     "ext-spl": "*",
     "guzzlehttp/psr7": "^1.5.2",
-    "yiisoft/yii2": "^2.0.15",
+    "yiisoft/yii2": "^2.0.16",
     "yiisoft/yii2-httpclient": "^2.0.7"
   },
   "require-dev": {
@@ -47,7 +47,7 @@
     "consolidation/robo": "^1.4.3",
     "henrikbjorn/lurker": "^1.2.0",
     "phpstan/phpstan": "^0.11.1",
-    "phpunit/phpunit": "^7.5.3"
+    "phpunit/phpunit": "^7.5.4"
   },
   "scripts": {
     "coverage": "robo coverage",
