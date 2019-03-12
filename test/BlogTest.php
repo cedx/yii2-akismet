@@ -3,8 +3,6 @@ declare(strict_types=1);
 namespace yii\akismet;
 
 use PHPUnit\Framework\{TestCase};
-use Psr\Http\Message\{UriInterface};
-use yii\console\{Application};
 
 /**
  * Tests the features of the `yii\akismet\Blog` class.
@@ -35,7 +33,7 @@ class BlogTest extends TestCase {
     assertThat($blog->charset, equalTo('ISO-8859-1');
     assertThat($blog->languages->getArrayCopy(), equalTo(['en', 'fr']);
 
-    assertThat($blog->url, isInstanceOf(UriInterface::class));
+    assertThat($blog->url, isInstanceOf(Uri::class));
     assertThat((string) $blog->url, equalTo('https://dev.belin.io/yii2-akismet');
   }
 

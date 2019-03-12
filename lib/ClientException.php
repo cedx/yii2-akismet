@@ -2,30 +2,29 @@
 declare(strict_types=1);
 namespace yii\akismet;
 
-use GuzzleHttp\Psr7\{Uri};
-use Psr\Http\Message\{UriInterface};
+use League\Uri\{Http as Uri};
 use yii\base\{Exception};
 
 /**
  * An exception caused by an error in a `Client` request.
- * @property UriInterface $uri The URL of the HTTP request or response that failed.
+ * @property Uri $uri The URL of the HTTP request or response that failed.
  */
 class ClientException extends Exception {
 
   /**
-   * @var UriInterface The URL of the HTTP request or response that failed.
+   * @var Uri The URL of the HTTP request or response that failed.
    */
   private $uri;
 
   /**
    * Creates a new client exception.
    * @param string $message A message describing the error.
-   * @param string|UriInterface $uri The URL of the HTTP request or response that failed.
+   * @param string|Uri $uri The URL of the HTTP request or response that failed.
    * @param \Throwable $previous The previous exception used for the exception chaining.
    */
   function __construct($message, $uri = null, \Throwable $previous = null) {
     parent::__construct($message, $previous);
-    $this->uri = is_string($uri) ? new Uri($uri) : $uri;
+    $this->uri = is_string($uri) ? Uri::createFromString($uri) : $uri;
   }
 
   /**
@@ -48,9 +47,9 @@ class ClientException extends Exception {
 
   /**
    * Gets the URL of the HTTP request or response that failed.
-   * @return UriInterface The URL of the HTTP request or response that failed.
+   * @return Uri|null The URL of the HTTP request or response that failed.
    */
-  function getUri(): ?UriInterface {
+  function getUri(): ?Uri {
     return $this->uri;
   }
 }

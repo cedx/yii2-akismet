@@ -2,15 +2,14 @@
 declare(strict_types=1);
 namespace yii\akismet;
 
-use GuzzleHttp\Psr7\{Uri};
-use Psr\Http\Message\{UriInterface};
+use League\Uri\{Http as Uri};
 use yii\base\{Model};
 use yii\helpers\{Json, StringHelper};
 
 /**
  * Represents the front page or home URL transmitted when making requests.
  * @property \ArrayObject $languages The languages in use on the blog or site, in ISO 639-1 format.
- * @property UriInterface $url The blog or site URL.
+ * @property Uri $url The blog or site URL.
  */
 class Blog extends Model implements \JsonSerializable {
 
@@ -25,18 +24,18 @@ class Blog extends Model implements \JsonSerializable {
   private $languages;
 
   /**
-   * @var UriInterface The blog or site URL.
+   * @var Uri The blog or site URL.
    */
   private $url;
 
   /**
    * Creates a new blog.
-   * @param string|UriInterface $url The blog or site URL.
+   * @param string|Uri $url The blog or site URL.
    * @param array $config Name-value pairs that will be used to initialize the object properties.
    */
   function __construct($url, array $config = []) {
     $this->languages = new \ArrayObject;
-    $this->url = is_string($url) ? new Uri($url) : $url;
+    $this->url = is_string($url) ? Uri::createFromString($url) : $url;
     parent::__construct($config);
   }
 
@@ -71,9 +70,9 @@ class Blog extends Model implements \JsonSerializable {
 
   /**
    * Gets the blog or site URL.
-   * @return UriInterface The blog or site URL.
+   * @return Uri|null The blog or site URL.
    */
-  function getUrl(): ?UriInterface {
+  function getUrl(): ?Uri {
     return $this->url;
   }
 

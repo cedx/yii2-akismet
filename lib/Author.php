@@ -2,14 +2,13 @@
 declare(strict_types=1);
 namespace yii\akismet;
 
-use GuzzleHttp\Psr7\{Uri};
-use Psr\Http\Message\{UriInterface};
+use League\Uri\{Http as Uri};
 use yii\base\{Model};
 use yii\helpers\{Json};
 
 /**
  * Represents the author of a comment.
- * @property UriInterface $url The URL of the author's website.
+ * @property Uri|null $url The URL of the author's website.
  */
 class Author extends Model implements \JsonSerializable {
 
@@ -41,7 +40,7 @@ class Author extends Model implements \JsonSerializable {
   public $userAgent;
 
   /**
-   * @var UriInterface|null The URL of the author's website.
+   * @var Uri|null The URL of the author's website.
    */
   private $url;
 
@@ -88,9 +87,9 @@ class Author extends Model implements \JsonSerializable {
 
   /**
    * Gets the URL of the author's website.
-   * @return UriInterface The URL of the author's website.
+   * @return Uri|null The URL of the author's website.
    */
-  function getUrl(): ?UriInterface {
+  function getUrl(): ?Uri {
     return $this->url;
   }
 
@@ -126,11 +125,11 @@ class Author extends Model implements \JsonSerializable {
 
   /**
    * Sets the URL of the author's website.
-   * @param UriInterface|string|null $value The new website URL.
+   * @param Uri|string|null $value The new website URL.
    * @return $this This instance.
    */
   function setUrl($value): self {
-    $this->url = is_string($value) ? new Uri($value) : $value;
+    $this->url = is_string($value) ? Uri::createFromString($value) : $value;
     return $this;
   }
 }
