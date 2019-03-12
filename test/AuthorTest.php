@@ -14,22 +14,19 @@ class AuthorTest extends TestCase {
    * @test
    */
   function testFromJson(): void {
-    // It should return a null reference with a non-object value.
-    assertThat(Author::fromJson('foo'), isNull());
-
     // It should return an empty instance with an empty map.
-    $author = Author::fromJson([]);
+    $author = Author::fromJson(new \stdClass);
     assertThat($author->email, isEmpty());
     assertThat($author->ipAddress, isEmpty());
 
     // It should return an initialized instance with a non-empty map.
-    $author = Author::fromJson([
+    $author = Author::fromJson((object) [
       'comment_author_email' => 'cedric@belin.io',
       'comment_author_url' => 'https://belin.io'
     ]);
 
-    assertThat($author->email, equalTo('cedric@belin.io');
-    assertThat((string) $author->url, equalTo('https://belin.io');
+    assertThat($author->email, equalTo('cedric@belin.io'));
+    assertThat((string) $author->url, equalTo('https://belin.io'));
   }
 
   /**
@@ -70,13 +67,15 @@ class AuthorTest extends TestCase {
     ]);
 
     // It should start with the class name.
-    assertThat($author, stringStartsWith('yii\akismet\Author {');
+    assertThat($author, stringStartsWith('yii\akismet\Author {'));
 
     // It should contain the instance properties.
-    assertThat($author)->to->contain('"comment_author":"Cédric Belin"')
-      ->and->contain('"comment_author_email":"cedric@belin.io"')
-      ->and->contain('"comment_author_url":"https://belin.io"')
-      ->and->contain('"user_agent":"Doom/6.6.6"')
-      ->and->contain('"user_ip":"127.0.0.1"');
+    assertThat($author, logicalAnd(
+      contains('"comment_author":"Cédric Belin"'),
+      contains('"comment_author_email":"cedric@belin.io"'),
+      contains('"comment_author_url":"https://belin.io"'),
+      contains('"user_agent":"Doom/6.6.6"'),
+      contains('"user_ip":"127.0.0.1"')
+    ));
   }
 }

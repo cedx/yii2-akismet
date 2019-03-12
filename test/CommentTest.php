@@ -14,11 +14,8 @@ class CommentTest extends TestCase {
    * @test
    */
   function testFromJson(): void {
-    // It should return a null reference with a non-object value.
-    assertThat(Comment::fromJson('foo'), isNull());
-
     // It should return an empty instance with an empty map.
-    $comment = Comment::fromJson([]);
+    $comment = Comment::fromJson(new \stdClass);
     assertThat($comment->author, isNull());
     assertThat($comment->content, isEmpty());
     assertThat($comment->date, isNull());
@@ -26,7 +23,7 @@ class CommentTest extends TestCase {
     assertThat($comment->type, isEmpty());
 
     // It should return an initialized instance with a non-empty map.
-    $comment = Comment::fromJson([
+    $comment = Comment::fromJson((object) [
       'comment_author' => 'Cédric Belin',
       'comment_content' => 'A user comment.',
       'comment_date_gmt' => '2000-01-01T00:00:00.000Z',
@@ -35,14 +32,14 @@ class CommentTest extends TestCase {
     ]);
 
     assertThat($comment->author, isInstanceOf(Author::class));
-    assertThat($comment->author->name, equalTo('Cédric Belin');
+    assertThat($comment->author->name, equalTo('Cédric Belin'));
 
     assertThat($comment->date, isInstanceOf(\DateTime::class));
-    assertThat($comment->date->format('Y'), equalTo(2000);
+    assertThat($comment->date->format('Y'), equalTo(2000));
 
-    assertThat($comment->content, equalTo('A user comment.');
-    assertThat($comment->referrer, equalTo('https://belin.io');
-    assertThat($comment->type, equalTo(CommentType::TRACKBACK);
+    assertThat($comment->content, equalTo('A user comment.'));
+    assertThat($comment->referrer, equalTo('https://belin.io'));
+    assertThat($comment->type, equalTo(CommentType::TRACKBACK));
   }
 
   /**
@@ -53,8 +50,8 @@ class CommentTest extends TestCase {
     // It should return only the author info with a newly created instance.
     $data = (new Comment(new Author('127.0.0.1', 'Doom/6.6.6')))->jsonSerialize();
     assertThat(\Yii::getObjectVars($data), countOf(2));
-    assertThat($data->user_agent, equalTo('Doom/6.6.6');
-    assertThat($data->user_ip, equalTo('127.0.0.1');
+    assertThat($data->user_agent, equalTo('Doom/6.6.6'));
+    assertThat($data->user_ip, equalTo('127.0.0.1'));
 
     // It should return a non-empty map with a initialized instance.
     $data = (new Comment(new Author('127.0.0.1', 'Doom/6.6.6', ['name' => 'Cédric Belin']), [
@@ -65,13 +62,13 @@ class CommentTest extends TestCase {
     ]))->jsonSerialize();
 
     assertThat(\Yii::getObjectVars($data), countOf(7));
-    assertThat($data->comment_author, equalTo('Cédric Belin');
-    assertThat($data->comment_content, equalTo('A user comment.');
-    assertThat($data->comment_date_gmt, equalTo('2000-01-01T00:00:00+00:00');
-    assertThat($data->comment_type, equalTo('pingback');
-    assertThat($data->referrer, equalTo('https://belin.io');
-    assertThat($data->user_agent, equalTo('Doom/6.6.6');
-    assertThat($data->user_ip, equalTo('127.0.0.1');
+    assertThat($data->comment_author, equalTo('Cédric Belin'));
+    assertThat($data->comment_content, equalTo('A user comment.'));
+    assertThat($data->comment_date_gmt, equalTo('2000-01-01T00:00:00+00:00'));
+    assertThat($data->comment_type, equalTo('pingback'));
+    assertThat($data->referrer, equalTo('https://belin.io'));
+    assertThat($data->user_agent, equalTo('Doom/6.6.6'));
+    assertThat($data->user_ip, equalTo('127.0.0.1'));
   }
 
   /**

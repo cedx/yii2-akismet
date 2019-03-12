@@ -30,12 +30,10 @@ class ClientTest extends TestCase {
    */
   function testCheckComment(): void {
     // It should return `false` for valid comment (e.g. ham).
-      assertThat($this->client->checkComment($this->ham), isFalse());
-    });
+    assertThat($this->client->checkComment($this->ham), isFalse());
 
     // It should return `true` for invalid comment (e.g. spam).
-      assertThat($this->client->checkComment($this->spam), isTrue());
-    });
+    assertThat($this->client->checkComment($this->spam), isTrue());
   }
 
   /**
