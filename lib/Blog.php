@@ -24,7 +24,7 @@ class Blog extends Model implements \JsonSerializable {
   private $languages;
 
   /**
-   * @var Uri The blog or site URL.
+   * @var Uri|null The blog or site URL.
    */
   private $url;
 

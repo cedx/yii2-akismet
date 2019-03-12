@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace yii\akismet;
 
+use function League\Uri\parse as parseUri;
 use League\Uri\{Http as Uri};
 use yii\base\{Component, InvalidConfigException};
 use yii\helpers\{ArrayHelper};
@@ -94,7 +95,7 @@ class Client extends Component {
    * @throws ClientException An error occurred while querying the end point.
    */
   function checkComment(Comment $comment): bool {
-    $serviceUrl = parse_url((string) $this->getEndPoint());
+    $serviceUrl = parseUri((string) $this->getEndPoint());
     $endPoint = "{$serviceUrl['scheme']}://{$this->apiKey}.{$serviceUrl['host']}/1.1/comment-check";
     return $this->fetch($endPoint, \Yii::getObjectVars($comment->jsonSerialize())) == 'true';
   }
@@ -153,7 +154,7 @@ class Client extends Component {
    * @throws ClientException An error occurred while querying the end point.
    */
   function submitHam(Comment $comment): void {
-    $serviceUrl = parse_url((string) $this->getEndPoint());
+    $serviceUrl = parseUri((string) $this->getEndPoint());
     $endPoint = "{$serviceUrl['scheme']}://{$this->apiKey}.{$serviceUrl['host']}/1.1/submit-ham";
     $this->fetch($endPoint, \Yii::getObjectVars($comment->jsonSerialize()));
   }
@@ -164,7 +165,7 @@ class Client extends Component {
    * @throws ClientException An error occurred while querying the end point.
    */
   function submitSpam(Comment $comment): void {
-    $serviceUrl = parse_url((string) $this->getEndPoint());
+    $serviceUrl = parseUri((string) $this->getEndPoint());
     $endPoint = "{$serviceUrl['scheme']}://{$this->apiKey}.{$serviceUrl['host']}/1.1/submit-spam";
     $this->fetch($endPoint, \Yii::getObjectVars($comment->jsonSerialize()));
   }

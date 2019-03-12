@@ -38,6 +38,7 @@
     "ext-mbstring": "*",
     "ext-pcre": "*",
     "ext-spl": "*",
+    "league/uri-parser": "^1.4.1",
     "league/uri-schemes": "^1.2.1",
     "yiisoft/yii2": "^2.0.16",
     "yiisoft/yii2-httpclient": "^2.0.7"
