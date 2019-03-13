@@ -40,7 +40,7 @@ class ClientException extends Exception {
    * Gets the user-friendly name of this exception.
    * @return string The user-friendly name of this exception.
    */
-  function getName() {
+  function getName(): string {
     return 'Akismet Client Exception';
   }
 

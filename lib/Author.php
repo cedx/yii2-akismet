@@ -36,14 +36,14 @@ class Author extends Model implements \JsonSerializable {
   public $role = '';
 
   /**
+   * @var UriInterface|null The URL of the author's website.
+   */
+  public $url;
+
+  /**
    * @var string The author's user agent, that is the string identifying the Web browser used to submit comments.
    */
   public $userAgent;
-
-  /**
-   * @var UriInterface|null The URL of the author's website.
-   */
-  private $url;
 
   /**
    * Creates a new author.
@@ -76,7 +76,7 @@ class Author extends Model implements \JsonSerializable {
       'email' => isset($map->comment_author_email) && is_string($map->comment_author_email) ? $map->comment_author_email : '',
       'name' => isset($map->comment_author) && is_string($map->comment_author) ? $map->comment_author : '',
       'role' => isset($map->user_role) && is_string($map->user_role) ? $map->user_role : '',
-      'url' => isset($map->comment_author_url) && is_string($map->comment_author_url) ? $map->comment_author_url : null
+      'url' => isset($map->comment_author_url) && is_string($map->comment_author_url) ? createUri($map->comment_author_url) : null
     ];
 
     return new static(
@@ -84,14 +84,6 @@ class Author extends Model implements \JsonSerializable {
       isset($map->user_agent) && is_string($map->user_agent) ? $map->user_agent : '',
       $options
     );
-  }
-
-  /**
-   * Gets the URL of the author's website.
-   * @return UriInterface|null The URL of the author's website.
-   */
-  function getUrl(): ?UriInterface {
-    return $this->url;
   }
 
   /**
@@ -105,7 +97,7 @@ class Author extends Model implements \JsonSerializable {
 
     if (mb_strlen($this->name)) $map->comment_author = $this->name;
     if (mb_strlen($this->email)) $map->comment_author_email = $this->email;
-    if ($url = $this->getUrl()) $map->comment_author_url = (string) $url;
+    if ($this->url) $map->comment_author_url = (string) $this->url;
     if (mb_strlen($this->role)) $map->user_role = $this->role;
     return $map;
   }
@@ -122,15 +114,5 @@ class Author extends Model implements \JsonSerializable {
       [['email'], 'email', 'checkDNS' => true],
       [['ipAddress'], 'ip']
     ];
-  }
-
-  /**
-   * Sets the URL of the author's website.
-   * @param UriInterface|string|null $value The new website URL.
-   * @return $this This instance.
-   */
-  function setUrl($value): self {
-    $this->url = is_string($value) ? createUri($value) : $value;
-    return $this;
   }
 }

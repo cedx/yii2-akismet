@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace yii\akismet;
 
-use function League\Uri\{parse as parseUri};
+use function League\Uri\{create as createUri};
 use League\Uri\{UriInterface};
 use yii\base\{Component, InvalidConfigException};
 use yii\helpers\{ArrayHelper};
@@ -31,19 +31,19 @@ class Client extends Component {
   const VERSION = '7.1.0';
 
   /**
-   * @var string The HTTP header containing the Akismet error messages.
-   */
-  private const DEBUG_HEADER = 'x-akismet-debug-help';
-
-  /**
-   * @var string The URL of the default API end point.
-   */
-  private const DEFAULT_ENDPOINT = 'https://rest.akismet.com';
-
-  /**
    * @var string The Akismet API key.
    */
   public $apiKey = '';
+
+  /**
+   * @var Blog The front page or home URL.
+   */
+  public $blog;
+
+  /**
+   * @var UriInterface The URL of the API end point.
+   */
+  public $endPoint;
 
   /**
    * @var bool Value indicating whether the client operates in test mode.
@@ -54,16 +54,6 @@ class Client extends Component {
    * @var string The user agent string to use when making requests.
    */
   public $userAgent = '';
-
-  /**
-   * @var Blog The front page or home URL.
-   */
-  private $blog;
-
-  /**
-   * @var Uri The URL of the API end point.
-   */
-  private $endPoint;
 
   /**
    * @var HttpClient The underlying HTTP client.
@@ -88,25 +78,8 @@ class Client extends Component {
    * @throws ClientException An error occurred while querying the end point.
    */
   function checkComment(Comment $comment): bool {
-    $serviceUrl = parseUri((string) $this->getEndPoint());
-    $endPoint = "{$serviceUrl['scheme']}://{$this->apiKey}.{$serviceUrl['host']}/1.1/comment-check";
-    return $this->fetch($endPoint, \Yii::getObjectVars($comment->jsonSerialize())) == 'true';
-  }
-
-  /**
-   * Gets the front page or home URL of the instance making requests.
-   * @return Blog The front page or home URL.
-   */
-  function getBlog(): ?Blog {
-    return $this->blog;
-  }
-
-  /**
-   * Gets the URL of the API end point.
-   * @return Uri The URL of the API end point.
-   */
-  function getEndPoint(): UriInterface {
-    return $this->endPoint;
+    $endPoint = "{$this->endPoint->getScheme()}://{$this->apiKey}.{$this->endPoint->getHost()}/1.1/comment-check";
+    return $this->fetch(createUri($endPoint), \Yii::getObjectVars($comment->jsonSerialize())) == 'true';
   }
 
   /**
@@ -115,30 +88,10 @@ class Client extends Component {
    */
   function init(): void {
     parent::init();
-    if (!mb_strlen($this->apiKey) || !$this->getBlog()) throw new InvalidConfigException('The API key or the blog URL is empty.');
-    if (!$this->getEndPoint()) $this->setEndPoint(static::DEFAULT_ENDPOINT);
+    if (!mb_strlen($this->apiKey) || !$this->blog) throw new InvalidConfigException('The API key or the blog URL is empty.');
+    if (!$this->endPoint) $this->endPoint = createUri('https://rest.akismet.com');
     if (!mb_strlen($this->userAgent))
       $this->userAgent = sprintf('Yii Framework/%s | Akismet/%s', preg_replace('/^(\d+(\.\d+){2}).*$/', '$1', \Yii::getVersion()), static::VERSION);
-  }
-
-  /**
-   * Sets the front page or home URL of the instance making requests.
-   * @param Blog|string $value The new front page or home URL.
-   * @return $this This instance.
-   */
-  function setBlog($value): self {
-    $this->blog = is_string($value) ? new Blog($value) : $value;
-    return $this;
-  }
-
-  /**
-   * Sets the URL of the API end point.
-   * @param UriInterface|string $value The new URL of the API end point.
-   * @return $this This instance.
-   */
-  function setEndPoint($value): self {
-    $this->endPoint = is_string($value) ? createUri($value) : $value;
-    return $this;
   }
 
   /**
@@ -147,9 +100,8 @@ class Client extends Component {
    * @throws ClientException An error occurred while querying the end point.
    */
   function submitHam(Comment $comment): void {
-    $serviceUrl = parseUri((string) $this->getEndPoint());
-    $endPoint = "{$serviceUrl['scheme']}://{$this->apiKey}.{$serviceUrl['host']}/1.1/submit-ham";
-    $this->fetch($endPoint, \Yii::getObjectVars($comment->jsonSerialize()));
+    $endPoint = "{$this->endPoint->getScheme()}://{$this->apiKey}.{$this->endPoint->getHost()}/1.1/submit-ham";
+    $this->fetch(createUri($endPoint), \Yii::getObjectVars($comment->jsonSerialize()));
   }
 
   /**
@@ -158,9 +110,8 @@ class Client extends Component {
    * @throws ClientException An error occurred while querying the end point.
    */
   function submitSpam(Comment $comment): void {
-    $serviceUrl = parseUri((string) $this->getEndPoint());
-    $endPoint = "{$serviceUrl['scheme']}://{$this->apiKey}.{$serviceUrl['host']}/1.1/submit-spam";
-    $this->fetch($endPoint, \Yii::getObjectVars($comment->jsonSerialize()));
+    $endPoint = "{$this->endPoint->getScheme()}://{$this->apiKey}.{$this->endPoint->getHost()}/1.1/submit-spam";
+    $this->fetch(createUri($endPoint), \Yii::getObjectVars($comment->jsonSerialize()));
   }
 
   /**
@@ -169,26 +120,25 @@ class Client extends Component {
    * @throws ClientException An error occurred while querying the end point.
    */
   function verifyKey(): bool {
-    $endPoint = (string) $this->getEndPoint()->withPath('/1.1/verify-key');
-    return $this->fetch($endPoint, ['key' => $this->apiKey]) == 'valid';
+    return $this->fetch($this->endPoint->withPath('/1.1/verify-key'), ['key' => $this->apiKey]) == 'valid';
   }
 
   /**
    * Queries the service by posting the specified fields to a given end point, and returns the response as a string.
-   * @param string $endPoint The URL of the end point to query.
+   * @param UriInterface $endPoint The URL of the end point to query.
    * @param array $fields The fields describing the query body.
    * @return string The response body.
    * @throws ClientException An error occurred while querying the end point.
    */
-  private function fetch(string $endPoint, array $fields = []): string {
-      $bodyFields = ArrayHelper::merge(\Yii::getObjectVars($this->getBlog()->jsonSerialize()), $fields);
+  private function fetch(UriInterface $endPoint, array $fields = []): string {
+      $bodyFields = ArrayHelper::merge(\Yii::getObjectVars($this->blog->jsonSerialize()), $fields);
       if ($this->isTest) $bodyFields['is_test'] = '1';
 
-      try { $response = $this->httpClient->post($endPoint, $bodyFields, ['user-agent' => $this->userAgent])->send(); }
+      try { $response = $this->httpClient->post((string) $endPoint, $bodyFields, ['user-agent' => $this->userAgent])->send(); }
       catch (HttpException $e) { throw new ClientException($e->getMessage(), $endPoint, $e); }
 
       if (!$response->isOk) throw new ClientException($response->statusCode, $endPoint);
-      if ($response->headers->has(static::DEBUG_HEADER)) throw new ClientException($response->headers->get(static::DEBUG_HEADER), $endPoint);
+      if ($response->headers->has('x-akismet-debug-help')) throw new ClientException($response->headers->get('x-akismet-debug-help'), $endPoint);
       return $response->content;
   }
 }

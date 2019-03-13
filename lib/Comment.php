@@ -2,16 +2,13 @@
 declare(strict_types=1);
 namespace yii\akismet;
 
+use function League\Uri\{create as createUri};
 use League\Uri\{UriInterface};
 use yii\base\{Model};
 use yii\helpers\{Json};
 
 /**
  * Represents a comment submitted by an author.
- * @property \DateTime|null $date The UTC timestamp of the creation of the comment.
- * @property UriInterface|null $permalink The permanent location of the entry the comment is submitted to.
- * @property \DateTime|null $postModified The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
- * @property UriInterface|null $referrer The URL of the webpage that linked to the entry being requested.
  */
 class Comment extends Model implements \JsonSerializable {
 
@@ -26,36 +23,36 @@ class Comment extends Model implements \JsonSerializable {
   public $content = '';
 
   /**
-   * @var string The comment's type. This string value specifies a `CommentType` constant or a made up value like `"registration"`.
-   */
-  public $type = '';
-
-  /**
    * @var \DateTime|null The UTC timestamp of the creation of the comment.
    */
-  private $date;
+  public $date;
 
   /**
    * @var UriInterface|null The permanent location of the entry the comment is submitted to.
    */
-  private $permalink;
+  public $permalink;
 
   /**
    * @var \DateTime|null The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
    */
-  private $postModified;
+  public $postModified;
 
   /**
    * @var UriInterface|null The URL of the webpage that linked to the entry being requested.
    */
-  private $referrer;
+  public $referrer;
+
+  /**
+   * @var string The comment's type. This string value specifies a `CommentType` constant or a made up value like `"registration"`.
+   */
+  public $type = '';
 
   /**
    * Creates a new comment.
    * @param Author $author The comment's author.
    * @param array $config Name-value pairs that will be used to initialize the object properties.
    */
-  function __construct(?Author $author, array $config = []) {
+  function __construct(Author $author, array $config = []) {
     $this->author = $author;
     parent::__construct($config);
   }
@@ -82,44 +79,12 @@ class Comment extends Model implements \JsonSerializable {
 
     return new static($hasAuthor ? Author::fromJson($map) : null, [
       'content' => isset($map->comment_content) && is_string($map->comment_content) ? $map->comment_content : '',
-      'date' => isset($map->comment_date_gmt) && is_string($map->comment_date_gmt) ? $map->comment_date_gmt : null,
-      'permalink' => isset($map->permalink) && is_string($map->permalink) ? $map->permalink : null,
-      'postModified' => isset($map->comment_post_modified_gmt) && is_string($map->comment_post_modified_gmt) ? $map->comment_post_modified_gmt : null,
-      'referrer' => isset($map->referrer) && is_string($map->referrer) ? $map->referrer : null,
+      'date' => isset($map->comment_date_gmt) && is_string($map->comment_date_gmt) ? new \DateTime($map->comment_date_gmt) : null,
+      'permalink' => isset($map->permalink) && is_string($map->permalink) ? createUri($map->permalink) : null,
+      'postModified' => isset($map->comment_post_modified_gmt) && is_string($map->comment_post_modified_gmt) ? new \DateTime($map->comment_post_modified_gmt) : null,
+      'referrer' => isset($map->referrer) && is_string($map->referrer) ? createUri($map->referrer) : null,
       'type' => isset($map->comment_type) && is_string($map->comment_type) ? $map->comment_type : ''
     ]);
-  }
-
-  /**
-   * Gets the UTC timestamp of the creation of the comment.
-   * @return \DateTime|null The UTC timestamp of the creation of the comment.
-   */
-  function getDate(): ?\DateTime {
-    return $this->date;
-  }
-
-  /**
-   * Gets the permanent location of the entry the comment is submitted to.
-   * @return UriInterface|null The permanent location of the entry the comment is submitted to.
-   */
-  function getPermalink(): ?UriInterface {
-    return $this->permalink;
-  }
-
-  /**
-   * Gets the UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
-   * @return \DateTime|null The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
-   */
-  function getPostModified(): ?\DateTime {
-    return $this->postModified;
-  }
-
-  /**
-   * Gets the URL of the webpage that linked to the entry being requested.
-   * @return UriInterface|null The URL of the webpage that linked to the entry being requested.
-   */
-  function getReferrer(): ?UriInterface {
-    return $this->referrer;
   }
 
   /**
@@ -129,11 +94,11 @@ class Comment extends Model implements \JsonSerializable {
   function jsonSerialize(): \stdClass {
     $map = $this->author->jsonSerialize();
     if (mb_strlen($this->content)) $map->comment_content = $this->content;
-    if ($date = $this->getDate()) $map->comment_date_gmt = $date->format('c');
-    if ($postModified = $this->getPostModified()) $map->comment_post_modified_gmt = $postModified->format('c');
+    if ($this->date) $map->comment_date_gmt = $this->date->format('c');
+    if ($this->postModified) $map->comment_post_modified_gmt = $this->postModified->format('c');
     if (mb_strlen($this->type)) $map->comment_type = $this->type;
-    if ($permalink = $this->getPermalink()) $map->permalink = (string) $permalink;
-    if ($referrer = $this->getReferrer()) $map->referrer = (string) $referrer;
+    if ($this->permalink) $map->permalink = (string) $this->permalink;
+    if ($this->referrer) $map->referrer = (string) $this->referrer;
     return $map;
   }
 
@@ -147,45 +112,5 @@ class Comment extends Model implements \JsonSerializable {
       [['author'], 'required'],
       [['permalink', 'referrer'], 'url', 'defaultScheme' => 'http']
     ];
-  }
-
-  /**
-   * Sets the UTC timestamp of the creation of the comment.
-   * @param \DateTime|string|null $value The new UTC timestamp of the creation of the comment.
-   * @return $this This instance.
-   */
-  function setDate($value): self {
-    $this->date = is_string($value) ? new \DateTime($value) : $value;
-    return $this;
-  }
-
-  /**
-   * Sets the permanent location of the entry the comment is submitted to.
-   * @param UriInterface|string|null $value The new permanent location of the entry.
-   * @return $this This instance.
-   */
-  function setPermalink($value): self {
-    $this->permalink = is_string($value) ? createUri($value) : $value;
-    return $this;
-  }
-
-  /**
-   * Sets the UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
-   * @param \DateTime|string|null $value The new UTC timestamp of the publication time.
-   * @return $this This instance.
-   */
-  function setPostModified($value): self {
-    $this->postModified = is_string($value) ? new \DateTime($value) : $value;
-    return $this;
-  }
-
-  /**
-   * Sets the URL of the webpage that linked to the entry being requested.
-   * @param UriInterface|string|null $value The new URL of the webpage that linked to the entry.
-   * @return $this This instance.
-   */
-  function setReferrer($value): self {
-    $this->referrer = is_string($value) ? createUri($value) : $value;
-    return $this;
   }
 }
