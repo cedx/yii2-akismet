@@ -2,8 +2,8 @@
 declare(strict_types=1);
 namespace yii\akismet;
 
-use function League\Uri\parse as parseUri;
-use League\Uri\{Http as Uri};
+use function League\Uri\{parse as parseUri};
+use League\Uri\{UriInterface};
 use yii\base\{Component, InvalidConfigException};
 use yii\helpers\{ArrayHelper};
 use yii\httpclient\{Client as HttpClient, CurlTransport, Exception as HttpException};
@@ -11,7 +11,7 @@ use yii\httpclient\{Client as HttpClient, CurlTransport, Exception as HttpExcept
 /**
  * Submits comments to the [Akismet](https://akismet.com) service.
  * @property Blog $blog The front page or home URL.
- * @property Uri $endPoint The URL of the API end point.
+ * @property UriInterface $endPoint The URL of the API end point.
  */
 class Client extends Component {
 
@@ -105,7 +105,7 @@ class Client extends Component {
    * Gets the URL of the API end point.
    * @return Uri The URL of the API end point.
    */
-  function getEndPoint(): Uri {
+  function getEndPoint(): UriInterface {
     return $this->endPoint;
   }
 
@@ -133,11 +133,11 @@ class Client extends Component {
 
   /**
    * Sets the URL of the API end point.
-   * @param Uri|string $value The new URL of the API end point.
+   * @param UriInterface|string $value The new URL of the API end point.
    * @return $this This instance.
    */
   function setEndPoint($value): self {
-    $this->endPoint = is_string($value) ? Uri::createFromString($value) : $value;
+    $this->endPoint = is_string($value) ? createUri($value) : $value;
     return $this;
   }
 

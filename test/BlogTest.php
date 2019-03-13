@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace yii\akismet;
 
-use League\Uri\{Http as Uri};
+use League\Uri\{UriInterface};
 use PHPUnit\Framework\{TestCase};
 
 /**

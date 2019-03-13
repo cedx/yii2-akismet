@@ -2,13 +2,14 @@
 declare(strict_types=1);
 namespace yii\akismet;
 
-use League\Uri\{Http as Uri};
+use function League\Uri\{create as createUri};
+use League\Uri\{UriInterface};
 use yii\base\{Model};
 use yii\helpers\{Json};
 
 /**
  * Represents the author of a comment.
- * @property Uri|null $url The URL of the author's website.
+ * @property UriInterface|null $url The URL of the author's website.
  */
 class Author extends Model implements \JsonSerializable {
 
@@ -40,7 +41,7 @@ class Author extends Model implements \JsonSerializable {
   public $userAgent;
 
   /**
-   * @var Uri|null The URL of the author's website.
+   * @var UriInterface|null The URL of the author's website.
    */
   private $url;
 
@@ -87,9 +88,9 @@ class Author extends Model implements \JsonSerializable {
 
   /**
    * Gets the URL of the author's website.
-   * @return Uri|null The URL of the author's website.
+   * @return UriInterface|null The URL of the author's website.
    */
-  function getUrl(): ?Uri {
+  function getUrl(): ?UriInterface {
     return $this->url;
   }
 
@@ -125,11 +126,11 @@ class Author extends Model implements \JsonSerializable {
 
   /**
    * Sets the URL of the author's website.
-   * @param Uri|string|null $value The new website URL.
+   * @param UriInterface|string|null $value The new website URL.
    * @return $this This instance.
    */
   function setUrl($value): self {
-    $this->url = is_string($value) ? Uri::createFromString($value) : $value;
+    $this->url = is_string($value) ? createUri($value) : $value;
     return $this;
   }
 }

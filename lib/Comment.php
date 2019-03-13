@@ -2,16 +2,16 @@
 declare(strict_types=1);
 namespace yii\akismet;
 
-use League\Uri\{Http as Uri};
+use League\Uri\{UriInterface};
 use yii\base\{Model};
 use yii\helpers\{Json};
 
 /**
  * Represents a comment submitted by an author.
  * @property \DateTime|null $date The UTC timestamp of the creation of the comment.
- * @property Uri|null $permalink The permanent location of the entry the comment is submitted to.
+ * @property UriInterface|null $permalink The permanent location of the entry the comment is submitted to.
  * @property \DateTime|null $postModified The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
- * @property Uri|null $referrer The URL of the webpage that linked to the entry being requested.
+ * @property UriInterface|null $referrer The URL of the webpage that linked to the entry being requested.
  */
 class Comment extends Model implements \JsonSerializable {
 
@@ -36,7 +36,7 @@ class Comment extends Model implements \JsonSerializable {
   private $date;
 
   /**
-   * @var Uri|null The permanent location of the entry the comment is submitted to.
+   * @var UriInterface|null The permanent location of the entry the comment is submitted to.
    */
   private $permalink;
 
@@ -46,7 +46,7 @@ class Comment extends Model implements \JsonSerializable {
   private $postModified;
 
   /**
-   * @var Uri|null The URL of the webpage that linked to the entry being requested.
+   * @var UriInterface|null The URL of the webpage that linked to the entry being requested.
    */
   private $referrer;
 
@@ -100,9 +100,9 @@ class Comment extends Model implements \JsonSerializable {
 
   /**
    * Gets the permanent location of the entry the comment is submitted to.
-   * @return Uri|null The permanent location of the entry the comment is submitted to.
+   * @return UriInterface|null The permanent location of the entry the comment is submitted to.
    */
-  function getPermalink(): ?Uri {
+  function getPermalink(): ?UriInterface {
     return $this->permalink;
   }
 
@@ -116,9 +116,9 @@ class Comment extends Model implements \JsonSerializable {
 
   /**
    * Gets the URL of the webpage that linked to the entry being requested.
-   * @return Uri|null The URL of the webpage that linked to the entry being requested.
+   * @return UriInterface|null The URL of the webpage that linked to the entry being requested.
    */
-  function getReferrer(): ?Uri {
+  function getReferrer(): ?UriInterface {
     return $this->referrer;
   }
 
@@ -161,11 +161,11 @@ class Comment extends Model implements \JsonSerializable {
 
   /**
    * Sets the permanent location of the entry the comment is submitted to.
-   * @param Uri|string|null $value The new permanent location of the entry.
+   * @param UriInterface|string|null $value The new permanent location of the entry.
    * @return $this This instance.
    */
   function setPermalink($value): self {
-    $this->permalink = is_string($value) ? Uri::createFromString($value) : $value;
+    $this->permalink = is_string($value) ? createUri($value) : $value;
     return $this;
   }
 
@@ -181,11 +181,11 @@ class Comment extends Model implements \JsonSerializable {
 
   /**
    * Sets the URL of the webpage that linked to the entry being requested.
-   * @param Uri|string|null $value The new URL of the webpage that linked to the entry.
+   * @param UriInterface|string|null $value The new URL of the webpage that linked to the entry.
    * @return $this This instance.
    */
   function setReferrer($value): self {
-    $this->referrer = is_string($value) ? Uri::createFromString($value) : $value;
+    $this->referrer = is_string($value) ? createUri($value) : $value;
     return $this;
   }
 }
