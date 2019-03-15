@@ -43,7 +43,7 @@
     "yiisoft/yii2-httpclient": "^2.0.7"
   },
   "require-dev": {
-    "cedx/coveralls": "^9.1.2",
+    "cedx/coveralls": "^10.0.0",
     "consolidation/robo": "^1.4.6",
     "henrikbjorn/lurker": "^1.2.0",
     "phpstan/phpstan": "^0.11.4",
