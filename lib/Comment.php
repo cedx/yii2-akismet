@@ -13,7 +13,7 @@ use yii\helpers\{Json};
 class Comment extends Model implements \JsonSerializable {
 
   /**
-   * @var Author The comment's author.
+   * @var Author|null The comment's author.
    */
   public $author;
 
@@ -52,7 +52,7 @@ class Comment extends Model implements \JsonSerializable {
    * @param Author $author The comment's author.
    * @param array $config Name-value pairs that will be used to initialize the object properties.
    */
-  function __construct(Author $author, array $config = []) {
+  function __construct(?Author $author, array $config = []) {
     $this->author = $author;
     parent::__construct($config);
   }

@@ -31,13 +31,9 @@ class CommentTest extends TestCase {
       'referrer' => 'https://belin.io'
     ]);
 
-    assertThat($comment->author, isInstanceOf(Author::class));
     assertThat($comment->author->name, equalTo('Cédric Belin'));
-
-    assertThat($comment->date, isInstanceOf(\DateTime::class));
-    assertThat($comment->date->format('Y'), equalTo(2000));
-
     assertThat($comment->content, equalTo('A user comment.'));
+    assertThat($comment->date->format('Y'), equalTo(2000));
     assertThat($comment->referrer, equalTo('https://belin.io'));
     assertThat($comment->type, equalTo(CommentType::TRACKBACK));
   }
@@ -84,15 +80,17 @@ class CommentTest extends TestCase {
     ]);
 
     // It should start with the class name.
-    assertThat($comment, stringStartsWith('yii\akismet\Comment {');
+    assertThat($comment, stringStartsWith('yii\akismet\Comment {'));
 
     // It should contain the instance properties.
-    assertThat($comment)->to->contain('"comment_author":"Cédric Belin"')
-      ->and->contain('"comment_content":"A user comment."')
-      ->and->contain('"comment_type":"pingback"')
-      ->and->contain('"comment_date_gmt":"2000-01-01T00:00:00+00:00"')
-      ->and->contain('"referrer":"https://belin.io"')
-      ->and->contain('"user_agent":"Doom/6.6.6"')
-      ->and->contain('"user_ip":"127.0.0.1"');
+    assertThat($comment, logicalAnd(
+      contains('"comment_author":"Cédric Belin"'),
+      contains('"comment_content":"A user comment."'),
+      contains('"comment_type":"pingback"'),
+      contains('"comment_date_gmt":"2000-01-01T00:00:00+00:00"'),
+      contains('"referrer":"https://belin.io"'),
+      contains('"user_agent":"Doom/6.6.6"'),
+      contains('"user_ip":"127.0.0.1"')
+    ));
   }
 }

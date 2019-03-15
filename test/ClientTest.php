@@ -41,12 +41,24 @@ class ClientTest extends TestCase {
    */
   function testInit(): void {
     // It should throw an exception if the API key or blog is empty.
-      assertThat(function() { new Client; })->to->throw(InvalidConfigException::class));
-    });
+    try {
+      new Client;
+      $this->fail('Exception not thrown.');
+    }
+
+    catch (\Throwable $e) {
+      assertThat($e, isInstanceOf(InvalidConfigException::class));
+    }
 
     // It should not throw an exception if the API key and blog are not empty.
-      assertThat(function() { new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => 'FooBar']); })->to->not->throw;
-    });
+    try {
+      new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => 'FooBar']);
+      assertThat(true, isTrue());
+    }
+
+    catch (\Throwable $e) {
+      $this->fail($e->getMessage());
+    }
   }
 
   /**
@@ -54,15 +66,14 @@ class ClientTest extends TestCase {
    */
   function testSubmitHam(): void {
     // It should complete without error.
-      try {
-        $this->client->submitHam($this->ham);
-        assertThat(true, isTrue());
-      }
+    try {
+      $this->client->submitHam($this->ham);
+      assertThat(true, isTrue());
+    }
 
-      catch (\Throwable $e) {
-        $this->fail($e->getMessage());
-      }
-    });
+    catch (\Throwable $e) {
+      $this->fail($e->getMessage());
+    }
   }
 
   /**
@@ -70,15 +81,14 @@ class ClientTest extends TestCase {
    */
   function testSubmitSpam(): void {
     // It should complete without error.
-      try {
-        $this->client->submitSpam($this->spam);
-        assertThat(true, isTrue());
-      }
+    try {
+      $this->client->submitSpam($this->spam);
+      assertThat(true, isTrue());
+    }
 
-      catch (\Throwable $e) {
-        $this->fail($e->getMessage());
-      }
-    });
+    catch (\Throwable $e) {
+      $this->fail($e->getMessage());
+    }
   }
 
   /**
@@ -86,13 +96,11 @@ class ClientTest extends TestCase {
    */
   function testVerifyKey(): void {
     // It should return `true` for a valid API key.
-      assertThat($this->client->verifyKey(), isTrue());
-    });
+    assertThat($this->client->verifyKey(), isTrue());
 
     // It should return `false` for an invalid API key.
-      $client = new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => $this->client->blog, 'isTest' => $this->client->isTest]);
-      assertThat($client->verifyKey(), isFalse());
-    });
+    $client = new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => $this->client->blog, 'isTest' => $this->client->isTest]);
+    assertThat($client->verifyKey(), isFalse());
   }
 
   /**

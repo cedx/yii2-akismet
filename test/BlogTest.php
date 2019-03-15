@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace yii\akismet;
 
-use League\Uri\{UriInterface};
+use function League\Uri\{create as createUri};
 use PHPUnit\Framework\{TestCase};
 
 /**
@@ -30,8 +30,6 @@ class BlogTest extends TestCase {
 
     assertThat($blog->charset, equalTo('ISO-8859-1'));
     assertThat($blog->languages->getArrayCopy(), equalTo(['en', 'fr']));
-
-    assertThat($blog->url, isInstanceOf(Uri::class));
     assertThat((string) $blog->url, equalTo('https://dev.belin.io/yii2-akismet'));
   }
 
@@ -41,13 +39,13 @@ class BlogTest extends TestCase {
    */
   function testJsonSerialize(): void {
     // It should return only the blog URL with a newly created instance.
-    $data = (new Blog('https://dev.belin.io/yii2-akismet'))->jsonSerialize();
+    $data = (new Blog(createUri('https://dev.belin.io/yii2-akismet')))->jsonSerialize();
     assertThat(\Yii::getObjectVars($data), countOf(2));
     assertThat($data->blog, equalTo('https://dev.belin.io/yii2-akismet'));
     assertThat($data->blog_charset, equalTo('UTF-8'));
 
     // It should return a non-empty map with a initialized instance.
-    $data = (new Blog('https://dev.belin.io/yii2-akismet', [
+    $data = (new Blog(createUri('https://dev.belin.io/yii2-akismet'), [
       'charset' => 'ISO-8859-1',
       'languages' => ['en', 'fr']
     ]))->jsonSerialize();
@@ -63,7 +61,7 @@ class BlogTest extends TestCase {
    * @test
    */
   function testToString(): void {
-    $blog = (string) new Blog('https://dev.belin.io/yii2-akismet', [
+    $blog = (string) new Blog(createUri('https://dev.belin.io/yii2-akismet'), [
       'charset' => 'UTF-8',
       'languages' => ['en', 'fr']
     ]);
