@@ -5,7 +5,7 @@ namespace yii\akismet;
 use function League\Uri\{create as createUri};
 use League\Uri\{UriInterface};
 use yii\base\{Model};
-use yii\helpers\{Json, StringHelper};
+use yii\helpers\{StringHelper};
 
 /**
  * Represents the front page or home URL transmitted when making requests.

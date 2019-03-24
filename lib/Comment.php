@@ -5,7 +5,6 @@ namespace yii\akismet;
 use function League\Uri\{create as createUri};
 use League\Uri\{UriInterface};
 use yii\base\{Model};
-use yii\helpers\{Json};
 
 /**
  * Represents a comment submitted by an author.
