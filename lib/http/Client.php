@@ -77,8 +77,9 @@ class Client extends Component {
    * @throws ClientException An error occurred while querying the end point.
    */
   function checkComment(Comment $comment): bool {
-    $endPoint = "{$this->endPoint->getScheme()}://{$this->apiKey}.{$this->endPoint->getHost()}/1.1/comment-check";
-    return $this->fetch(createUri($endPoint), \Yii::getObjectVars($comment->jsonSerialize())) == 'true';
+    $host = $this->endPoint->getHost() . (($port = $this->endPoint->getPort()) ? ":$port" : '');
+    $endPoint = createUri("{$this->endPoint->getScheme()}://{$this->apiKey}.$host{$this->endPoint->getPath()}");
+    $this->fetch($endPoint->withPath('comment-check'), \Yii::getObjectVars($comment->jsonSerialize()));
   }
 
   /**
@@ -88,7 +89,7 @@ class Client extends Component {
   function init(): void {
     parent::init();
     if (!mb_strlen($this->apiKey) || !$this->blog) throw new InvalidConfigException('The API key or the blog URL is empty.');
-    if (!$this->endPoint) $this->endPoint = createUri('https://rest.akismet.com');
+    if (!$this->endPoint) $this->endPoint = createUri('https://rest.akismet.com/1.1/');
     if (!mb_strlen($this->userAgent))
       $this->userAgent = sprintf('Yii Framework/%s | Akismet/%s', preg_replace('/^(\d+(\.\d+){2}).*$/', '$1', \Yii::getVersion()), static::VERSION);
   }
@@ -99,8 +100,9 @@ class Client extends Component {
    * @throws ClientException An error occurred while querying the end point.
    */
   function submitHam(Comment $comment): void {
-    $endPoint = "{$this->endPoint->getScheme()}://{$this->apiKey}.{$this->endPoint->getHost()}/1.1/submit-ham";
-    $this->fetch(createUri($endPoint), \Yii::getObjectVars($comment->jsonSerialize()));
+    $host = $this->endPoint->getHost() . (($port = $this->endPoint->getPort()) ? ":$port" : '');
+    $endPoint = createUri("{$this->endPoint->getScheme()}://{$this->apiKey}.$host{$this->endPoint->getPath()}");
+    $this->fetch($endPoint->withPath('submit-ham'), \Yii::getObjectVars($comment->jsonSerialize()));
   }
 
   /**
@@ -109,8 +111,9 @@ class Client extends Component {
    * @throws ClientException An error occurred while querying the end point.
    */
   function submitSpam(Comment $comment): void {
-    $endPoint = "{$this->endPoint->getScheme()}://{$this->apiKey}.{$this->endPoint->getHost()}/1.1/submit-spam";
-    $this->fetch(createUri($endPoint), \Yii::getObjectVars($comment->jsonSerialize()));
+    $host = $this->endPoint->getHost() . (($port = $this->endPoint->getPort()) ? ":$port" : '');
+    $endPoint = createUri("{$this->endPoint->getScheme()}://{$this->apiKey}.$host{$this->endPoint->getPath()}");
+    $this->fetch($endPoint->withPath('submit-spam'), \Yii::getObjectVars($comment->jsonSerialize()));
   }
 
   /**
@@ -119,7 +122,7 @@ class Client extends Component {
    * @throws ClientException An error occurred while querying the end point.
    */
   function verifyKey(): bool {
-    return $this->fetch($this->endPoint->withPath('/1.1/verify-key'), ['key' => $this->apiKey]) == 'valid';
+    return $this->fetch($this->endPoint->withPath('verify-key'), ['key' => $this->apiKey]) == 'valid';
   }
 
   /**
