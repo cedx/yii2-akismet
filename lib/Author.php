@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 namespace yii\akismet;
 
-use function League\Uri\{create as createUri};
-use League\Uri\{UriInterface};
+use GuzzleHttp\Psr7\{Uri};
+use Psr\Http\Message\{UriInterface};
 use yii\base\{Model};
 
 /**
@@ -65,7 +65,7 @@ class Author extends Model implements \JsonSerializable {
       'email' => isset($map->comment_author_email) && is_string($map->comment_author_email) ? $map->comment_author_email : '',
       'name' => isset($map->comment_author) && is_string($map->comment_author) ? $map->comment_author : '',
       'role' => isset($map->user_role) && is_string($map->user_role) ? $map->user_role : '',
-      'url' => isset($map->comment_author_url) && is_string($map->comment_author_url) ? createUri($map->comment_author_url) : null
+      'url' => isset($map->comment_author_url) && is_string($map->comment_author_url) ? new Uri($map->comment_author_url) : null
     ];
 
     return new static(

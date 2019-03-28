@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 namespace yii\akismet;
 
-use function League\Uri\{create as createUri};
-use League\Uri\{UriInterface};
+use GuzzleHttp\Psr7\{Uri, UriResolver};
+use Psr\Http\Message\{UriInterface};
 use yii\base\{Component, InvalidConfigException};
 use yii\helpers\{ArrayHelper};
 use yii\httpclient\{Client as HttpClient, CurlTransport, Exception as HttpException};
@@ -78,8 +78,8 @@ class Client extends Component {
    */
   function checkComment(Comment $comment): bool {
     $host = $this->endPoint->getHost() . (($port = $this->endPoint->getPort()) ? ":$port" : '');
-    $endPoint = createUri("{$this->endPoint->getScheme()}://{$this->apiKey}.$host{$this->endPoint->getPath()}");
-    $this->fetch($endPoint->withPath('comment-check'), \Yii::getObjectVars($comment->jsonSerialize()));
+    $endPoint = new Uri("{$this->endPoint->getScheme()}://{$this->apiKey}.$host{$this->endPoint->getPath()}");
+    $this->fetch(UriResolver::resolve($endPoint, new Uri('comment-check')), \Yii::getObjectVars($comment->jsonSerialize()));
   }
 
   /**
@@ -89,7 +89,7 @@ class Client extends Component {
   function init(): void {
     parent::init();
     if (!mb_strlen($this->apiKey) || !$this->blog) throw new InvalidConfigException('The API key or the blog URL is empty.');
-    if (!$this->endPoint) $this->endPoint = createUri('https://rest.akismet.com/1.1/');
+    if (!$this->endPoint) $this->endPoint = new Uri('https://rest.akismet.com/1.1/');
     if (!mb_strlen($this->userAgent))
       $this->userAgent = sprintf('Yii Framework/%s | Akismet/%s', preg_replace('/^(\d+(\.\d+){2}).*$/', '$1', \Yii::getVersion()), static::VERSION);
   }
@@ -101,8 +101,8 @@ class Client extends Component {
    */
   function submitHam(Comment $comment): void {
     $host = $this->endPoint->getHost() . (($port = $this->endPoint->getPort()) ? ":$port" : '');
-    $endPoint = createUri("{$this->endPoint->getScheme()}://{$this->apiKey}.$host{$this->endPoint->getPath()}");
-    $this->fetch($endPoint->withPath('submit-ham'), \Yii::getObjectVars($comment->jsonSerialize()));
+    $endPoint = new Uri("{$this->endPoint->getScheme()}://{$this->apiKey}.$host{$this->endPoint->getPath()}");
+    $this->fetch(UriResolver::resolve($endPoint, new Uri('submit-ham')), \Yii::getObjectVars($comment->jsonSerialize()));
   }
 
   /**
@@ -112,8 +112,8 @@ class Client extends Component {
    */
   function submitSpam(Comment $comment): void {
     $host = $this->endPoint->getHost() . (($port = $this->endPoint->getPort()) ? ":$port" : '');
-    $endPoint = createUri("{$this->endPoint->getScheme()}://{$this->apiKey}.$host{$this->endPoint->getPath()}");
-    $this->fetch($endPoint->withPath('submit-spam'), \Yii::getObjectVars($comment->jsonSerialize()));
+    $endPoint = new Uri("{$this->endPoint->getScheme()}://{$this->apiKey}.$host{$this->endPoint->getPath()}");
+    $this->fetch(UriResolver::resolve($endPoint, new Uri('submit-spam')), \Yii::getObjectVars($comment->jsonSerialize()));
   }
 
   /**
@@ -122,7 +122,7 @@ class Client extends Component {
    * @throws ClientException An error occurred while querying the end point.
    */
   function verifyKey(): bool {
-    return $this->fetch($this->endPoint->withPath('verify-key'), ['key' => $this->apiKey]) == 'valid';
+    return $this->fetch(UriResolver::resolve($this->endPoint, new Uri('verify-key')), ['key' => $this->apiKey]) == 'valid';
   }
 
   /**

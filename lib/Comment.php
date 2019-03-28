@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 namespace yii\akismet;
 
-use function League\Uri\{create as createUri};
-use League\Uri\{UriInterface};
+use GuzzleHttp\Psr7\{Uri};
+use Psr\Http\Message\{UriInterface};
 use yii\base\{Model};
 
 /**
@@ -69,9 +69,9 @@ class Comment extends Model implements \JsonSerializable {
     return new static($hasAuthor ? Author::fromJson($map) : null, [
       'content' => isset($map->comment_content) && is_string($map->comment_content) ? $map->comment_content : '',
       'date' => isset($map->comment_date_gmt) && is_string($map->comment_date_gmt) ? new \DateTime($map->comment_date_gmt) : null,
-      'permalink' => isset($map->permalink) && is_string($map->permalink) ? createUri($map->permalink) : null,
+      'permalink' => isset($map->permalink) && is_string($map->permalink) ? new Uri($map->permalink) : null,
       'postModified' => isset($map->comment_post_modified_gmt) && is_string($map->comment_post_modified_gmt) ? new \DateTime($map->comment_post_modified_gmt) : null,
-      'referrer' => isset($map->referrer) && is_string($map->referrer) ? createUri($map->referrer) : null,
+      'referrer' => isset($map->referrer) && is_string($map->referrer) ? new Uri($map->referrer) : null,
       'type' => isset($map->comment_type) && is_string($map->comment_type) ? $map->comment_type : ''
     ]);
   }

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace yii\akismet;
 
-use function League\Uri\{create as createUri};
+use GuzzleHttp\Psr7\{Uri};
 use PHPUnit\Framework\{TestCase};
 
 /**
@@ -38,13 +38,13 @@ class BlogTest extends TestCase {
    */
   function testJsonSerialize(): void {
     // It should return only the blog URL with a newly created instance.
-    $data = (new Blog(createUri('https://dev.belin.io/yii2-akismet')))->jsonSerialize();
+    $data = (new Blog(new Uri('https://dev.belin.io/yii2-akismet')))->jsonSerialize();
     assertThat(\Yii::getObjectVars($data), countOf(2));
     assertThat($data->blog, equalTo('https://dev.belin.io/yii2-akismet'));
     assertThat($data->blog_charset, equalTo('UTF-8'));
 
     // It should return a non-empty map with a initialized instance.
-    $data = (new Blog(createUri('https://dev.belin.io/yii2-akismet'), [
+    $data = (new Blog(new Uri('https://dev.belin.io/yii2-akismet'), [
       'charset' => 'ISO-8859-1',
       'languages' => ['en', 'fr']
     ]))->jsonSerialize();

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace yii\akismet;
 
-use League\Uri\{UriInterface};
+use Psr\Http\Message\{UriInterface};
 use yii\base\{Exception};
 
 /**
