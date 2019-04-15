@@ -1,6 +1,7 @@
 # Changelog
 
-## Version [7.1.0](https://github.com/cedx/yii2-akismet/compare/v7.0.0...v7.1.0)
+## Version [8.0.0](https://github.com/cedx/yii2-akismet/compare/v7.0.0...v8.0.0)
+- Breaking change: using camelcase instead of all caps for constants.
 - Added a user guide based on [MkDocs](http://www.mkdocs.org).
 - Added the `ClientException` class.
 - Dropped the dependency on [PHPUnit-Expect](https://dev.belin.io/phpunit-expect).
