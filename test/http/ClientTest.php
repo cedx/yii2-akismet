@@ -118,7 +118,7 @@ class ClientTest extends TestCase {
     $this->ham = new Comment($author, [
       'content' => 'I\'m testing out the Service API.',
       'referrer' => 'https://packagist.org/packages/cedx/yii2-akismet',
-      'type' => CommentType::COMMENT
+      'type' => CommentType::comment
     ]);
 
     $author = new Author('127.0.0.1', 'Spam Bot/6.6.6', [
@@ -128,7 +128,7 @@ class ClientTest extends TestCase {
 
     $this->spam = new Comment($author, [
       'content' => 'Spam!',
-      'type' => CommentType::TRACKBACK
+      'type' => CommentType::trackback
     ]);
   }
 }

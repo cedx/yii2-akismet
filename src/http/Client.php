@@ -16,13 +16,13 @@ use yii\httpclient\{Client as HttpClient, CurlTransport, Exception as HttpExcept
 class Client extends Component {
 
   /** @var string An event that is triggered when a request is made to the remote service. */
-  const EVENT_REQUEST = 'request';
+  const eventRequest = 'request';
 
   /** @var string An event that is triggered when a response is received from the remote service. */
-  const EVENT_RESPONSE = 'response';
+  const eventResponse = 'response';
 
   /** @var string The version number of this package. */
-  const VERSION = '7.1.0';
+  const version = '8.0.0';
 
   /** @var string The Akismet API key. */
   public $apiKey = '';
@@ -48,8 +48,8 @@ class Client extends Component {
    */
   function __construct(array $config = []) {
     $this->httpClient = new HttpClient(['transport' => CurlTransport::class]);
-    $this->httpClient->on(HttpClient::EVENT_BEFORE_SEND, function($event) { $this->trigger(static::EVENT_REQUEST, $event); });
-    $this->httpClient->on(HttpClient::EVENT_AFTER_SEND, function($event) { $this->trigger(static::EVENT_RESPONSE, $event); });
+    $this->httpClient->on(HttpClient::EVENT_BEFORE_SEND, function($event) { $this->trigger(static::eventRequest, $event); });
+    $this->httpClient->on(HttpClient::EVENT_AFTER_SEND, function($event) { $this->trigger(static::eventResponse, $event); });
     parent::__construct($config);
   }
 
@@ -74,7 +74,7 @@ class Client extends Component {
     if (!mb_strlen($this->apiKey) || !$this->blog) throw new InvalidConfigException('The API key or the blog URL is empty.');
     if (!$this->endPoint) $this->endPoint = new Uri('https://rest.akismet.com/1.1/');
     if (!mb_strlen($this->userAgent))
-      $this->userAgent = sprintf('Yii Framework/%s | Akismet/%s', preg_replace('/^(\d+(\.\d+){2}).*$/', '$1', \Yii::getVersion()), static::VERSION);
+      $this->userAgent = sprintf('Yii Framework/%s | Akismet/%s', preg_replace('/^(\d+(\.\d+){2}).*$/', '$1', \Yii::getVersion()), static::version);
   }
 
   /**

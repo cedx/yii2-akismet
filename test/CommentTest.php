@@ -29,7 +29,7 @@ class CommentTest extends TestCase {
     assertThat($comment->content, equalTo('A user comment.'));
     assertThat($comment->date->format('Y'), equalTo(2000));
     assertThat($comment->referrer, equalTo('https://belin.io'));
-    assertThat($comment->type, equalTo(CommentType::TRACKBACK));
+    assertThat($comment->type, equalTo(CommentType::trackback));
   }
 
   /** @test Tests the `Comment::jsonSerialize()` method. */
@@ -45,7 +45,7 @@ class CommentTest extends TestCase {
       'content' => 'A user comment.',
       'date' => '2000-01-01T00:00:00.000Z',
       'referrer' => 'https://belin.io',
-      'type' => CommentType::PINGBACK
+      'type' => CommentType::pingback
     ]))->jsonSerialize();
 
     assertThat(\Yii::getObjectVars($data), countOf(7));

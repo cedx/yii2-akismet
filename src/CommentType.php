@@ -5,32 +5,32 @@ namespace yii\akismet;
 abstract class CommentType {
 
   /** @var string A blog post. */
-  const BLOG_POST = 'blog-post';
+  const blogPost = 'blog-post';
 
   /** @var string A blog comment. */
-  const COMMENT = 'comment';
+  const comment = 'comment';
 
   /** @var string A contact form or feedback form submission. */
-  const CONTACT_FORM = 'contact-form';
+  const contactForm = 'contact-form';
 
   /** @var string A top-level forum post. */
-  const FORUM_POST = 'forum-post';
+  const forumPost = 'forum-post';
 
   /** @var string A message sent between just a few users. */
-  const MESSAGE = 'message';
+  const message = 'message';
 
   /** @var string A [pingback](https://en.wikipedia.org/wiki/Pingback) post. */
-  const PINGBACK = 'pingback';
+  const pingback = 'pingback';
 
   /** @var string A reply to a top-level forum post. */
-  const REPLY = 'reply';
+  const reply = 'reply';
 
   /** @var string A new user account. */
-  const SIGNUP = 'signup';
+  const signup = 'signup';
 
   /** @var string A [trackback](https://en.wikipedia.org/wiki/Trackback) post. */
-  const TRACKBACK = 'trackback';
+  const trackback = 'trackback';
 
   /** @var string A [Twitter](https://twitter.com) message. */
-  const TWEET = 'tweet';
+  const tweet = 'tweet';
 }
