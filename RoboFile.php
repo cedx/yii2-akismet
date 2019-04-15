@@ -16,6 +16,15 @@ class RoboFile extends Tasks {
   }
 
   /**
+   * Builds the project.
+   * @return Result The task result.
+   */
+  function build(): Result {
+    $version = $this->taskSemVer('.semver')->setFormat('%M.%m.%p')->__toString();
+    return $this->taskReplaceInFile('src/Client.php')->regex("/const version = '\d+(\.\d+){2}'/")->to("const version = '$version'")->run();
+  }
+
+  /**
    * Deletes all generated files and reset any saved state.
    * @return Result The task result.
    */
@@ -96,6 +105,10 @@ class RoboFile extends Tasks {
    * @return Result The task result.
    */
   function watch(): Result {
-    return $this->taskWatch()->monitor('test', function() { $this->test(); })->run();
+    $this->build();
+    return $this->taskWatch()
+      ->monitor('src', function() { $this->build(); })
+      ->monitor('test', function() { $this->test(); })
+      ->run();
   }
 }
