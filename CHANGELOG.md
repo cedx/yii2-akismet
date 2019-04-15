@@ -22,7 +22,7 @@
 
 ## Version [5.0.0](https://github.com/cedx/yii2-akismet/compare/v4.2.0...v5.0.0)
 - Breaking change: properties representing URLs as strings now use instances of the [`Psr\Http\Message\UriInterface`](http://www.php-fig.org/psr/psr-7/#35-psrhttpmessageuriinterface) interface.
-- Breaking change: the `Blog::$languages` property is now an instance of `ArrayObject` class.
+- Breaking change: the `Blog->languages` property is now an instance of `ArrayObject` class.
 - Added new unit tests.
 - Changed licensing for the [MIT License](https://opensource.org/licenses/MIT).
 - The `$date` and `$postModified` properties of the `Comment` class now accept strings and timestamps.
@@ -53,12 +53,12 @@
 - Updated the package dependencies.
 
 ## Version [3.0.0](https://github.com/cedx/yii2-akismet/compare/v2.0.0...v3.0.0)
-- Breaking change: changed the type of the `Blog::languages` property to `ArrayObject`.
-- Added the `Client::endPoint` property.
+- Breaking change: changed the type of the `Blog->languages` property to `ArrayObject`.
+- Added the `Client->endPoint` property.
 - Updated the package dependencies.
 
 ## Version [2.0.0](https://github.com/cedx/yii2-akismet/compare/v1.1.0...v2.0.0)
-- Breaking change: changed the `Blog::language` string property for the `languages` array property.
+- Breaking change: changed the `Blog->language` string property for the `languages` array property.
 - Removed the `dist` build task.
 - Replaced the [Codacy](https://www.codacy.com) code coverage service by the [Coveralls](https://coveralls.io) one.
 - Updated the package dependencies.

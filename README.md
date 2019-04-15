@@ -34,17 +34,13 @@ composer require cedx/yii2-akismet
 In your application configuration file, you can use the following component:
 
 ```php
-<?php
-use yii\akismet\{Blog};
-use yii\akismet\http\{Client};
-
-return [
+<?php return [
   'components' => [
     'akismet' => [
-      'class' => Client::class,
+      'class' => 'yii\akismet\http\Client',
       'apiKey' => '123YourAPIKey',
       'blog' => [
-        'class' => Blog::class,
+        'class' => 'yii\akismet\Blog',
         'url' => 'http://www.yourblog.com'
       ]
     ]
@@ -120,7 +116,7 @@ Emitted every time a request is made to the remote service:
 use yii\akismet\http\{Client};
 use yii\httpclient\{RequestEvent};
 
-$client->on(Client::EVENT_REQUEST, function(RequestEvent $event) {
+$client->on(Client::eventRequest, function(RequestEvent $event) {
   echo 'Client request: ', $event->request->url;
 });
 ```
@@ -133,7 +129,7 @@ Emitted every time a response is received from the remote service:
 use yii\akismet\http\{Client};
 use yii\httpclient\{RequestEvent};
 
-$client->on(Client::EVENT_RESPONSE, function(RequestEvent $event) {
+$client->on(Client::eventResponse, function(RequestEvent $event) {
   echo 'Server response: ', $event->response->statusCode;
 });
 ```
