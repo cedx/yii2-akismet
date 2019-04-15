@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
-namespace yii\akismet;
+namespace yii\akismet\http;
 
 use GuzzleHttp\Psr7\{Uri, UriResolver};
 use Psr\Http\Message\{UriInterface};
+use yii\akismet\{Blog, Comment};
 use yii\base\{Component, InvalidConfigException};
 use yii\helpers\{ArrayHelper};
 use yii\httpclient\{Client as HttpClient, CurlTransport, Exception as HttpException};
@@ -14,49 +15,31 @@ use yii\httpclient\{Client as HttpClient, CurlTransport, Exception as HttpExcept
  */
 class Client extends Component {
 
-  /**
-   * @var string An event that is triggered when a request is made to the remote service.
-   */
+  /** @var string An event that is triggered when a request is made to the remote service. */
   const EVENT_REQUEST = 'request';
 
-  /**
-   * @var string An event that is triggered when a response is received from the remote service.
-   */
+  /** @var string An event that is triggered when a response is received from the remote service. */
   const EVENT_RESPONSE = 'response';
 
-  /**
-   * @var string The version number of this package.
-   */
+  /** @var string The version number of this package. */
   const VERSION = '7.1.0';
 
-  /**
-   * @var string The Akismet API key.
-   */
+  /** @var string The Akismet API key. */
   public $apiKey = '';
 
-  /**
-   * @var Blog The front page or home URL.
-   */
+  /** @var Blog The front page or home URL. */
   public $blog;
 
-  /**
-   * @var UriInterface The URL of the API end point.
-   */
+  /** @var UriInterface The URL of the API end point. */
   public $endPoint;
 
-  /**
-   * @var bool Value indicating whether the client operates in test mode.
-   */
+  /** @var bool Value indicating whether the client operates in test mode. */
   public $isTest = false;
 
-  /**
-   * @var string The user agent string to use when making requests.
-   */
+  /** @var string The user agent string to use when making requests. */
   public $userAgent = '';
 
-  /**
-   * @var HttpClient The underlying HTTP client.
-   */
+  /** @var HttpClient The underlying HTTP client. */
   private $httpClient;
 
   /**
@@ -79,11 +62,11 @@ class Client extends Component {
   function checkComment(Comment $comment): bool {
     $host = $this->endPoint->getHost() . (($port = $this->endPoint->getPort()) ? ":$port" : '');
     $endPoint = new Uri("{$this->endPoint->getScheme()}://{$this->apiKey}.$host{$this->endPoint->getPath()}");
-    $this->fetch(UriResolver::resolve($endPoint, new Uri('comment-check')), \Yii::getObjectVars($comment->jsonSerialize()));
+    return $this->fetch(UriResolver::resolve($endPoint, new Uri('comment-check')), \Yii::getObjectVars($comment->jsonSerialize())) == 'true';
   }
 
   /**
-   * Initializes the object.
+   * Initializes this object.
    * @throws InvalidConfigException The API key or the blog URL is empty.
    */
   function init(): void {
@@ -133,14 +116,14 @@ class Client extends Component {
    * @throws ClientException An error occurred while querying the end point.
    */
   private function fetch(UriInterface $endPoint, array $fields = []): string {
-      $bodyFields = ArrayHelper::merge(\Yii::getObjectVars($this->blog->jsonSerialize()), $fields);
-      if ($this->isTest) $bodyFields['is_test'] = '1';
+    $bodyFields = ArrayHelper::merge(\Yii::getObjectVars($this->blog->jsonSerialize()), $fields);
+    if ($this->isTest) $bodyFields['is_test'] = '1';
 
-      try { $response = $this->httpClient->post((string) $endPoint, $bodyFields, ['user-agent' => $this->userAgent])->send(); }
-      catch (HttpException $e) { throw new ClientException($e->getMessage(), $endPoint, $e); }
+    try { $response = $this->httpClient->post((string) $endPoint, $bodyFields, ['user-agent' => $this->userAgent])->send(); }
+    catch (HttpException $e) { throw new ClientException($e->getMessage(), $endPoint, $e); }
 
-      if (!$response->isOk) throw new ClientException($response->statusCode, $endPoint);
-      if ($response->headers->has('x-akismet-debug-help')) throw new ClientException($response->headers->get('x-akismet-debug-help'), $endPoint);
-      return $response->content;
+    if (!$response->isOk) throw new ClientException($response->statusCode, $endPoint);
+    if ($response->headers->has('x-akismet-debug-help')) throw new ClientException($response->headers->get('x-akismet-debug-help'), $endPoint);
+    return $response->content;
   }
 }

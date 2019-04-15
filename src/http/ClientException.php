@@ -1,17 +1,13 @@
 <?php declare(strict_types=1);
-namespace yii\akismet;
+namespace yii\akismet\http;
 
 use Psr\Http\Message\{UriInterface};
 use yii\base\{Exception};
 
-/**
- * An exception caused by an error in a `Client` request.
- */
+/** An exception caused by an error in a `Client` request. */
 class ClientException extends Exception {
 
-  /**
-   * @var UriInterface|null The URL of the HTTP request or response that failed.
-   */
+  /** @var UriInterface|null The URL of the HTTP request or response that failed. */
   private $uri;
 
   /**

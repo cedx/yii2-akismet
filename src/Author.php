@@ -11,36 +11,22 @@ use yii\base\{Model};
  */
 class Author extends Model implements \JsonSerializable {
 
-  /**
-   * @var string The author's mail address.
-   */
+  /** @var string The author's mail address. */
   public $email = '';
 
-  /**
-   * @var string The author's IP address.
-   */
+  /** @var string The author's IP address. */
   public $ipAddress;
 
-  /**
-   * @var string The author's name.
-   * If you set it to `"viagra-test-123"`, Akismet will always return `true`.
-   */
+  /** @var string The author's name. If you set it to `"viagra-test-123"`, Akismet will always return `true`. */
   public $name = '';
 
-  /**
-   * @var string The author's role.
-   * If you set it to `"administrator"`, Akismet will always return `false`.
-   */
+  /** @var string The author's role. If you set it to `"administrator"`, Akismet will always return `false`. */
   public $role = '';
 
-  /**
-   * @var UriInterface|null The URL of the author's website.
-   */
+  /** @var UriInterface|null The URL of the author's website. */
   public $url;
 
-  /**
-   * @var string The author's user agent, that is the string identifying the Web browser used to submit comments.
-   */
+  /** @var string The author's user agent, that is the string identifying the Web browser used to submit comments. */
   public $userAgent;
 
   /**

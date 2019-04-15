@@ -3,15 +3,10 @@ namespace yii\akismet;
 
 use PHPUnit\Framework\{TestCase};
 
-/**
- * Tests the features of the `yii\akismet\Comment` class.
- */
+/** Tests the features of the `yii\akismet\Comment` class. */
 class CommentTest extends TestCase {
 
-  /**
-   * Tests the `Comment::fromJson()` method.
-   * @test
-   */
+  /** @test Tests the `Comment::fromJson()` method. */
   function testFromJson(): void {
     // It should return an empty instance with an empty map.
     $comment = Comment::fromJson(new \stdClass);
@@ -37,10 +32,7 @@ class CommentTest extends TestCase {
     assertThat($comment->type, equalTo(CommentType::TRACKBACK));
   }
 
-  /**
-   * Tests the `Comment::jsonSerialize()` method.
-   * @test
-   */
+  /** @test Tests the `Comment::jsonSerialize()` method. */
   function testJsonSerialize(): void {
     // It should return only the author info with a newly created instance.
     $data = (new Comment(new Author('127.0.0.1', 'Doom/6.6.6')))->jsonSerialize();

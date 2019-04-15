@@ -4,15 +4,10 @@ namespace yii\akismet;
 use GuzzleHttp\Psr7\{Uri};
 use PHPUnit\Framework\{TestCase};
 
-/**
- * Tests the features of the `yii\akismet\Blog` class.
- */
+/** Tests the features of the `yii\akismet\Blog` class. */
 class BlogTest extends TestCase {
 
-  /**
-   * Tests the `Blog::fromJson()` method.
-   * @test
-   */
+  /** @test Tests the `Blog::fromJson()` method. */
   function testFromJson(): void {
     // It should return an empty instance with an empty map.
     $blog = Blog::fromJson(new \stdClass);
@@ -32,10 +27,7 @@ class BlogTest extends TestCase {
     assertThat((string) $blog->url, equalTo('https://dev.belin.io/yii2-akismet'));
   }
 
-  /**
-   * Tests the `Blog::jsonSerialize()` method.
-   * @test
-   */
+  /** @test Tests the `Blog::jsonSerialize()` method. */
   function testJsonSerialize(): void {
     // It should return only the blog URL with a newly created instance.
     $data = (new Blog(new Uri('https://dev.belin.io/yii2-akismet')))->jsonSerialize();

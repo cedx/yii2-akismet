@@ -8,7 +8,8 @@ The Akismet API will always return a `true` response to a valid request with one
 
 ```php
 <?php
-use yii\akismet\{Author, Client, Comment};
+use yii\akismet\{Author, Comment};
+use yii\akismet\http\{Client};
 
 $client = new Client([
   'apiKey' => '123YourAPIKey',
@@ -29,7 +30,8 @@ The Akismet API will always return a `false` response. Any other response indica
 
 ```php
 <?php
-use yii\akismet\{Author, Client, Comment};
+use yii\akismet\{Author, Comment};
+use yii\akismet\http\{Client};
 
 $client = new Client([
   'apiKey' => '123YourAPIKey',
@@ -50,7 +52,8 @@ That will tell Akismet not to change its behaviour based on those API calls – 
 
 ```php
 <?php
-use yii\akismet\{Author, Client, Comment};
+use yii\akismet\{Author, Comment};
+use yii\akismet\http\{Client};
 
 $client = new Client([
   'apiKey' => '123YourAPIKey',

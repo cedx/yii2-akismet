@@ -35,7 +35,8 @@ In your application configuration file, you can use the following component:
 
 ```php
 <?php
-use yii\akismet\{Blog, Client};
+use yii\akismet\{Blog};
+use yii\akismet\http\{Client};
 
 return [
   'components' => [
@@ -51,13 +52,13 @@ return [
 ];
 ```
 
-Once the `yii\akismet\Client` component initialized with your credentials, you can use its methods.
+Once the `yii\akismet\http\Client` component initialized with your credentials, you can use its methods.
 
 ### Key verification
 
 ```php
 <?php
-use yii\akismet\{ClientException};
+use yii\akismet\http\{ClientException};
 
 try {
   $client = \Yii::$app->akismet;
@@ -109,14 +110,14 @@ catch (ClientException $e) {
 ```
 
 ## Events
-The `yii\akismet\Client` class triggers some events during its life cycle.
+The `yii\akismet\http\Client` class triggers some events during its life cycle.
 
 ### The `request` event
 Emitted every time a request is made to the remote service:
 
 ```php
 <?php
-use yii\akismet\{Client};
+use yii\akismet\http\{Client};
 use yii\httpclient\{RequestEvent};
 
 $client->on(Client::EVENT_REQUEST, function(RequestEvent $event) {
@@ -129,7 +130,7 @@ Emitted every time a response is received from the remote service:
 
 ```php
 <?php
-use yii\akismet\{Client};
+use yii\akismet\http\{Client};
 use yii\httpclient\{RequestEvent};
 
 $client->on(Client::EVENT_RESPONSE, function(RequestEvent $event) {

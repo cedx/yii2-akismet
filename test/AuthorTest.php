@@ -3,15 +3,10 @@ namespace yii\akismet;
 
 use PHPUnit\Framework\{TestCase};
 
-/**
- * Tests the features of the `yii\akismet\Author` class.
- */
+/** Tests the features of the `yii\akismet\Author` class. */
 class AuthorTest extends TestCase {
 
-  /**
-   * Tests the `Author::fromJson()` method.
-   * @test
-   */
+  /** @test Tests the `Author::fromJson()` method. */
   function testFromJson(): void {
     // It should return an empty instance with an empty map.
     $author = Author::fromJson(new \stdClass);
@@ -28,10 +23,7 @@ class AuthorTest extends TestCase {
     assertThat((string) $author->url, equalTo('https://belin.io'));
   }
 
-  /**
-   * Tests the `Author::jsonSerialize()` method.
-   * @test
-   */
+  /** @test Tests the `Author::jsonSerialize()` method. */
   function testJsonSerialize(): void {
     // It should return only the IP address and user agent with a newly created instance.
     $data = (new Author('127.0.0.1', 'Doom/6.6.6'))->jsonSerialize();

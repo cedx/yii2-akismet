@@ -35,8 +35,6 @@ Now in your [PHP](https://secure.php.net) code, you can use:
 
 ```php
 <?php
-use yii\akismet\{
-  Author, Comment, CommentType,
-  Blog, Client, ClientException
-};
+use yii\akismet\{Author, Blog, Comment, CommentType};
+use yii\akismet\http\{Client, ClientException};
 ```

@@ -12,19 +12,13 @@ use yii\helpers\{StringHelper};
  */
 class Blog extends Model implements \JsonSerializable {
 
-  /**
-   * @var string The character encoding for the values included in comments.
-   */
+  /** @var string The character encoding for the values included in comments. */
   public $charset = '';
 
-  /**
-   * @var UriInterface|null The blog or site URL.
-   */
+  /** @var UriInterface|null The blog or site URL. */
   public $url;
 
-  /**
-   * @var \ArrayObject The languages in use on the blog or site, in ISO 639-1 format.
-   */
+  /** @var \ArrayObject The languages in use on the blog or site, in ISO 639-1 format. */
   private $languages;
 
   /**
@@ -58,9 +52,7 @@ class Blog extends Model implements \JsonSerializable {
     return $this->languages;
   }
 
-  /**
-   * Initializes the object.
-   */
+  /** Initializes this object. */
   function init(): void {
     parent::init();
     if (!mb_strlen($this->charset)) $this->charset = \Yii::$app->charset;

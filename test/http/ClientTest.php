@@ -1,12 +1,11 @@
 <?php declare(strict_types=1);
-namespace yii\akismet;
+namespace yii\akismet\http;
 
 use PHPUnit\Framework\{TestCase};
+use yii\akismet\{Author, Comment, CommentType};
 use yii\base\{InvalidConfigException};
 
-/**
- * Tests the features of the `yii\akismet\Client` class.
- */
+/** Tests the features of the `yii\akismet\http\Client` class. */
 class ClientTest extends TestCase {
 
   /**
@@ -102,10 +101,7 @@ class ClientTest extends TestCase {
     assertThat($client->verifyKey(), isFalse());
   }
 
-  /**
-   * This method is called before each test.
-   * @before
-   */
+  /** @before This method is called before each test. */
   protected function setUp(): void {
     $this->client = new Client([
       'apiKey' => getenv('AKISMET_API_KEY'),
