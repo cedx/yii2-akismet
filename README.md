@@ -108,7 +108,7 @@ catch (ClientException $e) {
 ## Events
 The `yii\akismet\http\Client` class triggers some events during its life cycle.
 
-### The `request` event
+### The `Client::eventRequest` event
 Emitted every time a request is made to the remote service:
 
 ```php
@@ -121,7 +121,7 @@ $client->on(Client::eventRequest, function(RequestEvent $event) {
 });
 ```
 
-### The `response` event
+### The `Client::eventResponse` event
 Emitted every time a response is received from the remote service:
 
 ```php
