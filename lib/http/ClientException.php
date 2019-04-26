@@ -22,16 +22,6 @@ class ClientException extends Exception {
   }
 
   /**
-   * Returns a string representation of this object.
-   * @return string The string representation of this object.
-   */
-  function __toString(): string {
-    $values = "'{$this->getMessage()}'";
-    if ($uri = $this->getUri()) $values .= ", uri: '$uri'";
-    return static::class . "($values)";
-  }
-
-  /**
    * Gets the user-friendly name of this exception.
    * @return string The user-friendly name of this exception.
    */
