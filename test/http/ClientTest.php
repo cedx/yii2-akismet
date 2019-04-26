@@ -8,24 +8,16 @@ use yii\base\{InvalidConfigException};
 /** Tests the features of the `yii\akismet\http\Client` class. */
 class ClientTest extends TestCase {
 
-  /**
-   * @var Client The client used to query the service database.
-   */
+  /** @var Client The client used to query the service database. */
   private $client;
 
-  /**
-   * @var Comment A comment with content marked as ham.
-   */
+  /** @var Comment A comment with content marked as ham. */
   private $ham;
 
-  /**
-   * @var Comment A comment with content marked as spam.
-   */
+  /** @var Comment A comment with content marked as spam. */
   private $spam;
 
-  /**
-   * Tests the `Client::checkComment()` method.
-   */
+  /** Tests the `Client::checkComment()` method. */
   function testCheckComment(): void {
     // It should return `false` for valid comment (e.g. ham).
     assertThat($this->client->checkComment($this->ham), isFalse());
@@ -34,9 +26,7 @@ class ClientTest extends TestCase {
     assertThat($this->client->checkComment($this->spam), isTrue());
   }
 
-  /**
-   * Tests the `Client::init()` method.
-   */
+  /** Tests the `Client::init()` method. */
   function testInit(): void {
     // It should throw an exception if the API key or blog is empty.
     try {
@@ -59,9 +49,7 @@ class ClientTest extends TestCase {
     }
   }
 
-  /**
-   * Tests the `Client::submitHam()` method.
-   */
+  /** Tests the `Client::submitHam()` method. */
   function testSubmitHam(): void {
     // It should complete without error.
     try {
@@ -74,9 +62,7 @@ class ClientTest extends TestCase {
     }
   }
 
-  /**
-   * Tests the `Client::submitSpam()` method.
-   */
+  /** Tests the `Client::submitSpam()` method. */
   function testSubmitSpam(): void {
     // It should complete without error.
     try {
@@ -89,9 +75,7 @@ class ClientTest extends TestCase {
     }
   }
 
-  /**
-   * Tests the `Client::verifyKey()` method.
-   */
+  /** Tests the `Client::verifyKey()` method. */
   function testVerifyKey(): void {
     // It should return `true` for a valid API key.
     assertThat($this->client->verifyKey(), isTrue());
