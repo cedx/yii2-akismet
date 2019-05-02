@@ -7,7 +7,7 @@ use PHPUnit\Framework\{TestCase};
 /** Tests the features of the `yii\akismet\Blog` class. */
 class BlogTest extends TestCase {
 
-  /** @test Tests the `Blog::fromJson()` method. */
+  /** @test Blog::fromJson() */
   function testFromJson(): void {
     // It should return an empty instance with an empty map.
     $blog = Blog::fromJson(new \stdClass);
@@ -27,7 +27,7 @@ class BlogTest extends TestCase {
     assertThat((string) $blog->url, equalTo('https://dev.belin.io/yii2-akismet'));
   }
 
-  /** @test Tests the `Blog::jsonSerialize()` method. */
+  /** @test Blog->jsonSerialize() */
   function testJsonSerialize(): void {
     // It should return only the blog URL with a newly created instance.
     $data = (new Blog(new Uri('https://dev.belin.io/yii2-akismet')))->jsonSerialize();
