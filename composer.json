@@ -37,7 +37,7 @@
     "ext-spl": "*",
     "guzzlehttp/psr7": "^1.5.2",
     "yiisoft/yii2": "^2.0.18",
-    "yiisoft/yii2-httpclient": "^2.0.9"
+    "yiisoft/yii2-httpclient": "^2.0.10"
   },
   "require-dev": {
     "cedx/coveralls": "^10.1.0",
