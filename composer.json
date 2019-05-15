@@ -37,14 +37,14 @@
     "ext-spl": "*",
     "guzzlehttp/psr7": "^1.5.2",
     "yiisoft/yii2": "^2.0.18",
-    "yiisoft/yii2-httpclient": "^2.0.10"
+    "yiisoft/yii2-httpclient": "^2.0.11"
   },
   "require-dev": {
     "cedx/coveralls": "^10.1.0",
     "consolidation/robo": "^1.4.9",
     "henrikbjorn/lurker": "^1.2.0",
     "phpstan/phpstan": "^0.11.6",
-    "phpunit/phpunit": "^8.1.4"
+    "phpunit/phpunit": "^8.1.5"
   },
   "scripts": {
     "coverage": "robo coverage",
