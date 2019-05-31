@@ -76,7 +76,7 @@ use yii\akismet\{Author, Comment};
 try {
   $comment = new Comment(
     new Author('127.0.0.1', 'Mozilla/5.0'),
-    ['content' => 'A user comment', 'date' => time()]
+    ['content' => 'A user comment', 'date' => new \DateTime]
   );
 
   $isSpam = $client->checkComment($comment);

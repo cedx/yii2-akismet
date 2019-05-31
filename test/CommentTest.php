@@ -25,9 +25,15 @@ class CommentTest extends TestCase {
       'referrer' => 'https://belin.io'
     ]);
 
-    assertThat($comment->author->name, equalTo('Cédric Belin'));
+    /** @var Author $author */
+    $author = $comment->author;
+    assertThat($author->name, equalTo('Cédric Belin'));
+
+    /** @var \DateTime $date */
+    $date = $comment->date;
+    assertThat($date->format('Y'), equalTo(2000));
+
     assertThat($comment->content, equalTo('A user comment.'));
-    assertThat($comment->date->format('Y'), equalTo(2000));
     assertThat($comment->referrer, equalTo('https://belin.io'));
     assertThat($comment->type, equalTo(CommentType::trackback));
   }
@@ -43,7 +49,7 @@ class CommentTest extends TestCase {
     // It should return a non-empty map with a initialized instance.
     $data = (new Comment(new Author('127.0.0.1', 'Doom/6.6.6', ['name' => 'Cédric Belin']), [
       'content' => 'A user comment.',
-      'date' => '2000-01-01T00:00:00.000Z',
+      'date' => new \DateTime('2000-01-01T00:00:00.000Z'),
       'referrer' => 'https://belin.io',
       'type' => CommentType::pingback
     ]))->jsonSerialize();

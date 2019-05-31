@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace yii\akismet\http;
 
+use GuzzleHttp\Psr7\{Uri};
 use PHPUnit\Framework\{TestCase};
 use yii\akismet\{Author, Comment, CommentType};
 use yii\base\{InvalidConfigException};
@@ -89,19 +90,19 @@ class ClientTest extends TestCase {
   protected function setUp(): void {
     $this->client = new Client([
       'apiKey' => getenv('AKISMET_API_KEY'),
-      'blog' => 'https://dev.belin.io/yii2-akismet',
+      'blog' => new Uri('https://dev.belin.io/yii2-akismet'),
       'isTest' => true
     ]);
 
     $author = new Author('192.168.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:67.0) Gecko/20100101 Firefox/67.0', [
       'name' => 'Akismet',
       'role' => 'administrator',
-      'url' => 'https://dev.belin.io/yii2-akismet'
+      'url' => new Uri('https://dev.belin.io/yii2-akismet')
     ]);
 
     $this->ham = new Comment($author, [
       'content' => 'I\'m testing out the Service API.',
-      'referrer' => 'https://packagist.org/packages/cedx/yii2-akismet',
+      'referrer' => new Uri('https://packagist.org/packages/cedx/yii2-akismet'),
       'type' => CommentType::comment
     ]);
 

@@ -73,8 +73,11 @@ class Client extends Component {
     parent::init();
     if (!mb_strlen($this->apiKey) || !$this->blog) throw new InvalidConfigException('The API key or the blog URL is empty.');
     if (!$this->endPoint) $this->endPoint = new Uri('https://rest.akismet.com/1.1/');
-    if (!mb_strlen($this->userAgent))
-      $this->userAgent = sprintf('Yii Framework/%s | Akismet/%s', preg_replace('/^(\d+(\.\d+){2}).*$/', '$1', \Yii::getVersion()), static::version);
+    if (!mb_strlen($this->userAgent)) {
+      /** @var string $version */
+      $version = preg_replace('/^(\d+(\.\d+){2}).*$/', '$1', \Yii::getVersion());
+      $this->userAgent = sprintf('Yii Framework/%s | Akismet/%s', $version, static::version);
+    }
   }
 
   /**
@@ -123,7 +126,12 @@ class Client extends Component {
     catch (HttpException $e) { throw new ClientException($e->getMessage(), $endPoint, $e); }
 
     if (!$response->isOk) throw new ClientException($response->statusCode, $endPoint);
-    if ($response->headers->has('x-akismet-debug-help')) throw new ClientException($response->headers->get('x-akismet-debug-help'), $endPoint);
+    if ($response->headers->has('x-akismet-debug-help')) {
+      /** @var string $header */
+      $header = $response->headers->get('x-akismet-debug-help');
+      throw new ClientException($header, $endPoint);
+    }
+
     return $response->content;
   }
 }
