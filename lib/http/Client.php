@@ -71,8 +71,16 @@ class Client extends Component {
    */
   function init(): void {
     parent::init();
-    if (!mb_strlen($this->apiKey) || !$this->blog) throw new InvalidConfigException('The API key or the blog URL is empty.');
-    if (!$this->endPoint) $this->endPoint = new Uri('https://rest.akismet.com/1.1/');
+    if (!mb_strlen($this->apiKey)) throw new InvalidConfigException('The API key is empty.');
+
+    /** @var Blog|null $blog */
+    $blog = $this->blog;
+    if (!$blog) throw new InvalidConfigException('The blog URL is empty.');
+
+    /** @var UriInterface|null $endPoint */
+    $endPoint = $this->endPoint;
+    if (!$endPoint) $this->endPoint = new Uri('https://rest.akismet.com/1.1/');
+
     if (!mb_strlen($this->userAgent)) {
       /** @var string $version */
       $version = preg_replace('/^(\d+(\.\d+){2}).*$/', '$1', \Yii::getVersion());
