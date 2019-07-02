@@ -35,7 +35,7 @@
     "ext-mbstring": "*",
     "ext-pcre": "*",
     "ext-spl": "*",
-    "guzzlehttp/psr7": "^1.6.0",
+    "guzzlehttp/psr7": "^1.6.1",
     "yiisoft/yii2": "^2.0.21",
     "yiisoft/yii2-httpclient": "^2.0.11"
   },
