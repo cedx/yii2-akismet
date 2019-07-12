@@ -10,13 +10,13 @@ class AuthorTest extends TestCase {
   /** @test Author::fromJson() */
   function testFromJson(): void {
     it('should return an empty instance with an empty map', function() {
-      $author = Author::fromJson(new \stdClass);
+      $author = Author::fromJson([]);
       expect($author->email)->to->be->empty;
       expect($author->ipAddress)->to->be->empty;
     });
 
     it('should return an initialized instance with a non-empty map', function() {
-      $author = Author::fromJson((object) [
+      $author = Author::fromJson([
         'comment_author_email' => 'cedric@belin.io',
         'comment_author_url' => 'https://belin.io'
       ]);

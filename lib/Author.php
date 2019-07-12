@@ -2,13 +2,9 @@
 namespace yii\akismet;
 
 use GuzzleHttp\Psr7\{Uri};
-use Psr\Http\Message\{UriInterface};
 use yii\base\{Model};
 
-/**
- * Represents the author of a comment.
- * @property UriInterface|null $url The URL of the author's website.
- */
+/** Represents the author of a comment. */
 class Author extends Model implements \JsonSerializable {
 
   /** @var string The author's mail address. */
@@ -23,7 +19,7 @@ class Author extends Model implements \JsonSerializable {
   /** @var string The author's role. If you set it to `"administrator"`, Akismet will always return `false`. */
   public $role = '';
 
-  /** @var UriInterface|null The URL of the author's website. */
+  /** @var \Psr\Http\Message\UriInterface|null The URL of the author's website. */
   public $url;
 
   /** @var string The author's user agent, that is the string identifying the Web browser used to submit comments. */
@@ -39,14 +35,6 @@ class Author extends Model implements \JsonSerializable {
     $this->ipAddress = $ipAddress;
     $this->userAgent = $userAgent;
     parent::__construct($config);
-  }
-
-  /**
-   * Returns the list of fields that should be returned by default.
-   * @return string[] The list of field names or field definitions.
-   */
-  function fields(): array {
-    return [/* TODO */];
   }
 
   /**

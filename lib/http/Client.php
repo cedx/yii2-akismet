@@ -8,11 +8,7 @@ use yii\base\{Component, InvalidConfigException};
 use yii\helpers\{ArrayHelper};
 use yii\httpclient\{Client as HttpClient, CurlTransport, Exception as HttpException};
 
-/**
- * Submits comments to the [Akismet](https://akismet.com) service.
- * @property Blog $blog The front page or home URL.
- * @property UriInterface $endPoint The URL of the API end point.
- */
+/** Submits comments to the [Akismet](https://akismet.com) service. */
 class Client extends Component {
 
   /** @var string An event that is triggered when a request is made to the remote service. */

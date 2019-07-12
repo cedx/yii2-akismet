@@ -4,7 +4,7 @@ namespace yii\akismet\http;
 use function PHPUnit\Expect\{expect, it};
 use GuzzleHttp\Psr7\{Uri};
 use PHPUnit\Framework\{TestCase};
-use yii\akismet\{Author, Comment, CommentType};
+use yii\akismet\{Author, Blog, Comment, CommentType};
 use yii\base\{InvalidConfigException};
 
 /** Tests the features of the `yii\akismet\http\Client` class. */
@@ -71,7 +71,7 @@ class ClientTest extends TestCase {
   protected function setUp(): void {
     $this->client = new Client([
       'apiKey' => getenv('AKISMET_API_KEY'),
-      'blog' => new Uri('https://dev.belin.io/yii2-akismet'),
+      'blog' => new Blog(new Uri('https://dev.belin.io/yii2-akismet')),
       'isTest' => true
     ]);
 

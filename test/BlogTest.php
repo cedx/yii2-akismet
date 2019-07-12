@@ -11,14 +11,14 @@ class BlogTest extends TestCase {
   /** @test Blog::fromJson() */
   function testFromJson(): void {
     it('should return an empty instance with an empty map', function() {
-      $blog = Blog::fromJson(new \stdClass);
+      $blog = Blog::fromJson([]);
       expect($blog->charset)->to->equal('UTF-8');
       expect($blog->languages)->to->be->empty;
       expect($blog->url)->to->be->null;
     });
 
     it('should return an initialized instance with a non-empty map', function() {
-      $blog = Blog::fromJson((object) [
+      $blog = Blog::fromJson([
         'blog' => 'https://dev.belin.io/yii2-akismet',
         'blog_charset' => 'ISO-8859-1',
         'blog_lang' => 'en, fr'

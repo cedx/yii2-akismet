@@ -10,7 +10,7 @@ class CommentTest extends TestCase {
   /** @test Comment::fromJson() */
   function testFromJson(): void {
     it('should return an empty instance with an empty map', function() {
-      $comment = Comment::fromJson(new \stdClass);
+      $comment = Comment::fromJson([]);
       expect($comment->author)->to->be->null;
       expect($comment->content)->to->be->empty;
       expect($comment->date)->to->be->null;
@@ -19,7 +19,7 @@ class CommentTest extends TestCase {
     });
 
     it('should return an initialized instance with a non-empty map', function() {
-      $comment = Comment::fromJson((object) [
+      $comment = Comment::fromJson([
         'comment_author' => 'Cédric Belin',
         'comment_content' => 'A user comment.',
         'comment_date_gmt' => '2000-01-01T00:00:00.000Z',
