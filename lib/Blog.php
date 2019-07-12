@@ -33,14 +33,22 @@ class Blog extends Model implements \JsonSerializable {
   }
 
   /**
+   * Returns the list of fields that should be returned by default.
+   * @return string[] The list of field names or field definitions.
+   */
+  function fields(): array {
+    return [/* TODO */];
+  }
+
+  /**
    * Creates a new blog from the specified JSON map.
-   * @param object $map A JSON map representing a blog.
+   * @param array $map A JSON map representing a blog.
    * @return static The instance corresponding to the specified JSON map.
    */
-  static function fromJson(object $map): self {
-    return new static(isset($map->blog) && is_string($map->blog) ? new Uri($map->blog) : null, [
-      'charset' => isset($map->blog_charset) && is_string($map->blog_charset) ? $map->blog_charset : '',
-      'languages' => isset($map->blog_lang) && is_string($map->blog_lang) ? StringHelper::explode($map->blog_lang, ',', true, true) : []
+  static function fromJson(array $map): self {
+    return new static(isset($map['blog) && is_string($map['blog) ? new Uri($map['blog) : null, [
+      'charset' => isset($map['blog_charset) && is_string($map['blog_charset) ? $map['blog_charset : '',
+      'languages' => isset($map['blog_lang) && is_string($map['blog_lang) ? StringHelper::explode($map['blog_lang, ',', true, true) : []
     ]);
   }
 

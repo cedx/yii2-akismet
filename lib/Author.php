@@ -42,21 +42,29 @@ class Author extends Model implements \JsonSerializable {
   }
 
   /**
+   * Returns the list of fields that should be returned by default.
+   * @return string[] The list of field names or field definitions.
+   */
+  function fields(): array {
+    return [/* TODO */];
+  }
+
+  /**
    * Creates a new author from the specified JSON map.
-   * @param object $map A JSON map representing an author.
+   * @param array $map A JSON map representing an author.
    * @return static The instance corresponding to the specified JSON map.
    */
-  static function fromJson(object $map): self {
+  static function fromJson(array $map): self {
     $options = [
-      'email' => isset($map->comment_author_email) && is_string($map->comment_author_email) ? $map->comment_author_email : '',
-      'name' => isset($map->comment_author) && is_string($map->comment_author) ? $map->comment_author : '',
-      'role' => isset($map->user_role) && is_string($map->user_role) ? $map->user_role : '',
-      'url' => isset($map->comment_author_url) && is_string($map->comment_author_url) ? new Uri($map->comment_author_url) : null
+      'email' => isset($map['comment_author_email']) && is_string($map['comment_author_email']) ? $map['comment_author_email'] : '',
+      'name' => isset($map['comment_author']) && is_string($map['comment_author']) ? $map['comment_author'] : '',
+      'role' => isset($map['user_role']) && is_string($map['user_role']) ? $map['user_role'] : '',
+      'url' => isset($map['comment_author_url']) && is_string($map['comment_author_url']) ? new Uri($map['comment_author_url']) : null
     ];
 
     return new static(
-      isset($map->user_ip) && is_string($map->user_ip) ? $map->user_ip : '',
-      isset($map->user_agent) && is_string($map->user_agent) ? $map->user_agent : '',
+      isset($map['user_ip']) && is_string($map['user_ip']) ? $map['user_ip'] : '',
+      isset($map['user_agent']) && is_string($map['user_agent']) ? $map['user_agent'] : '',
       $options
     );
   }

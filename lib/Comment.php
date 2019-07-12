@@ -40,23 +40,38 @@ class Comment extends Model implements \JsonSerializable {
   }
 
   /**
+   * Returns the list of fields that should be returned by default.
+   * @return string[] The list of field names or field definitions.
+   */
+  function fields(): array {
+    $fields = $this->author ? $this->author->fields() : [];
+    if (mb_strlen($this->content)) $fields['comment_content = $this->content;
+    if ($this->date) $fields['comment_date_gmt = $this->date->format('c');
+    if ($this->postModified) $fields['comment_post_modified_gmt = $this->postModified->format('c');
+    if (mb_strlen($this->type)) $fields['comment_type = $this->type;
+    if ($this->permalink) $fields['permalink = (string) $this->permalink;
+    if ($this->referrer) $fields['referrer = (string) $this->referrer;
+    return $fields;
+  }
+
+  /**
    * Creates a new comment from the specified JSON map.
-   * @param object $map A JSON map representing a comment.
+   * @param array $map A JSON map representing a comment.
    * @return static The instance corresponding to the specified JSON map.
    */
-  static function fromJson(object $map): self {
+  static function fromJson(array $map): self {
     $keys = array_keys(\Yii::getObjectVars($map));
     $hasAuthor = count(array_filter($keys, function($key) {
       return preg_match('/^comment_author/', $key) || preg_match('/^user/', $key);
     })) > 0;
 
     return new static($hasAuthor ? Author::fromJson($map) : null, [
-      'content' => isset($map->comment_content) && is_string($map->comment_content) ? $map->comment_content : '',
-      'date' => isset($map->comment_date_gmt) && is_string($map->comment_date_gmt) ? new \DateTime($map->comment_date_gmt) : null,
-      'permalink' => isset($map->permalink) && is_string($map->permalink) ? new Uri($map->permalink) : null,
-      'postModified' => isset($map->comment_post_modified_gmt) && is_string($map->comment_post_modified_gmt) ? new \DateTime($map->comment_post_modified_gmt) : null,
-      'referrer' => isset($map->referrer) && is_string($map->referrer) ? new Uri($map->referrer) : null,
-      'type' => isset($map->comment_type) && is_string($map->comment_type) ? $map->comment_type : ''
+      'content' => isset($map['comment_content) && is_string($map['comment_content) ? $map['comment_content : '',
+      'date' => isset($map['comment_date_gmt) && is_string($map['comment_date_gmt) ? new \DateTime($map['comment_date_gmt) : null,
+      'permalink' => isset($map['permalink) && is_string($map['permalink) ? new Uri($map['permalink) : null,
+      'postModified' => isset($map['comment_post_modified_gmt) && is_string($map['comment_post_modified_gmt) ? new \DateTime($map['comment_post_modified_gmt) : null,
+      'referrer' => isset($map['referrer) && is_string($map['referrer) ? new Uri($map['referrer) : null,
+      'type' => isset($map['comment_type) && is_string($map['comment_type) ? $map['comment_type : ''
     ]);
   }
 
