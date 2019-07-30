@@ -38,7 +38,7 @@ class Blog extends Model implements \JsonSerializable {
    * @return static The instance corresponding to the specified JSON map.
    */
   static function fromJson(array $map): self {
-    return new static(isset($map['blog']) && is_string($map['blog']) ? new Uri($map['blog']) : null, [
+    return new self(isset($map['blog']) && is_string($map['blog']) ? new Uri($map['blog']) : null, [
       'charset' => isset($map['blog_charset']) && is_string($map['blog_charset']) ? $map['blog_charset'] : '',
       'languages' => isset($map['blog_lang']) && is_string($map['blog_lang']) ? StringHelper::explode($map['blog_lang'], ',', true, true) : []
     ]);

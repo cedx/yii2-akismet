@@ -48,7 +48,7 @@ class Comment extends Model implements \JsonSerializable {
       return preg_match('/^comment_author/', $key) || preg_match('/^user/', $key);
     })) > 0;
 
-    return new static($hasAuthor ? Author::fromJson($map) : null, [
+    return new self($hasAuthor ? Author::fromJson($map) : null, [
       'content' => isset($map['comment_content']) && is_string($map['comment_content']) ? $map['comment_content'] : '',
       'date' => isset($map['comment_date_gmt']) && is_string($map['comment_date_gmt']) ? new \DateTime($map['comment_date_gmt']) : null,
       'permalink' => isset($map['permalink']) && is_string($map['permalink']) ? new Uri($map['permalink']) : null,

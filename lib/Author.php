@@ -50,7 +50,7 @@ class Author extends Model implements \JsonSerializable {
       'url' => isset($map['comment_author_url']) && is_string($map['comment_author_url']) ? new Uri($map['comment_author_url']) : null
     ];
 
-    return new static(
+    return new self(
       isset($map['user_ip']) && is_string($map['user_ip']) ? $map['user_ip'] : '',
       isset($map['user_agent']) && is_string($map['user_agent']) ? $map['user_agent'] : '',
       $options
