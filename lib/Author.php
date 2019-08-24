@@ -38,9 +38,9 @@ class Author extends Model implements \JsonSerializable {
   }
 
   /**
-   * Creates a new author from the specified JSON map.
-   * @param array $map A JSON map representing an author.
-   * @return static The instance corresponding to the specified JSON map.
+   * Creates a new author from the specified JSON object.
+   * @param array $map A JSON object representing an author.
+   * @return static The instance corresponding to the specified JSON object.
    */
   static function fromJson(array $map): self {
     $options = [

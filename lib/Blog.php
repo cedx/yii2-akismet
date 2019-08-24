@@ -33,9 +33,9 @@ class Blog extends Model implements \JsonSerializable {
   }
 
   /**
-   * Creates a new blog from the specified JSON map.
-   * @param array $map A JSON map representing a blog.
-   * @return static The instance corresponding to the specified JSON map.
+   * Creates a new blog from the specified JSON object.
+   * @param array $map A JSON object representing a blog.
+   * @return static The instance corresponding to the specified JSON object.
    */
   static function fromJson(array $map): self {
     return new self(isset($map['blog']) && is_string($map['blog']) ? new Uri($map['blog']) : null, [
