@@ -17,9 +17,6 @@ class Client extends Component {
   /** @var string An event that is triggered when a response is received from the remote service. */
   const eventResponse = 'response';
 
-  /** @var string The version number of this package. */
-  const version = '8.0.0';
-
   /** @var string The Akismet API key. */
   public $apiKey = '';
 
@@ -80,7 +77,7 @@ class Client extends Component {
     if (!mb_strlen($this->userAgent)) {
       /** @var string $version */
       $version = preg_replace('/^(\d+(\.\d+){2}).*$/', '$1', \Yii::getVersion());
-      $this->userAgent = sprintf('Yii Framework/%s | Akismet/%s', $version, static::version);
+      $this->userAgent = sprintf('Yii Framework/%s | Akismet/%s', $version, require __DIR__.'/../version.g.php');
     }
   }
 
