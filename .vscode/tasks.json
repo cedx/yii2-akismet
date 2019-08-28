@@ -2,6 +2,13 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "command": "robo build",
+      "group": {"isDefault": true, "kind": "build"},
+      "label": "robo : build",
+      "problemMatcher": [],
+      "type": "shell"
+    },
+    {
       "command": "robo clean",
       "label": "robo : clean",
       "problemMatcher": [],
@@ -27,7 +34,6 @@
     },
     {
       "command": "robo test",
-      "group": {"isDefault": true, "kind": "build"},
       "label": "robo : test",
       "problemMatcher": [],
       "type": "shell"
