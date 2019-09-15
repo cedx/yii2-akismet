@@ -41,7 +41,7 @@ class Comment extends Model implements \JsonSerializable {
   /**
    * Creates a new comment from the specified JSON map.
    * @param array $map A JSON map representing a comment.
-   * @return static The instance corresponding to the specified JSON map.
+   * @return self The instance corresponding to the specified JSON map.
    */
   static function fromJson(array $map): self {
     $hasAuthor = count(array_filter(array_keys($map), function($key) {
