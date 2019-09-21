@@ -7,7 +7,7 @@
 - [Submit an issue](https://github.com/cedx/yii2-akismet/issues)
 
 ## Testing
-- [Continuous integration](https://travis-ci.com/cedx/yii2-akismet)
+- [Continuous integration](https://github.com/cedx/yii2-akismet/actions)
 - [Code coverage](https://coveralls.io/github/cedx/yii2-akismet)
 
 ## Other implementations
