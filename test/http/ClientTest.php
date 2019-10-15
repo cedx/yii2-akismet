@@ -7,7 +7,7 @@ use PHPUnit\Framework\{TestCase};
 use yii\akismet\{Author, Blog, Comment, CommentType};
 use yii\base\{InvalidConfigException};
 
-/** Tests the features of the `yii\akismet\http\Client` class. */
+/** @testdox yii\akismet\http\Client */
 class ClientTest extends TestCase {
 
   /** @var Client The client used to query the service database. */
@@ -19,7 +19,7 @@ class ClientTest extends TestCase {
   /** @var Comment A comment with content marked as spam. */
   private $spam;
 
-  /** @test Client->checkComment() */
+  /** @testdox ->checkComment() */
   function testCheckComment(): void {
     it('should return `false` for valid comment (e.g. ham)', function() {
       expect($this->client->checkComment($this->ham))->to->be->false;
@@ -30,7 +30,7 @@ class ClientTest extends TestCase {
     });
   }
 
-  /** @test Client->init() */
+  /** @testdox ->init() */
   function testInit(): void {
     it('should throw an exception if the API key or blog is empty', function() {
       expect(function() { new Client; })->to->throw(InvalidConfigException::class);
@@ -41,21 +41,21 @@ class ClientTest extends TestCase {
     });
   }
 
-  /** @test Client->submitHam() */
+  /** @testdox ->submitHam() */
   function testSubmitHam(): void {
     it('should complete without error', function() {
       expect(function() { $this->client->submitHam($this->ham); })->to->not->throw;
     });
   }
 
-  /** @test Client->submitSpam() */
+  /** @testdox ->submitSpam() */
   function testSubmitSpam(): void {
     it('should complete without error', function() {
       expect(function() { $this->client->submitSpam($this->spam); })->to->not->throw;
     });
   }
 
-  /** @test Client->verifyKey() */
+  /** @testdox ->verifyKey() */
   function testVerifyKey(): void {
     it('should return `true` for a valid API key', function() {
       expect($this->client->verifyKey())->to->be->true;

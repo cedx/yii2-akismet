@@ -4,10 +4,10 @@ namespace yii\akismet;
 use function PHPUnit\Expect\{expect, it};
 use PHPUnit\Framework\{TestCase};
 
-/** Tests the features of the `yii\akismet\Comment` class. */
+/** @testdox yii\akismet\Comment */
 class CommentTest extends TestCase {
 
-  /** @test Comment::fromJson() */
+  /** @testdox ::fromJson() */
   function testFromJson(): void {
     it('should return an empty instance with an empty map', function() {
       $comment = Comment::fromJson([]);
@@ -41,7 +41,7 @@ class CommentTest extends TestCase {
     });
   }
 
-  /** @test Comment->jsonSerialize() */
+  /** @testdox ->jsonSerialize() */
   function testJsonSerialize(): void {
     it('should return only the author info with a newly created instance', function() {
       $data = (new Comment(new Author('127.0.0.1', 'Doom/6.6.6')))->jsonSerialize();

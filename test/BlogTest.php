@@ -5,10 +5,10 @@ use function PHPUnit\Expect\{expect, it};
 use GuzzleHttp\Psr7\{Uri};
 use PHPUnit\Framework\{TestCase};
 
-/** Tests the features of the `yii\akismet\Blog` class. */
+/** @testdox yii\akismet\Blog */
 class BlogTest extends TestCase {
 
-  /** @test Blog::fromJson() */
+  /** @testdox ::fromJson() */
   function testFromJson(): void {
     it('should return an empty instance with an empty map', function() {
       $blog = Blog::fromJson([]);
@@ -30,7 +30,7 @@ class BlogTest extends TestCase {
     });
   }
 
-  /** @test Blog->jsonSerialize() */
+  /** @testdox ->jsonSerialize() */
   function testJsonSerialize(): void {
     it('should return only the blog URL with a newly created instance', function() {
       $data = (new Blog(new Uri('https://dev.belin.io/yii2-akismet')))->jsonSerialize();

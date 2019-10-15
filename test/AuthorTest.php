@@ -4,10 +4,10 @@ namespace yii\akismet;
 use function PHPUnit\Expect\{expect, it};
 use PHPUnit\Framework\{TestCase};
 
-/** Tests the features of the `yii\akismet\Author` class. */
+/** @testdox yii\akismet\Author */
 class AuthorTest extends TestCase {
 
-  /** @test Author::fromJson() */
+  /** @testdox ::fromJson() */
   function testFromJson(): void {
     it('should return an empty instance with an empty map', function() {
       $author = Author::fromJson([]);
@@ -26,7 +26,7 @@ class AuthorTest extends TestCase {
     });
   }
 
-  /** @test Author->jsonSerialize() */
+  /** @testdox ->jsonSerialize() */
   function testJsonSerialize(): void {
     it('should return only the IP address and user agent with a newly created instance', function() {
       $data = (new Author('127.0.0.1', 'Doom/6.6.6'))->jsonSerialize();
