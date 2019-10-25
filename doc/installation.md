@@ -5,7 +5,7 @@ Before installing **Akismet for Yii**, you need to make sure you have [PHP](http
 and [Composer](https://getcomposer.org), the PHP package manager, up and running.
 
 !!! warning
-    Akismet for Yii requires PHP >= **7.2.0**.
+    Akismet for Yii requires PHP >= **7.4.0**.
 
 You can verify if you're already good to go with the following commands:
 

@@ -1,10 +1,11 @@
 # Changelog
 
 ## Version [8.0.0](https://github.com/cedx/yii2-akismet/compare/v7.0.0...v8.0.0)
+- Breaking change: raised the required [PHP](https://www.php.net) version.
 - Breaking change: using camelcase instead of all caps for constants.
+- Breaking change: using PHP 7.4 features, like arrow functions and typed properties.
 - Added a user guide based on [MkDocs](http://www.mkdocs.org).
 - Added the `ClientException` class.
-- Dropped the dependency on [PHPUnit-Expect](https://dev.belin.io/phpunit-expect).
 - Modified the package layout.
 - Updated the package dependencies.
 
