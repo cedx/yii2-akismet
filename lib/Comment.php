@@ -2,31 +2,32 @@
 namespace yii\akismet;
 
 use GuzzleHttp\Psr7\{Uri};
+use Psr\Http\Message\{UriInterface};
 use yii\base\{Model};
 
 /** Represents a comment submitted by an author. */
 class Comment extends Model implements \JsonSerializable {
 
   /** @var Author|null The comment's author. */
-  public $author;
+  public ?Author $author;
 
   /** @var string The comment's content. */
-  public $content = '';
+  public string $content = '';
 
   /** @var \DateTime|null The UTC timestamp of the creation of the comment. */
-  public $date;
+  public ?\DateTime $date;
 
-  /** @var \Psr\Http\Message\UriInterface|null The permanent location of the entry the comment is submitted to. */
-  public $permalink;
+  /** @var UriInterface|null The permanent location of the entry the comment is submitted to. */
+  public ?UriInterface $permalink;
 
   /** @var \DateTime|null The UTC timestamp of the publication time for the post, page or thread on which the comment was posted. */
-  public $postModified;
+  public ?\DateTime $postModified;
 
-  /** @var \Psr\Http\Message\UriInterface|null The URL of the webpage that linked to the entry being requested. */
-  public $referrer;
+  /** @var UriInterface|null The URL of the webpage that linked to the entry being requested. */
+  public ?UriInterface $referrer;
 
   /** @var string The comment's type. This string value specifies a `CommentType` constant or a made up value like `"registration"`. */
-  public $type = '';
+  public string $type = '';
 
   /**
    * Creates a new comment.

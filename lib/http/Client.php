@@ -18,22 +18,22 @@ class Client extends Component {
   const eventResponse = 'response';
 
   /** @var string The Akismet API key. */
-  public $apiKey = '';
+  public string $apiKey = '';
 
   /** @var Blog The front page or home URL. */
-  public $blog;
+  public Blog $blog;
 
   /** @var UriInterface The URL of the API end point. */
-  public $endPoint;
+  public UriInterface $endPoint;
 
   /** @var bool Value indicating whether the client operates in test mode. */
-  public $isTest = false;
+  public bool $isTest = false;
 
   /** @var string The user agent string to use when making requests. */
-  public $userAgent = '';
+  public string $userAgent = '';
 
   /** @var HttpClient The underlying HTTP client. */
-  private $httpClient;
+  private HttpClient $httpClient;
 
   /**
    * Creates a new client.

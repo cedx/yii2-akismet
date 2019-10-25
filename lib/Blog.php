@@ -13,13 +13,13 @@ use yii\helpers\{StringHelper};
 class Blog extends Model implements \JsonSerializable {
 
   /** @var string The character encoding for the values included in comments. */
-  public $charset = '';
+  public string $charset = '';
 
   /** @var UriInterface|null The blog or site URL. */
-  public $url;
+  public ?UriInterface $url;
 
   /** @var \ArrayObject The languages in use on the blog or site, in ISO 639-1 format. */
-  private $languages;
+  private \ArrayObject $languages;
 
   /**
    * Creates a new blog.

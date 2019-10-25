@@ -8,7 +8,7 @@ use yii\base\{Exception};
 class ClientException extends Exception {
 
   /** @var UriInterface|null The URL of the HTTP request or response that failed. */
-  private $uri;
+  private ?UriInterface $uri;
 
   /**
    * Creates a new client exception.
@@ -16,7 +16,7 @@ class ClientException extends Exception {
    * @param UriInterface|null $uri The URL of the HTTP request or response that failed.
    * @param \Throwable|null $previous The previous exception used for the exception chaining.
    */
-  function __construct(string $message, UriInterface $uri = null, \Throwable $previous = null) {
+  function __construct(string $message, ?UriInterface $uri = null, ?\Throwable $previous = null) {
     parent::__construct($message, 0, $previous);
     $this->uri = $uri;
   }

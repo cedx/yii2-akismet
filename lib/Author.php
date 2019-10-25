@@ -2,28 +2,29 @@
 namespace yii\akismet;
 
 use GuzzleHttp\Psr7\{Uri};
+use Psr\Http\Message\{UriInterface};
 use yii\base\{Model};
 
 /** Represents the author of a comment. */
 class Author extends Model implements \JsonSerializable {
 
   /** @var string The author's mail address. */
-  public $email = '';
+  public string $email = '';
 
   /** @var string The author's IP address. */
-  public $ipAddress;
+  public string $ipAddress;
 
   /** @var string The author's name. If you set it to `"viagra-test-123"`, Akismet will always return `true`. */
-  public $name = '';
+  public string $name = '';
 
   /** @var string The author's role. If you set it to `"administrator"`, Akismet will always return `false`. */
-  public $role = '';
+  public string $role = '';
 
-  /** @var \Psr\Http\Message\UriInterface|null The URL of the author's website. */
-  public $url;
+  /** @var UriInterface|null The URL of the author's website. */
+  public ?UriInterface $url;
 
   /** @var string The author's user agent, that is the string identifying the Web browser used to submit comments. */
-  public $userAgent;
+  public string $userAgent;
 
   /**
    * Creates a new author.
