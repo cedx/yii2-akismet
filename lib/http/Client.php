@@ -41,8 +41,8 @@ class Client extends Component {
    */
   function __construct(array $config = []) {
     $this->httpClient = new HttpClient(['transport' => CurlTransport::class]);
-    $this->httpClient->on(HttpClient::EVENT_BEFORE_SEND, function($event) { $this->trigger(static::eventRequest, $event); });
-    $this->httpClient->on(HttpClient::EVENT_AFTER_SEND, function($event) { $this->trigger(static::eventResponse, $event); });
+    $this->httpClient->on(HttpClient::EVENT_BEFORE_SEND, fn($event) => $this->trigger(static::eventRequest, $event));
+    $this->httpClient->on(HttpClient::EVENT_AFTER_SEND, fn($event) => $this->trigger(static::eventResponse, $event));
     parent::__construct($config);
   }
 

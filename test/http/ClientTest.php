@@ -33,25 +33,25 @@ class ClientTest extends TestCase {
   /** @testdox ->init() */
   function testInit(): void {
     it('should throw an exception if the API key or blog is empty', function() {
-      expect(function() { new Client; })->to->throw(InvalidConfigException::class);
+      expect(fn() => new Client)->to->throw(InvalidConfigException::class);
     });
 
     it('should not throw an exception if the API key and blog are not empty', function() {
-      expect(function() { new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => 'FooBar']); })->to->not->throw;
+      expect(fn() => new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => 'FooBar']))->to->not->throw;
     });
   }
 
   /** @testdox ->submitHam() */
   function testSubmitHam(): void {
     it('should complete without error', function() {
-      expect(function() { $this->client->submitHam($this->ham); })->to->not->throw;
+      expect(fn() => $this->client->submitHam($this->ham))->to->not->throw;
     });
   }
 
   /** @testdox ->submitSpam() */
   function testSubmitSpam(): void {
     it('should complete without error', function() {
-      expect(function() { $this->client->submitSpam($this->spam); })->to->not->throw;
+      expect(fn() => $this->client->submitSpam($this->spam))->to->not->throw;
     });
   }
 
