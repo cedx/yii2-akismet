@@ -21,7 +21,7 @@ class Author extends Model implements \JsonSerializable {
   public string $role = '';
 
   /** @var UriInterface|null The URL of the author's website. */
-  public ?UriInterface $url;
+  public ?UriInterface $url = null;
 
   /** @var string The author's user agent, that is the string identifying the Web browser used to submit comments. */
   public string $userAgent;

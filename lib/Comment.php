@@ -15,16 +15,16 @@ class Comment extends Model implements \JsonSerializable {
   public string $content = '';
 
   /** @var \DateTime|null The UTC timestamp of the creation of the comment. */
-  public ?\DateTime $date;
+  public ?\DateTime $date = null;
 
   /** @var UriInterface|null The permanent location of the entry the comment is submitted to. */
-  public ?UriInterface $permalink;
+  public ?UriInterface $permalink = null;
 
   /** @var \DateTime|null The UTC timestamp of the publication time for the post, page or thread on which the comment was posted. */
-  public ?\DateTime $postModified;
+  public ?\DateTime $postModified = null;
 
   /** @var UriInterface|null The URL of the webpage that linked to the entry being requested. */
-  public ?UriInterface $referrer;
+  public ?UriInterface $referrer = null;
 
   /** @var string The comment's type. This string value specifies a `CommentType` constant or a made up value like `"registration"`. */
   public string $type = '';
