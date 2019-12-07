@@ -30,7 +30,7 @@ class Author extends Model implements \JsonSerializable {
    * Creates a new author.
    * @param string $ipAddress The author's IP address.
    * @param string $userAgent The author's user agent.
-   * @param array $config Name-value pairs that will be used to initialize the object properties.
+   * @param array<string, mixed> $config Name-value pairs that will be used to initialize the object properties.
    */
   function __construct(string $ipAddress, string $userAgent, array $config = []) {
     $this->ipAddress = $ipAddress;

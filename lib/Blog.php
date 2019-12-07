@@ -24,7 +24,7 @@ class Blog extends Model implements \JsonSerializable {
   /**
    * Creates a new blog.
    * @param UriInterface|null $url The blog or site URL.
-   * @param array $config Name-value pairs that will be used to initialize the object properties.
+   * @param array<string, mixed> $config Name-value pairs that will be used to initialize the object properties.
    */
   function __construct(?UriInterface $url, array $config = []) {
     $this->languages = new \ArrayObject;

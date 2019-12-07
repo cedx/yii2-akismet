@@ -37,7 +37,7 @@ class Client extends Component {
 
   /**
    * Creates a new client.
-   * @param array $config Name-value pairs that will be used to initialize the object properties.
+   * @param array<string, mixed> $config Name-value pairs that will be used to initialize the object properties.
    */
   function __construct(array $config = []) {
     $this->httpClient = new HttpClient(['transport' => CurlTransport::class]);

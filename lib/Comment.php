@@ -32,7 +32,7 @@ class Comment extends Model implements \JsonSerializable {
   /**
    * Creates a new comment.
    * @param Author $author The comment's author.
-   * @param array $config Name-value pairs that will be used to initialize the object properties.
+   * @param array<string, mixed> $config Name-value pairs that will be used to initialize the object properties.
    */
   function __construct(?Author $author, array $config = []) {
     $this->author = $author;
