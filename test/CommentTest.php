@@ -31,7 +31,7 @@ class CommentTest extends TestCase {
       $author = $comment->author;
       expect($author->name)->to->equal('Cédric Belin');
 
-      /** @var \DateTime $date */
+      /** @var \DateTimeInterface $date */
       $date = $comment->date;
       expect($date->format('Y'))->to->equal(2000);
 
@@ -53,7 +53,7 @@ class CommentTest extends TestCase {
     it('should return a non-empty map with a initialized instance', function() {
       $data = (new Comment(new Author('127.0.0.1', 'Doom/6.6.6', ['name' => 'Cédric Belin']), [
         'content' => 'A user comment.',
-        'date' => new \DateTime('2000-01-01T00:00:00.000Z'),
+        'date' => new \DateTimeImmutable('2000-01-01T00:00:00.000Z'),
         'referrer' => 'https://belin.io',
         'type' => CommentType::pingback
       ]))->jsonSerialize();
