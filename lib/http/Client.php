@@ -124,9 +124,9 @@ class Client extends Component {
     catch (HttpException $e) { throw new ClientException($e->getMessage(), $endPoint, $e); }
 
     if (!$response->isOk) throw new ClientException($response->statusCode, $endPoint);
-    if ($response->headers->has('x-akismet-debug-help')) {
+    if ($response->headers->has('X-akismet-debug-help')) {
       /** @var string $header */
-      $header = $response->headers->get('x-akismet-debug-help');
+      $header = $response->headers->get('X-akismet-debug-help');
       throw new ClientException($header, $endPoint);
     }
 
