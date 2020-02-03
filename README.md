@@ -134,24 +134,5 @@ $client->on(Client::eventResponse, function(RequestEvent $event) {
 });
 ```
 
-## Unit tests
-In order to run the tests, you must set the `AKISMET_API_KEY` environment variable to the value of your Akismet API key:
-
-```shell
-export AKISMET_API_KEY="<123YourAPIKey>"
-```
-
-Then, you can run the `test` script from the command prompt:
-
-```shell
-composer run-script test
-```
-
-## Resources
-- [Documentation](https://dev.belin.io/yii2-akismet)
-- [API reference](https://dev.belin.io/yii2-akismet/api)
-- [Packagist package](https://packagist.org/packages/cedx/yii2-akismet)
-- [Git repository](https://github.com/cedx/yii2-akismet)
-
 ## License
 [Akismet for Yii](https://dev.belin.io/yii2-akismet) is distributed under the MIT License.
