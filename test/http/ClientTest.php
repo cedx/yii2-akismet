@@ -75,7 +75,7 @@ class ClientTest extends TestCase {
       'isTest' => true
     ]);
 
-    $author = new Author('192.168.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0', [
+    $author = new Author('192.168.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 Edg/79.0.309.71', [
       'name' => 'Akismet',
       'role' => 'administrator',
       'url' => new Uri('https://dev.belin.io/yii2-akismet')
