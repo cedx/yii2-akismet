@@ -35,6 +35,9 @@ Now in your [PHP](https://www.php.net) code, you can use:
 
 ```php
 <?php
-use yii\akismet\{Author, Blog, Comment, CommentType};
+use yii\akismet\{Author, Blog, CheckResult, Comment, CommentType};
 use yii\akismet\http\{Client, ClientException};
 ```
+
+### 3. Use it
+See the [usage information](usage.md).

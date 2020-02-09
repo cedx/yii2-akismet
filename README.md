@@ -105,34 +105,5 @@ catch (ClientException $e) {
 }
 ```
 
-## Events
-The `yii\akismet\http\Client` class triggers some events during its life cycle.
-
-### The `Client::eventRequest` event
-Emitted every time a request is made to the remote service:
-
-```php
-<?php
-use yii\akismet\http\{Client};
-use yii\httpclient\{RequestEvent};
-
-$client->on(Client::eventRequest, function(RequestEvent $event) {
-  echo 'Client request: ', $event->request->url;
-});
-```
-
-### The `Client::eventResponse` event
-Emitted every time a response is received from the remote service:
-
-```php
-<?php
-use yii\akismet\http\{Client};
-use yii\httpclient\{RequestEvent};
-
-$client->on(Client::eventResponse, function(RequestEvent $event) {
-  echo 'Server response: ', $event->response->statusCode;
-});
-```
-
 ## License
 [Akismet for Yii](https://dev.belin.io/yii2-akismet) is distributed under the MIT License.
