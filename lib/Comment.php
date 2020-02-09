@@ -23,6 +23,9 @@ class Comment extends Model implements \JsonSerializable {
   /** @var \DateTimeInterface|null The UTC timestamp of the publication time for the post, page or thread on which the comment was posted. */
   public ?\DateTimeInterface $postModified = null;
 
+  /** @var string A string describing why the content is being rechecked. */
+  public string $recheckReason = '';
+
   /** @var UriInterface|null The URL of the webpage that linked to the entry being requested. */
   public ?UriInterface $referrer = null;
 
@@ -51,6 +54,7 @@ class Comment extends Model implements \JsonSerializable {
       'date' => isset($map['comment_date_gmt']) && is_string($map['comment_date_gmt']) ? new \DateTimeImmutable($map['comment_date_gmt']) : null,
       'permalink' => isset($map['permalink']) && is_string($map['permalink']) ? new Uri($map['permalink']) : null,
       'postModified' => isset($map['comment_post_modified_gmt']) && is_string($map['comment_post_modified_gmt']) ? new \DateTimeImmutable($map['comment_post_modified_gmt']) : null,
+      'recheckReason' => isset($map['recheck_reason']) && is_string($map['recheck_reason']) ? $map['recheck_reason'] : '',
       'referrer' => isset($map['referrer']) && is_string($map['referrer']) ? new Uri($map['referrer']) : null,
       'type' => isset($map['comment_type']) && is_string($map['comment_type']) ? $map['comment_type'] : ''
     ]);
@@ -67,6 +71,7 @@ class Comment extends Model implements \JsonSerializable {
     if ($this->postModified) $map->comment_post_modified_gmt = $this->postModified->format('c');
     if (mb_strlen($this->type)) $map->comment_type = $this->type;
     if ($this->permalink) $map->permalink = (string) $this->permalink;
+    if (mb_strlen($this->recheckReason)) $map->recheck_reason = $this->recheckReason;
     if ($this->referrer) $map->referrer = (string) $this->referrer;
     return $map;
   }
@@ -77,7 +82,7 @@ class Comment extends Model implements \JsonSerializable {
    */
   function rules(): array {
     return [
-      [['content', 'permalink', 'referrer', 'type'], 'trim'],
+      [['content', 'permalink', 'recheckReason', 'referrer', 'type'], 'trim'],
       [['author'], 'required'],
       [['permalink', 'referrer'], 'url', 'defaultScheme' => 'http']
     ];
