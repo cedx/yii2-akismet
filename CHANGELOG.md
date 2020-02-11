@@ -4,8 +4,11 @@
 - Breaking change: raised the required [PHP](https://www.php.net) version.
 - Breaking change: using camelcase instead of all caps for constants.
 - Breaking change: using PHP 7.4 features, like arrow functions and typed properties.
+- Added support for the `X-akismet-pro-tip` HTTP header.
 - Added a user guide based on [MkDocs](http://www.mkdocs.org).
-- Added the `ClientException` class.
+- Added the `CheckResult` enumeration.
+- Added the `ClientException` exception class.
+- Added the `Comment->recheckReason` property.
 - Modified the package layout.
 - Updated the package dependencies.
 
