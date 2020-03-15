@@ -73,7 +73,7 @@ class Client extends Component {
     if (!mb_strlen($this->userAgent)) {
       /** @var string $version */
       $version = preg_replace('/^(\d+(\.\d+){2}).*$/', '$1', \Yii::getVersion());
-      $this->userAgent = sprintf('Yii Framework/%s | Akismet/%s', $version, require __DIR__.'/../version.g.php');
+      $this->userAgent = sprintf('Yii Framework/%s | Akismet/%s', $version, require __DIR__.'/version.g.php');
     }
   }
 
