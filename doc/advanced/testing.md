@@ -8,8 +8,7 @@ The Akismet API will always return a `CheckResult::isSpam` response to a valid r
 
 ```php
 <?php
-use yii\akismet\{Author, Comment};
-use yii\akismet\http\{Client};
+use yii\akismet\{Author, Client, Comment};
 
 $client = new Client([
   'apiKey' => '123YourAPIKey',
@@ -30,8 +29,7 @@ The Akismet API will always return a `CheckResult::isHam` response. Any other re
 
 ```php
 <?php
-use yii\akismet\{Author, Comment};
-use yii\akismet\http\{Client};
+use yii\akismet\{Author, Client, Comment};
 
 $client = new Client([
   'apiKey' => '123YourAPIKey',
@@ -52,8 +50,7 @@ That will tell Akismet not to change its behaviour based on those API calls – 
 
 ```php
 <?php
-use yii\akismet\{Author, Comment};
-use yii\akismet\http\{Client};
+use yii\akismet\{Author, Client, Comment};
 
 $client = new Client([
   'apiKey' => '123YourAPIKey',

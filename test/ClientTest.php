@@ -1,13 +1,12 @@
 <?php declare(strict_types=1);
-namespace yii\akismet\http;
+namespace yii\akismet;
 
 use function PHPUnit\Expect\{expect, it};
 use GuzzleHttp\Psr7\{Uri};
 use PHPUnit\Framework\{TestCase};
-use yii\akismet\{Author, Blog, Comment, CommentType};
 use yii\base\{InvalidConfigException};
 
-/** @testdox yii\akismet\http\Client */
+/** @testdox yii\akismet\Client */
 class ClientTest extends TestCase {
 
   /** @var Client The client used to query the service database. */

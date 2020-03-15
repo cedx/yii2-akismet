@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace yii\akismet\http;
+namespace yii\akismet;
 
 use Psr\Http\Message\{UriInterface};
 use yii\base\{Exception};

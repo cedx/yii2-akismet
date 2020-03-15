@@ -8,7 +8,7 @@ use yii\helpers\{StringHelper};
 
 /**
  * Represents the front page or home URL transmitted when making requests.
- * @property \ArrayObject $languages The languages in use on the blog or site, in ISO 639-1 format.
+ * @property \ArrayObject<int, string> $languages The languages in use on the blog or site, in ISO 639-1 format.
  */
 class Blog extends Model implements \JsonSerializable {
 
@@ -18,7 +18,7 @@ class Blog extends Model implements \JsonSerializable {
   /** @var UriInterface|null The blog or site URL. */
   public ?UriInterface $url;
 
-  /** @var \ArrayObject The languages in use on the blog or site, in ISO 639-1 format. */
+  /** @var \ArrayObject<int, string> The languages in use on the blog or site, in ISO 639-1 format. */
   private \ArrayObject $languages;
 
   /**
@@ -46,7 +46,7 @@ class Blog extends Model implements \JsonSerializable {
 
   /**
    * Gets the languages in use on the blog or site, in ISO 639-1 format.
-   * @return \ArrayObject The languages in use on the blog or site.
+   * @return \ArrayObject<int, string> The languages in use on the blog or site.
    */
   function getLanguages(): \ArrayObject {
     return $this->languages;

@@ -1,9 +1,8 @@
 <?php declare(strict_types=1);
-namespace yii\akismet\http;
+namespace yii\akismet;
 
 use GuzzleHttp\Psr7\{Uri, UriResolver};
 use Psr\Http\Message\{UriInterface};
-use yii\akismet\{Blog, Comment};
 use yii\base\{Component, InvalidConfigException};
 use yii\helpers\{ArrayHelper};
 use yii\httpclient\{Client as HttpClient, CurlTransport, Exception as HttpException};

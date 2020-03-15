@@ -37,7 +37,7 @@ In your application configuration file, you can use the following component:
 <?php return [
   'components' => [
     'akismet' => [
-      'class' => 'yii\akismet\http\Client',
+      'class' => 'yii\akismet\Client',
       'apiKey' => '123YourAPIKey',
       'blog' => [
         'class' => 'yii\akismet\Blog',
@@ -48,13 +48,13 @@ In your application configuration file, you can use the following component:
 ];
 ```
 
-Once the `yii\akismet\http\Client` component initialized with your credentials, you can use its methods.
+Once the `yii\akismet\Client` component initialized with your credentials, you can use its methods.
 
 ### Key verification
 
 ```php
 <?php
-use yii\akismet\http\{ClientException};
+use yii\akismet\{ClientException};
 
 try {
   $client = \Yii::$app->akismet;

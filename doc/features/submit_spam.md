@@ -25,8 +25,7 @@ The exception `getMessage()` usually includes some debug information, provided b
 
 ```php
 <?php
-use yii\akismet\{Author, Comment};
-use yii\akismet\http\{Client, ClientException};
+use yii\akismet\{Author, Client, ClientException, Comment};
 
 try {
   $client = new Client([
