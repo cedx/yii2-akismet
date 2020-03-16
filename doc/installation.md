@@ -45,6 +45,3 @@ use yii\akismet\{
   CommentType
 };
 ```
-
-### 3. Use it
-See the [usage information](usage.md).
