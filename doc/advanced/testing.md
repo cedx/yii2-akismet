@@ -46,7 +46,7 @@ print("It should be 'false': $isSpam");
 ## Automated testing
 Enable the `Client->isTest` option in your tests.
 
-That will tell Akismet not to change its behaviour based on those API calls – they will have no training effect. That means your tests will be somewhat repeatable, in the sense that one test won't influence subsequent calls.
+That will tell Akismet not to change its behaviour based on those API calls: they will have no training effect. That means your tests will be somewhat repeatable, in the sense that one test won't influence subsequent calls.
 
 ```php
 <?php
