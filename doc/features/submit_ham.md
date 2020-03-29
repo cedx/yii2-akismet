@@ -1,15 +1,19 @@
 # Submit ham
-This call is intended for the submission of false positives - items that were incorrectly classified as spam by Akismet. It takes identical arguments as [comment check](comment_check.md) and [submit spam](submit_spam.md).
-
-Remember that, as explained in the [submit spam](submit_spam.md) documentation, you should ensure that any values you're passing here match up with the original and corresponding [comment check](comment_check.md) call.
+This call is intended for the submission of false positives - items that were incorrectly classified as spam by Akismet.
+It takes identical arguments as [comment check](comment_check.md) and [submit spam](submit_spam.md).
 
 ```
 Client->submitHam(Comment $comment): void
 ```
 
+Remember that, as explained in the [submit spam](submit_spam.md) documentation, you should ensure
+that any values you're passing here match up with the original and corresponding [comment check](comment_check.md) call.
+
+See the [Akismet API documentation](https://akismet.com/development/api/#submit-ham) for more information.
+
 ## Parameters
 
-### $comment
+### Comment **$comment**
 The user `Comment` to be submitted, incorrectly classified as spam.
 
 !!! tip
@@ -38,8 +42,10 @@ try {
     ['content' => 'A valid user comment (ham)']
   );
 
-  $isSpam = $client->checkComment($comment); // `true`, but `false` expected.
-  echo 'The comment was incorrectly classified as spam';
+  $result = $client->checkComment($comment); // `true`, but `false` expected.
+    // Got `CheckResult::isSpam`, but `CheckResult::isHam` expected.
+
+  echo 'The comment was incorrectly classified as spam.';
   $client->submitHam($comment);
 }
 
