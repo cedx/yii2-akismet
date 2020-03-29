@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 namespace yii\akismet;
 
-use function PHPUnit\Expect\{expect, it};
-use GuzzleHttp\Psr7\{Uri};
-use PHPUnit\Framework\{TestCase};
+use Nyholm\Psr7\{Uri};
+use PHPUnit\Framework\{Assert, TestCase};
 use yii\base\{InvalidConfigException};
+use function PHPUnit\Framework\{assertThat, equalTo, isFalse, isTrue, logicalOr};
 
 /** @testdox yii\akismet\Client */
 class ClientTest extends TestCase {
@@ -20,50 +20,51 @@ class ClientTest extends TestCase {
 
   /** @testdox ->checkComment() */
   function testCheckComment(): void {
-    it('should return `false` for valid comment (e.g. ham)', function() {
-      expect($this->client->checkComment($this->ham))->to->be->false;
-    });
+    // It should return `CheckResult::isHam` for valid comment (e.g. ham).
+    assertThat($this->client->checkComment($this->ham), equalTo(CheckResult::isHam));
 
-    it('should return `true` for invalid comment (e.g. spam)', function() {
-      expect($this->client->checkComment($this->spam))->to->be->true;
-    });
+    // It should return `CheckResult::isSpam` for invalid comment (e.g. spam).
+    assertThat($this->client->checkComment($this->spam), logicalOr(
+      equalTo(CheckResult::isSpam),
+      equalTo(CheckResult::isPervasiveSpam)
+    ));
   }
 
   /** @testdox ->init() */
   function testInit(): void {
-    it('should throw an exception if the API key or blog is empty', function() {
-      expect(fn() => new Client)->to->throw(InvalidConfigException::class);
-    });
-
-    it('should not throw an exception if the API key and blog are not empty', function() {
-      expect(fn() => new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => 'FooBar']))->to->not->throw;
-    });
+    // It should throw an exception if the API key or blog is empty.
+    $this->expectException(InvalidConfigException::class);
+    new Client;
   }
 
-  /** @testdox ->submitHam() */
+  /**
+   * @testdox ->submitHam()
+   * @doesNotPerformAssertions
+   */
   function testSubmitHam(): void {
-    it('should complete without error', function() {
-      expect(fn() => $this->client->submitHam($this->ham))->to->not->throw;
-    });
+    // It should complete without error.
+    try { $this->client->submitHam($this->ham); }
+    catch (\Throwable $e) { Assert::fail($e->getMessage()); }
   }
 
-  /** @testdox ->submitSpam() */
+  /**
+   * @testdox ->submitSpam()
+   * @doesNotPerformAssertions
+   */
   function testSubmitSpam(): void {
-    it('should complete without error', function() {
-      expect(fn() => $this->client->submitSpam($this->spam))->to->not->throw;
-    });
+    // It should complete without error.
+    try { $this->client->submitSpam($this->spam); }
+    catch (\Throwable $e) { Assert::fail($e->getMessage()); }
   }
 
   /** @testdox ->verifyKey() */
   function testVerifyKey(): void {
-    it('should return `true` for a valid API key', function() {
-      expect($this->client->verifyKey())->to->be->true;
-    });
+    // It should return `true` for a valid API key.
+    assertThat($this->client->verifyKey(), isTrue());
 
-    it('should return `false` for an invalid API key', function() {
-      $client = new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => $this->client->blog, 'isTest' => $this->client->isTest]);
-      expect($client->verifyKey())->to->be->false;
-    });
+    // It should return `false` for an invalid API key.
+    $client = new Client(['apiKey' => '0123456789-ABCDEF', 'blog' => $this->client->blog, 'isTest' => true]);
+    assertThat($client->verifyKey(), isFalse());
   }
 
   /** @before This method is called before each test. */
