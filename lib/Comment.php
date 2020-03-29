@@ -48,7 +48,7 @@ class Comment extends Model implements \JsonSerializable {
    * @return self The instance corresponding to the specified JSON map.
    */
   static function fromJson(array $map): self {
-    $hasAuthor = count(array_filter(array_keys($map), fn($key) => preg_match('/^(comment_author|user)/', $key))) > 0;
+    $hasAuthor = count(array_filter(array_keys($map), fn($key) => (bool) preg_match('/^(comment_author|user)/', $key))) > 0;
     return new self($hasAuthor ? Author::fromJson($map) : null, [
       'content' => isset($map['comment_content']) && is_string($map['comment_content']) ? $map['comment_content'] : '',
       'date' => isset($map['comment_date_gmt']) && is_string($map['comment_date_gmt']) ? new \DateTimeImmutable($map['comment_date_gmt']) : null,

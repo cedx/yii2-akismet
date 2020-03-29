@@ -67,7 +67,7 @@ class Blog extends Model implements \JsonSerializable {
     $map->blog = (string) $this->url;
 
     if (mb_strlen($this->charset)) $map->blog_charset = $this->charset;
-    if (count($languages = $this->getLanguages())) $map->blog_lang = implode(',', $languages->getArrayCopy());
+    if (count($languages = $this->getLanguages())) $map->blog_lang = implode(',', (array) $languages);
     return $map;
   }
 
@@ -82,15 +82,5 @@ class Blog extends Model implements \JsonSerializable {
       [['url'], 'required'],
       [['url'], 'url']
     ];
-  }
-
-  /**
-   * Sets the languages in use on the blog or site, in ISO 639-1 format.
-   * @param string[] $values The new languages.
-   * @return $this This instance.
-   */
-  function setLanguages(array $values): self {
-    $this->getLanguages()->exchangeArray($values);
-    return $this;
   }
 }

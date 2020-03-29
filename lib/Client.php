@@ -32,7 +32,7 @@ class Client extends Component {
   public string $userAgent = '';
 
   /** @var HttpClient The underlying HTTP client. */
-  private HttpClient $httpClient;
+  private HttpClient $http;
 
   /**
    * Creates a new client.
@@ -73,7 +73,7 @@ class Client extends Component {
     if (!mb_strlen($this->userAgent)) {
       /** @var string $version */
       $version = preg_replace('/^(\d+(\.\d+){2}).*$/', '$1', \Yii::getVersion());
-      $this->userAgent = sprintf('Yii Framework/%s | Akismet/%s', $version, require __DIR__.'/version.g.php');
+      $this->userAgent = sprintf('YiiFramework/%s | Akismet/%s', $version, require __DIR__.'/version.g.php');
     }
   }
 
@@ -119,7 +119,7 @@ class Client extends Component {
     $bodyFields = ArrayHelper::merge(\Yii::getObjectVars($this->blog->jsonSerialize()), $fields);
     if ($this->isTest) $bodyFields['is_test'] = '1';
 
-    try { $response = $this->httpClient->post((string) $endPoint, $bodyFields, ['user-agent' => $this->userAgent])->send(); }
+    try { $response = $this->http->post((string) $endPoint, $bodyFields, ['user-agent' => $this->userAgent])->send(); }
     catch (HttpException $e) { throw new ClientException($e->getMessage(), $endPoint, $e); }
 
     if (!$response->isOk) throw new ClientException($response->statusCode, $endPoint);
