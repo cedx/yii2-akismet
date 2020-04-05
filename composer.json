@@ -1,5 +1,5 @@
 {
-  "description": "Akismet connector for the Yii Framework.",
+  "description": "Akismet connector for the Yii Framework. Add Akismet to your Yii applications so you don't have to worry about spam again.",
   "homepage": "https://dev.belin.io/yii2-akismet",
   "license": "MIT",
   "name": "cedx/yii2-akismet",
@@ -43,7 +43,7 @@
     "cedx/coveralls": "^12.0.0",
     "consolidation/robo": "^2.0.3",
     "phpstan/phpstan": "^0.12.18",
-    "phpunit/phpunit": "^9.0.2"
+    "phpunit/phpunit": "^9.1.1"
   },
   "scripts": {
     "coverage": "robo coverage",
