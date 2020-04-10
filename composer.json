@@ -8,7 +8,7 @@
     {"email": "cedric@belin.io", "homepage": "https://belin.io", "name": "Cédric Belin"}
   ],
   "autoload": {
-    "psr-4": {"yii\\akismet\\": "lib/"}
+    "psr-4": {"yii\\akismet\\": "src/"}
   },
   "autoload-dev": {
     "psr-4": {"yii\\akismet\\": "test/"}

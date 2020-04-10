@@ -1,5 +1,5 @@
 path: blob/master
-source: lib/Client.php
+source: src/Client.php
 
 # Events
 The `yii\akismet\Client` class, used to query the Akismet service, triggers some events during its life cycle.

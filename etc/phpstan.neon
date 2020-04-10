@@ -1,7 +1,7 @@
 parameters:
   checkMissingIterableValueType: false
   level: max
-  paths: [../lib, ../test]
+  paths: [../src, ../test]
   ignoreErrors:
     - '/on a separate line does not do anything/'
     - '/on an unknown class Yii/'
