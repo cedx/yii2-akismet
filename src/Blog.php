@@ -6,10 +6,7 @@ use Psr\Http\Message\{UriInterface};
 use yii\base\{Model};
 use yii\helpers\{StringHelper};
 
-/**
- * Represents the front page or home URL transmitted when making requests.
- * @property \ArrayObject<int, string> $languages The languages in use on the blog or site, in ISO 639-1 format.
- */
+/** Represents the front page or home URL transmitted when making requests. */
 class Blog extends Model implements \JsonSerializable {
 
   /** @var string The character encoding for the values included in comments. */

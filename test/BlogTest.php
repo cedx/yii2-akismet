@@ -13,7 +13,7 @@ class BlogTest extends TestCase {
     // It should return an empty instance with an empty map.
     $blog = Blog::fromJson([]);
     assertThat($blog->charset, equalTo('UTF-8'));
-    assertThat($blog->languages, isEmpty());
+    assertThat($blog->getLanguages(), isEmpty());
     assertThat($blog->url, isNull());
 
     // It should return an initialized instance with a non-empty map.
@@ -24,7 +24,7 @@ class BlogTest extends TestCase {
     ]);
 
     assertThat($blog->charset, equalTo('ISO-8859-1'));
-    assertThat((array) $blog->languages, equalTo(['en', 'fr']));
+    assertThat((array) $blog->getLanguages(), equalTo(['en', 'fr']));
     assertThat((string) $blog->url, equalTo('https://dev.belin.io/yii2-akismet'));
   }
 

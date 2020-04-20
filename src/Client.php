@@ -122,13 +122,15 @@ class Client extends Component {
     try { $response = $this->http->post((string) $endPoint, $bodyFields, ['user-agent' => $this->userAgent])->send(); }
     catch (HttpException $e) { throw new ClientException($e->getMessage(), $endPoint, $e); }
 
-    if (!$response->isOk) throw new ClientException($response->statusCode, $endPoint);
-    if ($response->headers->has('X-akismet-debug-help')) {
+    if (!$response->getIsOk()) throw new ClientException($response->getStatusCode(), $endPoint);
+
+    $headers = $response->getHeaders();
+    if ($headers->has('X-akismet-debug-help')) {
       /** @var string $header */
-      $header = $response->headers->get('X-akismet-debug-help');
+      $header = $headers->get('X-akismet-debug-help');
       throw new ClientException($header, $endPoint);
     }
 
-    return $response->content;
+    return $response->getContent();
   }
 }
