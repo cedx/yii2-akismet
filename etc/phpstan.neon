@@ -1,5 +1,5 @@
 parameters:
+  autoload_files: [../vendor/yiisoft/yii2/Yii.php]
   checkMissingIterableValueType: false
-  ignoreErrors: ['/on an unknown class Yii/']
   level: max
   paths: [../src, ../test]
