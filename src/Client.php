@@ -39,9 +39,9 @@ class Client extends Component {
    * @param array<string, mixed> $config Name-value pairs that will be used to initialize the object properties.
    */
   function __construct(array $config = []) {
-    $this->httpClient = new HttpClient(['transport' => CurlTransport::class]);
-    $this->httpClient->on(HttpClient::EVENT_BEFORE_SEND, fn($event) => $this->trigger(static::eventRequest, $event));
-    $this->httpClient->on(HttpClient::EVENT_AFTER_SEND, fn($event) => $this->trigger(static::eventResponse, $event));
+    $this->http = new HttpClient(['transport' => CurlTransport::class]);
+    $this->http->on(HttpClient::EVENT_BEFORE_SEND, fn($event) => $this->trigger(static::eventRequest, $event));
+    $this->http->on(HttpClient::EVENT_AFTER_SEND, fn($event) => $this->trigger(static::eventResponse, $event));
     parent::__construct($config);
   }
 
