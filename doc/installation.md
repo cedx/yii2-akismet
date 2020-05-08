@@ -4,22 +4,19 @@
 Before installing **Akismet for Yii**, you need to make sure you have [PHP](https://www.php.net)
 and [Composer](https://getcomposer.org), the PHP package manager, up and running.
 
-!!! warning
-    Akismet for Yii requires PHP >= **7.4.0**.
-
 You can verify if you're already good to go with the following commands:
 
 ```shell
 php --version
-# PHP 7.4.4 (cli) (built: Mar 17 2020 13:49:13) ( NTS Visual C++ 2017 x64 )
+# PHP 7.4.5 (cli) (built: Apr 14 2020 16:17:19) ( NTS Visual C++ 2017 x64 )
 
 composer --version
-# Composer version 1.10.1 2020-03-13 20:34:27
+# Composer version 1.10.5 2020-04-10 11:44:22
 ```
 
 !!! info
-    If you plan to play with the package sources, you will also need
-    [Robo](https://robo.li) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material).
+    If you plan to play with the package sources, you will also need the latest versions of
+    [PowerShell](hhttps://docs.microsoft.com/en-us/powershell) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material).
 
 ## Installing with Composer package manager
 
