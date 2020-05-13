@@ -1,5 +1,5 @@
 # Akismet for Yii
-![PHP](https://img.shields.io/packagist/php-v/cedx/yii2-akismet.svg) ![Yii Framework](https://img.shields.io/badge/yii-%3E%3D2.0-brightgreen.svg) ![Release](https://img.shields.io/packagist/v/cedx/yii2-akismet.svg) ![License](https://img.shields.io/packagist/l/cedx/yii2-akismet.svg) ![Downloads](https://img.shields.io/packagist/dt/cedx/yii2-akismet.svg) ![Coverage](https://coveralls.io/repos/github/cedx/yii2-akismet/badge.svg) ![Build](https://github.com/cedx/yii2-akismet/workflows/build/badge.svg)
+![PHP](https://badgen.net/packagist/php/cedx/yii2-akismet) ![Yii Framework](https://badgen.net/badge/yii/%3E%3D2.0/green) ![Release](https://badgen.net/packagist/v/cedx/yii2-akismet) ![License](https://badgen.net/packagist/license/cedx/yii2-akismet) ![Downloads](https://badgen.net/packagist/dt/cedx/yii2-akismet) ![Coverage](https://badgen.net/coveralls/c/github/cedx/yii2-akismet) ![Build](https://badgen.net/github/checks/cedx/yii2-akismet)
 
 Prevent comment spam using the [Akismet](https://akismet.com) connector for [Yii](https://www.yiiframework.com), high-performance [PHP](https://www.php.net) framework.
 
