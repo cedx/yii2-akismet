@@ -25,7 +25,7 @@ The `Comment` providing the user message to be checked.
 A `CheckResult` value indicating whether the given `Comment` is ham, spam or pervasive spam.
 
 !!! tip
-		A comment classified as pervasive spam can be safely discarded.
+	A comment classified as pervasive spam can be safely discarded.
 
 The method throws a `ClientException` when an error occurs.
 The exception `getMessage()` usually includes some debug information, provided by the `X-akismet-debug-help` HTTP header, about what exactly was invalid about the call.

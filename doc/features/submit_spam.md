@@ -19,7 +19,7 @@ See the [Akismet API documentation](https://akismet.com/development/api/#submit-
 The user `Comment` to be submitted, incorrectly classified as ham.
 
 !!! tip
-		Ideally, it should be the same object as the one passed to the original [comment check](comment_check.md) API call.
+	Ideally, it should be the same object as the one passed to the original [comment check](comment_check.md) API call.
 
 ## Return value
 None.
