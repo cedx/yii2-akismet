@@ -11,12 +11,12 @@ The Akismet API will always return a `CheckResult::isSpam` response to a valid r
 use yii\akismet\{Author, Client, Comment};
 
 $client = new Client([
-  'apiKey' => '123YourAPIKey',
-  'blog' => 'http://www.yourblog.com'
+	"apiKey" => "123YourAPIKey",
+	"blog" => "http://www.yourblog.com"
 ]);
 
-$author = new Author('127.0.0.1', 'Mozilla/5.0', ['name' => 'viagra-test-123']);
-$comment = new Comment($author, 'A user comment');
+$author = new Author("127.0.0.1", "Mozilla/5.0", ["name" => "viagra-test-123"]);
+$comment = new Comment($author, "A user comment");
 
 $isSpam = $client->checkComment($comment);
 print("It should be 'true': $isSpam");
@@ -32,12 +32,12 @@ The Akismet API will always return a `CheckResult::isHam` response. Any other re
 use yii\akismet\{Author, Client, Comment};
 
 $client = new Client([
-  'apiKey' => '123YourAPIKey',
-  'blog' => 'http://www.yourblog.com'
+	"apiKey" => "123YourAPIKey",
+	"blog" => "http://www.yourblog.com"
 ]);
 
-$author = new Author('127.0.0.1', 'Mozilla/5.0', ['role' => 'administrator']);
-$comment = new Comment($author, 'A user comment');
+$author = new Author("127.0.0.1", "Mozilla/5.0", ["role" => "administrator"]);
+$comment = new Comment($author, "A user comment");
 
 $isSpam = $client->checkComment($comment);
 print("It should be 'false': $isSpam");
@@ -53,14 +53,14 @@ That will tell Akismet not to change its behaviour based on those API calls: the
 use yii\akismet\{Author, Client, Comment};
 
 $client = new Client([
-  'apiKey' => '123YourAPIKey',
-  'blog' => 'http://www.yourblog.com',
-  'isTest' => true
+	"apiKey" => "123YourAPIKey",
+	"blog" => "http://www.yourblog.com",
+	"isTest" => true
 ]);
 
-$author = new Author('127.0.0.1', 'Mozilla/5.0');
-$comment = new Comment($author, 'A user comment');
+$author = new Author("127.0.0.1", "Mozilla/5.0");
+$comment = new Comment($author, "A user comment");
 
-echo 'It should not influence subsequent calls.';
+echo "It should not influence subsequent calls.";
 $client->checkComment($comment);
 ```

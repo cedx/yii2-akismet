@@ -25,7 +25,7 @@ The `Comment` providing the user message to be checked.
 A `CheckResult` value indicating whether the given `Comment` is ham, spam or pervasive spam.
 
 !!! tip
-    A comment classified as pervasive spam can be safely discarded.
+		A comment classified as pervasive spam can be safely discarded.
 
 The method throws a `ClientException` when an error occurs.
 The exception `getMessage()` usually includes some debug information, provided by the `X-akismet-debug-help` HTTP header, about what exactly was invalid about the call.
@@ -37,22 +37,22 @@ The exception `getMessage()` usually includes some debug information, provided b
 use yii\akismet\{Author, Client, ClientException, Comment};
 
 try {
-  $client = new Client([
-    'apiKey' => '123YourAPIKey',
-    'blog' => 'http://www.yourblog.com'
-  ]);
+	$client = new Client([
+		"apiKey" => "123YourAPIKey",
+		"blog" => "http://www.yourblog.com"
+	]);
 
-  $comment = new Comment(
-    new Author('127.0.0.1', 'Mozilla/5.0'),
-    ['content' => 'A user comment', 'date' => new \DateTimeImmutable]
-  );
+	$comment = new Comment(
+		new Author("127.0.0.1", "Mozilla/5.0"),
+		["content" => "A user comment", "date" => new \DateTimeImmutable]
+	);
 
-  $result = $client->checkComment($comment);
-  echo $result == CheckResult::isHam ? 'The comment is ham.' : 'The comment is spam.';
+	$result = $client->checkComment($comment);
+	echo $result == CheckResult::isHam ? "The comment is ham." : "The comment is spam.";
 }
 
 catch (ClientException $e) {
-  echo 'An error occurred: ', $e->getMessage();
+	echo "An error occurred: ", $e->getMessage();
 }
 ```
 

@@ -15,8 +15,8 @@ composer --version
 ```
 
 !!! info
-    If you plan to play with the package sources, you will also need the latest versions of
-    [PowerShell](https://docs.microsoft.com/en-us/powershell) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material).
+		If you plan to play with the package sources, you will also need the latest versions of
+		[PowerShell](https://docs.microsoft.com/en-us/powershell) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material).
 
 ## Installing with Composer package manager
 
@@ -33,12 +33,12 @@ Now in your [PHP](https://www.php.net) code, you can use:
 ```php
 <?php
 use yii\akismet\{
-  Author,
-  Blog,
-  CheckResult,
-  Client,
-  ClientException,
-  Comment,
-  CommentType
+	Author,
+	Blog,
+	CheckResult,
+	Client,
+	ClientException,
+	Comment,
+	CommentType
 };
 ```

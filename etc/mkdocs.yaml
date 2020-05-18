@@ -1,30 +1,37 @@
 site_name: Akismet for Yii
 site_description: Akismet connector for Yii, high-performance PHP framework.
 site_author: Cédric Belin - cedric@belin.io
-site_url: https://dev.belin.io/yii2-akismet
+site_url: https://docs.belin.io/yii2-akismet
 
-docs_dir: .
+docs_dir: ../doc
 site_dir: ../www
 
-repo_name: GitHub
-repo_url: https://github.com/cedx/yii2-akismet
-edit_uri: ''
+repo_name: git.belin.io
+repo_url: https://git.belin.io/cedx/yii2-akismet
+edit_uri: ""
 
 copyright: Copyright &copy; 2016 - 2020 Cédric Belin
-google_analytics:
-  - !!python/object/apply:os.getenv [GOOGLE_ANALYTICS_ID]
-  - auto
-
 extra:
   social:
-    - {type: globe, link: 'https://belin.io'}
-    - {type: github, link: 'https://github.com/cedx'}
-    - {type: twitter, link: 'https://twitter.com/cedxbelin'}
-    - {type: linkedin, link: 'https://linkedin.com/in/cedxbelin'}
+    - icon: fontawesome/solid/globe
+      link: "https://belin.io"
+      name: Belin.io
+    - icon: fontawesome/brands/github
+      link: "https://github.com/cedx"
+      name: GitHub
+    - icon: fontawesome/brands/twitter
+      link: "https://twitter.com/cedxbelin"
+      name: Twitter
+    - icon: fontawesome/brands/linkedin
+      link: "https://linkedin.com/in/cedxbelin"
+      name: LinkedIn
 
 markdown_extensions:
   - admonition
   - codehilite
+  - meta
+  - toc:
+      permalink: true
 
 nav:
   - Overview: index.md
@@ -44,6 +51,13 @@ nav:
       - See also: about/see_also.md
 
 theme:
-  name: material
   favicon: img/favicon.ico
-  palette: {primary: blue grey, accent: light blue}
+  features:
+    - instant
+  icon:
+    logo: fontawesome/solid/book-reader
+    repo: fontawesome/brands/git-alt
+  name: material
+  palette:
+    accent: indigo
+    primary: indigo

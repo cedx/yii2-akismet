@@ -17,7 +17,7 @@ See the [Akismet API documentation](https://akismet.com/development/api/#submit-
 The user `Comment` to be submitted, incorrectly classified as spam.
 
 !!! tip
-    Ideally, it should be the same object as the one passed to the original [comment check](comment_check.md) API call.
+		Ideally, it should be the same object as the one passed to the original [comment check](comment_check.md) API call.
 
 ## Return value
 None.
@@ -32,24 +32,24 @@ The exception `getMessage()` usually includes some debug information, provided b
 use yii\akismet\{Author, Client, ClientException, Comment};
 
 try {
-  $client = new Client([
-    'apiKey' => '123YourAPIKey',
-    'blog' => 'http://www.yourblog.com'
-  ]);
+	$client = new Client([
+		"apiKey" => "123YourAPIKey",
+		"blog" => "http://www.yourblog.com"
+	]);
 
-  $comment = new Comment(
-    new Author('127.0.0.1', 'Mozilla/5.0'),
-    ['content' => 'A valid user comment (ham)']
-  );
+	$comment = new Comment(
+		new Author("127.0.0.1", "Mozilla/5.0"),
+		["content" => "A valid user comment (ham)"]
+	);
 
-  $result = $client->checkComment($comment); // `true`, but `false` expected.
-    // Got `CheckResult::isSpam`, but `CheckResult::isHam` expected.
+	$result = $client->checkComment($comment); // `true`, but `false` expected.
+		// Got `CheckResult::isSpam`, but `CheckResult::isHam` expected.
 
-  echo 'The comment was incorrectly classified as spam.';
-  $client->submitHam($comment);
+	echo "The comment was incorrectly classified as spam.";
+	$client->submitHam($comment);
 }
 
 catch (ClientException $e) {
-  echo 'An error occurred: ', $e->getMessage();
+	echo "An error occurred: ", $e->getMessage();
 }
 ```

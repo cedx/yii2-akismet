@@ -30,16 +30,16 @@ The exception `getMessage()` usually includes some debug information, provided b
 use yii\akismet\{Client, ClientException};
 
 try {
-  $client = new Client([
-    'apiKey' => '123YourAPIKey',
-    'blog' => 'http://www.yourblog.com'
-  ]);
+	$client = new Client([
+		"apiKey" => "123YourAPIKey",
+		"blog" => "http://www.yourblog.com"
+	]);
 
-  $isValid = $client->verifyKey();
-  echo $isValid ? 'The API key is valid.' : 'The API key is invalid.';
+	$isValid = $client->verifyKey();
+	echo $isValid ? "The API key is valid." : "The API key is invalid.";
 }
 
 catch (ClientException $e) {
-  echo 'An error occurred: ', $e->getMessage();
+	echo "An error occurred: ", $e->getMessage();
 }
 ```

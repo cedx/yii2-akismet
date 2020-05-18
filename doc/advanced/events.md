@@ -13,7 +13,7 @@ use yii\akismet\{Client};
 use yii\httpclient\{RequestEvent};
 
 $client->on(Client::eventRequest, fn(RequestEvent $event) =>
-  echo 'Client request: ', $event->request->url
+	echo "Client request: ", $event->request->url
 );
 ```
 
@@ -26,6 +26,6 @@ use yii\akismet\{Client};
 use yii\httpclient\{RequestEvent};
 
 $client->on(Client::eventResponse, fn(RequestEvent $event) =>
-  echo 'Server response: ', $event->response->statusCode
+	echo "Server response: ", $event->response->statusCode
 );
 ```
