@@ -20,7 +20,7 @@ This will give you access to the API and will allow Akismet to monitor its resul
 ### Get the library
 Install the latest version of **Akismet for Yii** with [Composer](https://getcomposer.org):
 
-```shell
+``` shell
 composer require cedx/yii2-akismet
 ```
 

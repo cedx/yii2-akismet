@@ -27,7 +27,7 @@ The exception `getMessage()` usually includes some debug information, provided b
 
 ## Example
 
-```php
+``` php
 <?php
 use yii\akismet\{Author, Client, ClientException, Comment};
 
