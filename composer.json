@@ -46,9 +46,16 @@
     "phpunit/phpunit": "^9.1.3"
   },
   "scripts": {
-    "coverage": "coveralls var/coverage.xml",
+		"build": "pwsh tool/build.ps1",
+		"clean": "pwsh tool/clean.ps1",
+		"coverage": "coveralls var/coverage.xml",
+		"doc": "pwsh tool/doc.ps1",
 		"lint": "phpstan analyse --configuration=etc/phpstan.neon",
-    "test": "phpunit --configuration=etc/phpunit.xml"
+		"publish": "pwsh tool/publish.ps1",
+		"test": "phpunit --configuration=etc/phpunit.xml",
+		"upgrade": "pwsh tool/upgrade.ps1",
+		"version": "pwsh tool/version.ps1",
+		"watch": "pwsh tool/watch.ps1"
   },
   "support": {
     "docs": "https://dev.belin.io/yii2-akismet/api",
