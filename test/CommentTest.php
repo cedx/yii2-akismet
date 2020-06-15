@@ -30,7 +30,7 @@ class CommentTest extends TestCase {
 		$author = $comment->author;
 		assertThat($author->name, equalTo("Cédric Belin"));
 
-		/** @var \DateTimeInterface $date */
+		/** @var \DateTimeImmutable $date */
 		$date = $comment->date;
 		assertThat($date->format("Y"), equalTo(2000));
 

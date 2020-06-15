@@ -14,14 +14,14 @@ class Comment extends Model implements \JsonSerializable {
 	/** @var string The comment's content. */
 	public string $content = "";
 
-	/** @var \DateTimeInterface|null The UTC timestamp of the creation of the comment. */
-	public ?\DateTimeInterface $date = null;
+	/** @var \DateTimeImmutable|null The UTC timestamp of the creation of the comment. */
+	public ?\DateTimeImmutable $date = null;
 
 	/** @var UriInterface|null The permanent location of the entry the comment is submitted to. */
 	public ?UriInterface $permalink = null;
 
-	/** @var \DateTimeInterface|null The UTC timestamp of the publication time for the post, page or thread on which the comment was posted. */
-	public ?\DateTimeInterface $postModified = null;
+	/** @var \DateTimeImmutable|null The UTC timestamp of the publication time for the post, page or thread on which the comment was posted. */
+	public ?\DateTimeImmutable $postModified = null;
 
 	/** @var string A string describing why the content is being rechecked. */
 	public string $recheckReason = "";
