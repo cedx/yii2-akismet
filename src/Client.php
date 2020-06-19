@@ -2,9 +2,9 @@
 namespace yii\akismet;
 
 use GuzzleHttp\Psr7\{Uri, UriResolver};
-use Psr\Http\Message\{UriInterface};
+use Psr\Http\Message\UriInterface;
 use yii\base\{Component, InvalidConfigException};
-use yii\helpers\{ArrayHelper};
+use yii\helpers\ArrayHelper;
 use yii\httpclient\{Client as HttpClient, CurlTransport, Exception as HttpException};
 
 /** Submits comments to the [Akismet](https://akismet.com) service. */

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace yii\akismet;
 
-use PHPUnit\Framework\{TestCase};
+use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\{assertThat, countOf, equalTo, isEmpty, isNull};
 
 /** @testdox yii\akismet\Comment */

@@ -9,8 +9,8 @@ Emitted every time a request is made to the remote service:
 
 ``` php
 <?php
-use yii\akismet\{Client};
-use yii\httpclient\{RequestEvent};
+use yii\akismet\Client;
+use yii\httpclient\RequestEvent;
 
 $client->on(Client::eventRequest, fn(RequestEvent $event) =>
 	echo "Client request: ", $event->request->url
@@ -22,8 +22,8 @@ Emitted every time a response is received from the remote service:
 
 ``` php
 <?php
-use yii\akismet\{Client};
-use yii\httpclient\{RequestEvent};
+use yii\akismet\Client;
+use yii\httpclient\RequestEvent;
 
 $client->on(Client::eventResponse, fn(RequestEvent $event) =>
 	echo "Server response: ", $event->response->statusCode

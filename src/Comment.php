@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 namespace yii\akismet;
 
-use GuzzleHttp\Psr7\{Uri};
-use Psr\Http\Message\{UriInterface};
-use yii\base\{Model};
+use GuzzleHttp\Psr7\Uri;
+use Psr\Http\Message\UriInterface;
+use yii\base\Model;
 
 /** Represents a comment submitted by an author. */
 class Comment extends Model implements \JsonSerializable {

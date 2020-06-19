@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 namespace yii\akismet;
 
-use Psr\Http\Message\{UriInterface};
-use yii\base\{Exception};
+use Psr\Http\Message\UriInterface;
+use yii\base\Exception;
 
 /** An exception caused by an error in a `Client` request. */
 class ClientException extends Exception {

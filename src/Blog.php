@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 namespace yii\akismet;
 
-use GuzzleHttp\Psr7\{Uri};
-use Psr\Http\Message\{UriInterface};
-use yii\base\{Model};
-use yii\helpers\{StringHelper};
+use GuzzleHttp\Psr7\Uri;
+use Psr\Http\Message\UriInterface;
+use yii\base\Model;
+use yii\helpers\StringHelper;
 
 /** Represents the front page or home URL transmitted when making requests. */
 class Blog extends Model implements \JsonSerializable {

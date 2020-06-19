@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 namespace yii\akismet;
 
-use Nyholm\Psr7\{Uri};
+use Nyholm\Psr7\Uri;
 use PHPUnit\Framework\{Assert, TestCase};
-use yii\base\{InvalidConfigException};
+use yii\base\InvalidConfigException;
 use function PHPUnit\Framework\{assertThat, equalTo, isFalse, isTrue, logicalOr};
 
 /** @testdox yii\akismet\Client */
