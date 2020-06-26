@@ -1,5 +1,5 @@
 # Akismet <small>for Yii</small>
-![Yii Framework](https://badgen.net/badge/yii/%3E%3D2.0.0/green) ![Runtime](https://badgen.net/packagist/php/cedx/yii2-akismet) ![Release](https://badgen.net/packagist/v/cedx/yii2-akismet) ![License](https://badgen.net/packagist/license/cedx/yii2-akismet) ![Downloads](https://badgen.net/packagist/dt/cedx/yii2-akismet) ![Coverage](https://badgen.net/coveralls/c/github/cedx/yii2-akismet) ![Build](https://badgen.net/github/checks/cedx/yii2-akismet)
+![Yii Framework](https://badgen.net/badge/yii/%3E%3D2.0.0/green) ![Runtime](https://badgen.net/packagist/php/cedx/yii2-akismet) ![Release](https://badgen.net/packagist/v/cedx/yii2-akismet) ![License](https://badgen.net/packagist/license/cedx/yii2-akismet) ![Downloads](https://badgen.net/packagist/dt/cedx/yii2-akismet) ![Coverage](https://badgen.net/coveralls/c/github/cedx/yii2-akismet) ![Build](https://badgen.net/github/checks/cedx/yii2-akismet/main)
 
 ![Akismet](img/akismet.png)
 
