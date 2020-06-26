@@ -19,7 +19,7 @@ $author = new Author("127.0.0.1", "Mozilla/5.0", ["name" => "viagra-test-123"]);
 $comment = new Comment($author, "A user comment");
 
 $isSpam = $client->checkComment($comment);
-echo "It should be 'true': $isSpam";
+print "It should be 'true': $isSpam";
 ```
 
 ## Simulate a negative (not spam) result
@@ -40,7 +40,7 @@ $author = new Author("127.0.0.1", "Mozilla/5.0", ["role" => "administrator"]);
 $comment = new Comment($author, "A user comment");
 
 $isSpam = $client->checkComment($comment);
-echo "It should be 'false': $isSpam";
+print "It should be 'false': $isSpam";
 ```
 
 ## Automated testing
@@ -61,6 +61,6 @@ $client = new Client([
 $author = new Author("127.0.0.1", "Mozilla/5.0");
 $comment = new Comment($author, "A user comment");
 
-echo "It should not influence subsequent calls.";
+print "It should not influence subsequent calls.";
 $client->checkComment($comment);
 ```

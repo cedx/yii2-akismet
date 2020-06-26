@@ -48,11 +48,11 @@ try {
 	);
 
 	$result = $client->checkComment($comment);
-	echo $result == CheckResult::isHam ? "The comment is ham." : "The comment is spam.";
+	print $result == CheckResult::isHam ? "The comment is ham." : "The comment is spam.";
 }
 
 catch (ClientException $e) {
-	echo "An error occurred: ", $e->getMessage();
+	print "An error occurred: {$e->getMessage()}"
 }
 ```
 
