@@ -1,14 +1,10 @@
-path: blob/master
-source: src/Client.php
-
 # Events
 The `yii\akismet\Client` class, used to query the Akismet service, triggers some events during its life cycle.
 
-## The `Client::eventRequest` event
+## The "request" event
 Emitted every time a request is made to the remote service:
 
-``` php
-<?php
+```php
 use yii\akismet\Client;
 use yii\httpclient\RequestEvent;
 
@@ -17,11 +13,10 @@ $client->on(Client::eventRequest, fn(RequestEvent $event) =>
 );
 ```
 
-## The `Client::eventResponse` event
+## The "response" event
 Emitted every time a response is received from the remote service:
 
-``` php
-<?php
+```php
 use yii\akismet\Client;
 use yii\httpclient\RequestEvent;
 
